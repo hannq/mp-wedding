@@ -1,0 +1,15 @@
+{
+  "name": "mp-wedding",
+  "version": "1.0.0",
+  "description": "婚礼小程序",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node ./scripts/postinstall.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "execa": "^5.1.1"
+  }
+}
