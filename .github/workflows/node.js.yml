@@ -26,7 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
-      run: npx pnpm ci
+      run: npm ci
     - name: Inject Private Key
       run: echo "$WEAPP_UPLOAD_PRIVATE_KEY" > private.key
     - name: Run Build Task
