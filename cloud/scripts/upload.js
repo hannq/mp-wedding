@@ -5,9 +5,11 @@ const execa = require('execa');
 const chalk = require('chalk');
 const ci = require('miniprogram-ci');
 const fse = require('fs-extra');
+const filesize = require('filesize');
 const { getSubPackageList } = require('./utils');
 
 ;(async function() {
+  const size = filesize.partial({ base: 2, standard: 'jedec' });
   const funcInfos = await getSubPackageList(path.join(__dirname, '../functions'));
   const totalCount = funcInfos.length;
   let currentCount = 0;
@@ -33,7 +35,11 @@ const { getSubPackageList } = require('./utils');
       path: info.dirname,
       remoteNpmInstall: true, // 是否云端安装依赖
     })
-    console.log(chalk.cyan(`[${++currentCount}/${totalCount}]`, `Cloud Functions [${chalk.cyan(info.name)}] Upload Successfully !`))
+    console.log(
+      chalk.cyan(`[${++currentCount}/${totalCount}]`),
+      `${chalk.green(`${result.filesCount}`)} files ${chalk.green(size(result.packSize))}`,
+      `Cloud Functions [${chalk.cyan(info.name)}] Upload Successfully !`
+    )
     console.log(chalk.cyan('', `FilesCount: ${result.filesCount}`));
     console.log(chalk.cyan('', `packSize: ${result.packSize}`));
   }));
