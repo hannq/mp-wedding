@@ -5,6 +5,7 @@ specifiers:
   chalk: '4'
   execa: '5'
   fast-glob: ^3.2.11
+  filesize: ^9.0.11
   fs-extra: ^10.1.0
   miniprogram-ci: ^1.8.35
   rimraf: ^3.0.2
@@ -15,6 +16,7 @@ devDependencies:
   chalk: 4.1.2
   execa: 5.1.1
   fast-glob: 3.2.11
+  filesize: 9.0.11
   fs-extra: 10.1.0
   miniprogram-ci: 1.8.35
   rimraf: 3.0.2
@@ -3209,6 +3211,11 @@ packages:
   /file-type/9.0.0:
     resolution: {integrity: sha512-Qe/5NJrgIOlwijpq3B7BEpzPFcgzggOTagZmkXQY4LA6bsXKTUstK7Wp12lEJ/mLKTpvIZxmIuRcLYWT6ov9lw==}
     engines: {node: '>=6'}
+    dev: true
+
+  /filesize/9.0.11:
+    resolution: {integrity: sha512-gTAiTtI0STpKa5xesyTA9hA3LX4ga8sm2nWRcffEa1L/5vQwb4mj2MdzMkoHoGv4QzfDshQZuYscQSf8c4TKOA==}
+    engines: {node: '>= 0.4.0'}
     dev: true
 
   /fill-range/7.0.1:
