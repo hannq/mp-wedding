@@ -40,8 +40,6 @@ const { getSubPackageList } = require('./utils');
       `${chalk.green(`${result.filesCount}`)} files ${chalk.green(size(result.packSize))}`,
       `Cloud Functions [${chalk.cyan(info.name)}] Upload Successfully !`
     )
-    console.log(chalk.cyan('', `FilesCount: ${result.filesCount}`));
-    console.log(chalk.cyan('', `packSize: ${result.packSize}`));
   }));
 
   await execa(`git reset --hard`, { shell: true })
