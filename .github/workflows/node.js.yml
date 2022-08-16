@@ -29,5 +29,7 @@ jobs:
       run: npm ci
     - name: Inject Private Key
       run: echo "$WEAPP_UPLOAD_PRIVATE_KEY" > private.key
+      env:
+        WEAPP_UPLOAD_PRIVATE_KEY: ${{ secrets.WEAPP_UPLOAD_PRIVATE_KEY }}
     - name: Run Build Task
       run: npx pnpm run ci
