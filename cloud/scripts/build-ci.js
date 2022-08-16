@@ -13,7 +13,7 @@ const { getSubPackageList } = require('./utils');
   // ignores 并不生效，手动临时删除
   await Promise.all(funcInfos.map(async info => {
     await Promise.all(
-      ['node_modules', 'src', 'tsconfig.json', 'tsconfig.tsbuildinfo', 'pnpm-lock.yaml']
+      ['src', 'tsconfig.json', 'tsconfig.tsbuildinfo', 'pnpm-lock.yaml']
         .map(async filename => {
           await fse.remove(path.join(info.dirname, filename))
         })
