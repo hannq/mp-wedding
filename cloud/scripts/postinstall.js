@@ -7,6 +7,6 @@ const { getSubPackageList } = require('./utils');
 ;(async function() {
   const pkgInfos = await getSubPackageList(path.join(__dirname, '../functions'))
   await Promise.all(pkgInfos.map(async (info) => {
-    await execa(`npx pnpm install`, { shell: true, cwd: info.dirname })
+    await execa(`npx pnpm install`, { shell: true, cwd: info.dirname, stderr: 'inherit', stdout: 'inherit' })
   }));
 })();
