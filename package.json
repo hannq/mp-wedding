@@ -4,6 +4,7 @@
   "description": "婚礼小程序",
   "main": "index.js",
   "scripts": {
+    "build": "node ./scripts/build.js",
     "postinstall": "node ./scripts/postinstall.js"
   },
   "keywords": [],

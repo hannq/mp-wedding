@@ -1,3 +1,23 @@
+// @ts-check
+
+const path = require('path');
+
+/**
+ * @typedef { import("@tarojs/plugin-mini-ci").CIOptions } CIOptions
+ * @type { CIOptions }
+ */
+ const CIPluginOpt = {
+  // 微信小程序
+  weapp: {
+    appid: require("../../project.config.json").appid,
+    privateKeyPath: path.join(__dirname, '../../private.key')
+  },
+  // 版本号
+  version: "1.0.0",
+  // 版本发布描述
+  desc: "版本描述"
+}
+
 module.exports = {
   env: {
     NODE_ENV: '"production"'
@@ -33,5 +53,8 @@ module.exports = {
     //       postProcess: (context) => ({ ...context, outputPath: path.join(staticDir, 'index.html') })
     //     }))
     // }
-  }
+  },
+  plugins: [
+    ["@tarojs/plugin-mini-ci", CIPluginOpt]
+  ].filter(Boolean)
 }

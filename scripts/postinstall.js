@@ -1,10 +1,11 @@
 // @ts-check
 
-// const execa = require('execa');
+const execa = require('execa');
+const path = require('path');
 
-;(function() {
-  // execa(`echo `, { shell: true })
-
-  console.log('postinstall !');
-
+;(async function() {
+  await Promise.all([
+    execa(`npx pnpm install`, { shell: true, cwd: path.join(__dirname, '../client') }),
+    execa(`npx pnpm install`, { shell: true, cwd: path.join(__dirname, '../cloud') }),
+  ]);
 })();

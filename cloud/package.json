@@ -6,11 +6,19 @@
   "scripts": {
     "dev": "tsc -b . -w",
     "build": "tsc -b .",
-    "clean": "rimraf functions/*/tsconfig.tsbuildinfo functions/*/dist"
+    "build:ci": "node ./scripts/ci.js",
+    "clean": "rimraf functions/*/tsconfig.tsbuildinfo functions/*/dist",
+    "postinstall": "node ./scripts/postinstall.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "chalk": "4",
+    "execa": "5",
+    "fast-glob": "^3.2.11",
+    "fs-extra": "^10.1.0",
+    "miniprogram-ci": "^1.8.35",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4"
   }
