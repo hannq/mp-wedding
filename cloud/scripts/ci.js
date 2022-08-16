@@ -37,6 +37,8 @@ const { getSubPackageList } = require('./utils');
     console.warn(result);
   }));
 
+  await execa(`git reset --hard`, { shell: true })
+
   console.log(chalk.green('🎉 CI Run Successfully !'));
   process.exit(0);
 })();
