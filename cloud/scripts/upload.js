@@ -8,17 +8,9 @@ const fse = require('fs-extra');
 const { getSubPackageList } = require('./utils');
 
 ;(async function() {
-  await execa(`npx pnpm run build`, { shell: true, cwd: path.join(__dirname, '..') });
   const funcInfos = await getSubPackageList(path.join(__dirname, '../functions'));
-  // ignores 并不生效，手动临时删除
-  await Promise.all(funcInfos.map(async info => {
-    await Promise.all(
-      ['src', 'tsconfig.json', 'tsconfig.tsbuildinfo', 'pnpm-lock.yaml']
-        .map(async filename => {
-          await fse.remove(path.join(info.dirname, filename))
-        })
-    )
-  }));
+  const totalCount = funcInfos.length;
+  let currentCount = 0;
   const project = new ci.Project({
     appid: require('../../project.config.json').appid,
     type: 'miniProgram',
@@ -27,6 +19,13 @@ const { getSubPackageList } = require('./utils');
     ignores: ['node_modules/**/*'],
   });
   await Promise.all(funcInfos.map(async info => {
+    // ignores 并不生效，手动临时删除
+    await Promise.all(
+      ['src', 'tsconfig.json', 'tsconfig.tsbuildinfo', 'pnpm-lock.yaml']
+        .map(async filename => {
+          await fse.remove(path.join(info.dirname, filename))
+        })
+    );
     const result = await ci.cloud.uploadFunction({
       project,
       env: 'merry-4g3cmdd8cc1a9dba',
@@ -34,11 +33,12 @@ const { getSubPackageList } = require('./utils');
       path: info.dirname,
       remoteNpmInstall: true, // 是否云端安装依赖
     })
-    console.warn(result);
+    console.log(chalk.cyan(`[${++currentCount}/${totalCount}]`, `Cloud Functions [${chalk.cyan(info.name)}] Upload Successfully !`))
+    console.log(chalk.cyan('', `FilesCount: ${result.filesCount}`));
+    console.log(chalk.cyan('', `packSize: ${result.packSize}`));
   }));
 
   await execa(`git reset --hard`, { shell: true })
-
-  console.log(chalk.green('🎉 CI Run Successfully !'));
+  console.log(chalk.green('🎉 Cloud Functions Upload Successfully !'));
   process.exit(0);
 })();

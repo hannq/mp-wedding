@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsc -b . -w",
     "build": "tsc -b .",
-    "build:ci": "node ./scripts/build-ci.js",
+    "upload": "node ./scripts/upload.js",
     "clean": "rimraf functions/*/tsconfig.tsbuildinfo functions/*/dist",
     "postinstall": "node ./scripts/postinstall.js"
   },
