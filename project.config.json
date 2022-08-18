@@ -35,7 +35,7 @@
     "minifyWXML": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.25.3",
+  "libVersion": "2.25.2",
   "srcMiniprogramRoot": "client/dist/",
   "packOptions": {
     "ignore": [],

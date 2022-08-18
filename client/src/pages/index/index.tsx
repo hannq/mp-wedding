@@ -1,27 +1,17 @@
-import React, { Component } from 'react'
-import Taro, { Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
-import './index.less'
+import { type FC } from 'react';
+import { View } from '@tarojs/components';
+import { Button } from "@taroify/core";
+// import { useAuth } from "@/hooks";
+import './index.less';
 
-import Login from '../../components/login/index'
+export const Index: FC = () => {
+  // const auth = useAuth();
 
-export default class Index extends Component {
-
-  componentWillMount () { }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  render () {
-    return (
-      <View className='index'>
-        <Login/>
-      </View>
-    )
-  }
+  return (
+    <View className='index'>
+      <Button>15244654</Button>
+    </View>
+  )
 }
+
+export default Index;

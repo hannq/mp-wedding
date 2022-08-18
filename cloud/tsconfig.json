@@ -101,6 +101,11 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "references": [
+    { "path": "./functions/saveUser" },
+    { "path": "./functions/getUser" },
+    { "path": "./functions/getRoleCodeList" },
+    { "path": "./functions/delRoleCode" },
+    { "path": "./functions/saveRoleCode" },
     { "path": "./functions/login" },
     { "path": "./functions/login2" },
   ]

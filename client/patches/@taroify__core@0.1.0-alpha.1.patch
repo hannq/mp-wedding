@@ -1,0 +1,12 @@
+diff --git a/swipe-cell/swipe-cell.js b/swipe-cell/swipe-cell.js
+index 46a16a52d059f3ea7bdeea354e5d6d83b4ba145f..0143299e22de7a644701ed5fffa5893fdcc87821 100644
+--- a/swipe-cell/swipe-cell.js
++++ b/swipe-cell/swipe-cell.js
+@@ -279,7 +279,6 @@ function SwipeCell(props) {
+   }, [right]);
+   useRenderedEffect(() => valueChange(value), [value]);
+   return /*#__PURE__*/React.createElement(View, _objectSpread({
+-    catchMove: true,
+     ref: rootRef,
+     className: classNames(prefixClassname("swipe-cell"), className),
+     onTouchStart: event => {
