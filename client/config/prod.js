@@ -13,7 +13,7 @@ const path = require('path');
     privateKeyPath: path.join(__dirname, '../../private.key')
   },
   // 版本号
-  version: "1.0.0",
+  version: require("../package.json").version,
   // 版本发布描述
   desc: "版本描述"
 }
