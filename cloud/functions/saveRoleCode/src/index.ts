@@ -26,9 +26,9 @@ export async function main(event: Record<'roleType', string>) {
       }) as cloud.DB.IAddResult;
     const code = String(_id).slice(-6);
     const { buffer } = await cloud.openapi.wxacode.getUnlimited({
-      page: 'package-a/pages/index/index',
+      page: 'package-a/pages/invitation/index',
       scene: `roleCode=${code}`,
-      checkPath: false,
+      checkPath: true,
       // 生产环境记得改成 release
       envVersion: 'trial'
     });
