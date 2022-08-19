@@ -4,20 +4,14 @@ import { View } from '@tarojs/components';
 import { Button } from "@taroify/core";
 import { user } from "@/apis";
 import { useAuth } from "@/hooks";
-import { useHideHomeBtn } from "./hooks";
+import { useHideHomeBtn, useScene } from "./hooks";
 import './index.less';
 
 export const Invitation: FC = () => {
   useHideHomeBtn();
+  const { roleCode } = useScene();
   const auth = useAuth();
-
-  const route = useRouter()
-
-  console.log('route -->', route);
-
-  const { params: { roleCode = '' } } = useRouter();
   console.log('auth -->', auth);
-
   return (
     <View className='index'>
       <Button

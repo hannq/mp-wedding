@@ -10,7 +10,7 @@
         {
           "name": "",
           "pathName": "package-a/pages/invitation/index",
-          "query": "roleCode=ae4fc3",
+          "query": "scene=roleCode%3D1c1a81",
           "launchMode": "default",
           "scene": null,
           "partialCompile": {
