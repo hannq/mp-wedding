@@ -11,11 +11,14 @@ export const RoleCodeItem: FC<Props> = (props) => {
     <View className='role-code-item-wrapper'>
       <SwipeCell className='swipe-cell'>
         <View className='card'>
-          <Image className='icon' src='https://img01.yzcdn.cn/vant/ipad.jpeg' />
-          <View>
-            <View>{props.role.name}</View>
-            {props.inUse && <View>使用者：{props.user?.nickName}</View>}
+          <View className='left-content'>
+            <Image className='icon' src='https://img01.yzcdn.cn/vant/ipad.jpeg' />
+            <View>
+              <View>{props.role.name}</View>
+              {props.inUse && <View>使用者：{props.user?.nickName}</View>}
+            </View>
           </View>
+          <View className='right-content'></View>
         </View>
         <SwipeCell.Actions side='right'>
           <Button variant='contained' shape='square' color='danger'>

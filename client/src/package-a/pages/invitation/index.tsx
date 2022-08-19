@@ -10,6 +10,11 @@ import './index.less';
 export const Invitation: FC = () => {
   useHideHomeBtn();
   const auth = useAuth();
+
+  const route = useRouter()
+
+  console.log('route -->', route);
+
   const { params: { roleCode = '' } } = useRouter();
   console.log('auth -->', auth);
 

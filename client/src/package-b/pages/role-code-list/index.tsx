@@ -1,7 +1,7 @@
 import { useMemo, type FC } from 'react';
 import { useDidShow, showToast } from '@tarojs/taro';
 import { View, ScrollView, Picker } from '@tarojs/components';
-import { Button, SafeArea } from "@taroify/core";
+import { Button, SafeArea, Empty } from "@taroify/core";
 import { Plus } from "@taroify/icons";
 import { useRequest } from "ahooks";
 import { roleCode, common } from "@/apis";
@@ -29,9 +29,23 @@ export const Invitation: FC = () => {
         onRefresherRefresh={run}
       >
         <View className='list-content'>
-          {!!roleCodeList.length ? roleCodeList.map(item => (
-            <RoleCodeItem {...item} key={item.id} />
-          )) : <View>暂无数据</View> }
+          {
+            !!roleCodeList.length
+            ?
+            roleCodeList.map(item => (
+              <RoleCodeItem {...item} key={item.id} />
+            ))
+            :
+            (
+              <Empty>
+                <Empty.Image
+                  className='empty-img'
+                  src='https://img.yzcdn.cn/vant/custom-empty-image.png'
+                />
+                <Empty.Description>暂无数据</Empty.Description>
+              </Empty>
+            )
+          }
         </View>
       </ScrollView>
       <View className='action-btn-wrapper'>
@@ -39,9 +53,14 @@ export const Invitation: FC = () => {
           range={roleList}
           rangeKey='name'
           onChange={async e => {
-            await roleCode.save(roleList[e.detail.value as number].type);
-            showToast({ title: '创建成功' });
-            run();
+            const { errCode, errMsg } = await roleCode.save(roleList[e.detail.value as number].type);
+            if (errCode) {
+              console.error(errMsg);
+              showToast({ title: '创建失败', icon: 'error' });
+            } else {
+              showToast({ title: '创建成功' });
+              run();
+            };
           }}
         >
           <Button
