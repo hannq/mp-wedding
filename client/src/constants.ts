@@ -1,19 +1,19 @@
 /** 主包 页面路径 */
 export const enum Page {
   /** 首页 */
-  INDEX = 'pages/index/index',
+  INDEX = '/pages/index/index',
 }
 
 /** 分包A 页面路径 */
 export const enum PackageAPage {
   /** 请柬 */
-  INVITATION = 'pages/invitation/index',
+  INVITATION = '/package-a/pages/invitation/index',
 }
 
 /** 分包B 页面路径 */
 export const enum PackageBPage {
   /** 请柬 */
-  ROLE_CODE_LIST = 'pages/role-code-list/index',
+  ROLE_CODE_LIST = '/package-b/pages/role-code-list/index',
 }
 
 

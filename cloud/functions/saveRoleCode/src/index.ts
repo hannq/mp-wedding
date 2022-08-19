@@ -16,8 +16,11 @@ const db = cloud.database();
  */
 export async function main(event: Record<'roleType', string>) {
   try {
+    // @ts-ignore
+    const transaction: cloud.DB.Database = await db.startTransaction();
+
     const { roleType } = event;
-    const { _id } = await db.collection('role-code')
+    const { _id } = await transaction.collection('role-code')
       .add({
         data: {
           roleType,
@@ -28,7 +31,8 @@ export async function main(event: Record<'roleType', string>) {
     const { buffer } = await cloud.openapi.wxacode.getUnlimited({
       page: 'package-a/pages/invitation/index',
       scene: `roleCode=${code}`,
-      checkPath: true,
+      // 检查 page 是否存在，为 true 时 page 必须是已经发布的小程序存在的页面（否则报错）；为 false 时允许小程序未发布或者 page 不存在， 但 page 有数量上限（60000个）请勿滥用
+      checkPath: false,
       // 生产环境记得改成 release
       envVersion: 'trial'
     });
@@ -38,7 +42,10 @@ export async function main(event: Record<'roleType', string>) {
       fileContent: buffer,
     });
 
-    await db.collection('role-code').doc(_id).update({ data: { codeFileID: fileID, code } });
+    await transaction.collection('role-code').doc(_id).update({ data: { codeFileID: fileID, code } });
+
+    // @ts-ignore
+    await transaction.commit();
 
     return {
       errCode: 0,
