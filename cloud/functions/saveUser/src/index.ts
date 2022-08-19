@@ -16,35 +16,41 @@ const db = cloud.database();
  */
 export async function main(event: Record<string, unknown>) {
   try {
-    const { roleCode } = event;
-    const { OPENID: openId } = cloud.getWXContext();
-    const userInfo: Record<string, any> = { ...event, openId }
+    const {
+      avatarUrl,
+      nickName,
+      gender,
+      roleCode,
+    } = event;
 
-    // inUse
+    const { OPENID: openId } = cloud.getWXContext();
+    const userInfo: Record<string, any> = {
+      avatarUrl,
+      nickName,
+      gender,
+      roleCode,
+      openId
+    }
+
+    // @ts-ignore
+    const transaction: cloud.DB.Database = await db.startTransaction();
+
     const { data: { 0: user } } = await db
       .collection('user')
       .where({ openId })
       .get() as any as cloud.DB.IQueryResult;
 
-    console.log('roleCode --->', roleCode)
-
     // 如果用户已有角色，不可覆盖
     if (!roleCode || !!user?.roleCode) delete userInfo.roleCode;
     else {
-
-
-      console.log('where', { code: roleCode, inUse: false })
-
       const { data: { 0: validCode } } = await db
         .collection('role-code')
         .where({ code: roleCode, inUse: false })
         .get() as cloud.DB.IQueryResult;
 
-      console.log('validCode --->', validCode)
-
       // 角色验证码合法
       if (validCode) {
-        await db.collection('role-code')
+        await transaction.collection('role-code')
           .doc(validCode._id!)
           .update({ data: { inUse: true } })
       } else {
@@ -54,18 +60,21 @@ export async function main(event: Record<string, unknown>) {
 
     if (user) {
       // 角色存在，直接更新
-      await db.collection('user')
+      await transaction.collection('user')
         .doc(user._id!)
         .update({ data: userInfo });
     } else {
       // 角色不存在，直接新增
-      await db.collection('user').add({ data: userInfo });
+      await transaction.collection('user').add({ data: userInfo });
     }
+
+    // @ts-ignore
+    await transaction.commit();
 
     return {
       errCode: 0,
       errMsg: '',
-      data: userInfo,
+      data: null
     }
   } catch (err) {
     return {

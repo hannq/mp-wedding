@@ -1,6 +1,6 @@
 import { useDidShow, hideHomeButton, useRouter } from '@tarojs/taro';
 import { useMemo } from 'react';
-import { queryString } from '@/utils';
+import { useScene } from '@/hooks';
 
 /**
  * 隐藏返回首页按钮
@@ -10,9 +10,10 @@ export function useHideHomeBtn() {
 }
 
 /**
- * 获取场景值
+ * 获取角色邀请码
  */
-export function useScene() {
-  const { params: { scene = '' } } = useRouter();
-  return useMemo(() => queryString.parse(decodeURIComponent(scene)), [scene]);
+export function useRoleCode() {
+  const { params: { roleCode = '' } } = useRouter();
+  const { roleCode: roleCodeFromScene } = useScene()
+  return useMemo(() => roleCode || roleCodeFromScene, [roleCode, roleCodeFromScene]);
 }

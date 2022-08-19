@@ -1,15 +1,15 @@
 import { type FC } from 'react';
-import { getUserProfile, showToast, useRouter } from '@tarojs/taro';
+import { getUserProfile, showToast } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { Button } from "@taroify/core";
 import { user } from "@/apis";
 import { useAuth } from "@/hooks";
-import { useHideHomeBtn, useScene } from "./hooks";
+import { useHideHomeBtn, useRoleCode } from "./hooks";
 import './index.less';
 
 export const Invitation: FC = () => {
   useHideHomeBtn();
-  const { roleCode } = useScene();
+  const roleCode = useRoleCode();
   const auth = useAuth();
   console.log('auth -->', auth);
   return (
