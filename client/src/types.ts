@@ -9,6 +9,8 @@ export interface RoleCode {
   inUse: boolean;
   /** 绑定角色 */
   role: Role;
+  /** 码文件ID */
+  codeFileID: string;
   /** 绑定角色 */
   user?: Omit<User, 'role'>;
 }

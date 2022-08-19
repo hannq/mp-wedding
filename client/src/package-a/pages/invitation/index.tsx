@@ -3,15 +3,12 @@ import { getUserProfile, showToast } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { Button } from "@taroify/core";
 import { user } from "@/apis";
-import { useAuth } from "@/hooks";
 import { useHideHomeBtn, useRoleCode } from "./hooks";
 import './index.less';
 
 export const Invitation: FC = () => {
   useHideHomeBtn();
   const roleCode = useRoleCode();
-  const auth = useAuth();
-  console.log('auth -->', auth);
   return (
     <View className='index'>
       <Button

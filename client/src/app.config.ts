@@ -22,7 +22,7 @@ export default {
     {
       root: "package-b",
       pages: [
-        PackageBPage.ROLE_CODE_LIST,
+        PackageBPage.ROLE_CODE_MANAGEMENT,
       ].map(page => page.replace(/^\/package-b\//, '')),
     }
   ],

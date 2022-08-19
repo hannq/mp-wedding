@@ -12,13 +12,13 @@ interface SaveUserParam extends Omit<User, 'role'> {
  * @param data 用于保存的用户信息
  * @returns
  */
-export async function save(data: SaveUserParam): Promise<ApiRes<User>> {
+export async function save(data: SaveUserParam): Promise<ApiRes<void>> {
   try {
     const { result } = await cloud.callFunction({
       name: "saveUser",
       data
     });
-    return result as ApiRes<User>;
+    return result as ApiRes<void>;
   } catch (err) {
     return {
       errCode: 1,

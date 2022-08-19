@@ -1,7 +1,11 @@
 .role-code-item-wrapper {
   margin-top: 24px;
   .swipe-cell {
-    .taroify-swipe-cell__actions {
+    .edit-picker {
+      height: 100%;
+      display: flex;
+    }
+    .taroify-swipe-cell__actions, .edit-picker {
       .taroify-button {
         height: 100%;
       }
@@ -27,7 +31,9 @@
         }
       }
       .right-content {
-
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }

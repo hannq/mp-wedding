@@ -2,16 +2,20 @@ import { cloud } from '@tarojs/taro';
 import type { RoleCode } from '@/types';
 import type { ApiRes } from '../apis/types';
 
+interface SaveRoleCodeParam extends Partial<Omit<RoleCode, 'role' | 'user'>> {
+  /** 角色类型 */
+  roleType?: string;
+}
+
 /**
- * 保存用户信息
- * @param roleType 角色类型
- * @returns
+ * 保存角色邀请码信息
+ * @param data 更新信息
  */
-export async function save(roleType: string): Promise<ApiRes<RoleCode>> {
+export async function save(data: SaveRoleCodeParam): Promise<ApiRes<RoleCode>> {
   try {
     const { result } = await cloud.callFunction({
       name: "saveRoleCode",
-      data: { roleType }
+      data
     });
     return result as ApiRes<RoleCode>;
   } catch (err) {
@@ -22,6 +26,27 @@ export async function save(roleType: string): Promise<ApiRes<RoleCode>> {
     }
   }
 }
+
+/**
+ * 保存角色邀请码信息
+ * @param id
+ */
+export async function del(id: string): Promise<ApiRes<void>> {
+  try {
+    const { result } = await cloud.callFunction({
+      name: "delRoleCode",
+      data: { id }
+    });
+    return result as ApiRes<void>;
+  } catch (err) {
+    return {
+      errCode: 1,
+      errMsg: (err instanceof Error ? err.message : err) || '保存用户信息失败！',
+      data: null
+    }
+  }
+}
+
 
 /**
  * 获取角色邀请码列表

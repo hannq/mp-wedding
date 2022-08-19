@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useDidShow, } from '@tarojs/taro';
+import { useDidShow, navigateTo } from '@tarojs/taro';
 import { user } from '@/apis';
 import type { User } from '@/types';
-import { RoleType } from '@/constants';
+import { RoleType, PackageAPage } from '@/constants';
 import useCloudInit from './useCloudInit';
 
 /**
@@ -20,7 +20,7 @@ export function useAuth() {
       setAuth(data!);
     } catch (err) {
       console.error('err -->', err);
-      // navigateTo({ url: `/${PackageAPage.INVITATION}` });
+      navigateTo({ url: PackageAPage.INVITATION });
     }
   });
 

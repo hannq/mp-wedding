@@ -19,8 +19,8 @@
           }
         },
         {
-          "name": "",
-          "pathName": "package-b/pages/role-code-list/index",
+          "name": "角色邀请码管理",
+          "pathName": "package-b/pages/role-code-management/index",
           "query": "",
           "launchMode": "default",
           "scene": null,

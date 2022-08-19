@@ -18,7 +18,13 @@ export const Index: FC = () => {
         block
         color='primary'
         className='link-btn'
-        onClick={() => navigateTo({ url: PackageBPage.ROLE_CODE_LIST })}
+        onClick={() => navigateTo({ url: PackageAPage.INVITATION })}
+      >用户列表</Button>
+      <Button
+        block
+        color='primary'
+        className='link-btn'
+        onClick={() => navigateTo({ url: PackageBPage.ROLE_CODE_MANAGEMENT })}
       >角色码管理</Button>
     </View>
   )

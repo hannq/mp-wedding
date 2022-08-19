@@ -12,11 +12,9 @@ export const enum PackageAPage {
 
 /** 分包B 页面路径 */
 export const enum PackageBPage {
-  /** 请柬 */
-  ROLE_CODE_LIST = '/package-b/pages/role-code-list/index',
+  /** 角色邀请码管理 */
+  ROLE_CODE_MANAGEMENT = '/package-b/pages/role-code-management/index',
 }
-
-
 
 /** Storage 存储数据的 key */
 export const enum StorageKey {
