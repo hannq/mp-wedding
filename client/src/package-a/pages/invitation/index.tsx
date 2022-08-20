@@ -3,33 +3,44 @@ import { getUserProfile, showToast } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { Button } from "@taroify/core";
 import { user } from "@/apis";
-import { useHideHomeBtn, useRoleCode } from "./hooks";
+import { useCloudInit } from "@/hooks";
+import { useHideHomeBtn, useGetRoleCodeInfo } from "./hooks";
 import './index.less';
 
 export const Invitation: FC = () => {
+  useCloudInit();
   useHideHomeBtn();
-  const roleCode = useRoleCode();
+  const { loading, data: roleCodeInfo } = useGetRoleCodeInfo();
   return (
     <View className='index'>
+
+      {loading
+      ?
+      <View>查询中 ...</View>
+      :
+      <View>
+        身份：{roleCodeInfo ? roleCodeInfo.role.name : '来宾'}
+      </View>}
+
       <Button
         onClick={async () => {
           try {
             const { userInfo } = await getUserProfile({ lang: 'zh_CN', desc: '用于识别来宾身份' });
-            const { errCode, errMsg, data } = await user.save({
+            const { errCode, errMsg } = await user.save({
               avatarUrl: userInfo.avatarUrl,
               nickName: userInfo.nickName,
               gender: userInfo.gender,
-              roleCode
+              roleCode: roleCodeInfo?.code
             });
             if (errCode) {
-              showToast({ title: errMsg, icon: 'error' });
+              console.error(errMsg)
+              showToast({ title: '绑定失败', icon: 'error' });
             } else {
-              console.log('user ==>', data)
-              showToast({ title: '保存成功' });
+              showToast({ title: roleCodeInfo ? '绑定成功' : '邀请成功' });
             }
           } catch (err) {
             console.error(err);
-            showToast({ title: '保存信息失败', icon: 'error' });
+            showToast({ title: '操作失败', icon: 'error' });
           }
         }}
       >接受邀请</Button>

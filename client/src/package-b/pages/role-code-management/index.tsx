@@ -33,7 +33,7 @@ export const Invitation: FC = () => {
         refresherEnabled
         refresherBackground='#f5f5f5'
         refresherTriggered={loading}
-        onRefresherRefresh={() => !loading && run()}
+        onRefresherRefresh={() => run()}
       >
         <View className='list-content'>
           {

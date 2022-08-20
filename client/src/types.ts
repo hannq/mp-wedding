@@ -11,6 +11,8 @@ export interface RoleCode {
   role: Role;
   /** 码文件ID */
   codeFileID: string;
+  /** 角色码 */
+  code: string;
   /** 绑定角色 */
   user?: Omit<User, 'role'>;
 }

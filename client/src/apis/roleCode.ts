@@ -48,13 +48,17 @@ export async function del(id: string): Promise<ApiRes<void>> {
 }
 
 
+interface GetRoleCodeListParam extends Partial<Omit<RoleCode, 'role' | 'user' | 'codeFileID'>> {
+}
+
 /**
  * 获取角色邀请码列表
  */
-export async function getList(): Promise<ApiRes<RoleCode[]>> {
+export async function getList(data: GetRoleCodeListParam = {}): Promise<ApiRes<RoleCode[]>> {
   try {
     const { result } = await cloud.callFunction({
       name: "getRoleCodeList",
+      data
     });
     return result as ApiRes<RoleCode[]>;
   } catch (err) {

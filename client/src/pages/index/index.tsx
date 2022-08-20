@@ -18,7 +18,7 @@ export const Index: FC = () => {
         block
         color='primary'
         className='link-btn'
-        onClick={() => navigateTo({ url: PackageAPage.INVITATION })}
+        onClick={() => navigateTo({ url: PackageBPage.USER_LIST })}
       >用户列表</Button>
       <Button
         block

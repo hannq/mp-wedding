@@ -14,6 +14,8 @@ export const enum PackageAPage {
 export const enum PackageBPage {
   /** 角色邀请码管理 */
   ROLE_CODE_MANAGEMENT = '/package-b/pages/role-code-management/index',
+  /** 用户列表 */
+  USER_LIST = '/package-b/pages/user-list/index',
 }
 
 /** Storage 存储数据的 key */

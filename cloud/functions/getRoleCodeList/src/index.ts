@@ -15,10 +15,19 @@ const $ = db.command.aggregate;
  * @param event
  * @returns
  */
-export async function main() {
+export async function main(event: Record<string, unknown>) {
   try {
+    const { code, inUse } = event;
+    const filter = { code, inUse };
+    Object.keys(filter)
+      .forEach(key => {
+        // @ts-ignore
+        if (typeof filter[key] === 'undefined') delete filter[key];
+      });
+
     const { list } = await db.collection('role-code')
       .aggregate()
+      .match(filter)
       .lookup({
         from: 'role',
         localField: 'roleType',

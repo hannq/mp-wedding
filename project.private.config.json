@@ -8,9 +8,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "",
+          "name": "请柬",
           "pathName": "package-a/pages/invitation/index",
-          "query": "scene=roleCode%3D1c1a81",
+          "query": "scene=roleCode%3D3a8cda",
           "launchMode": "default",
           "scene": null,
           "partialCompile": {
