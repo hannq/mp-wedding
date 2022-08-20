@@ -1,10 +1,11 @@
 import { useMemo, useState, type FC } from 'react';
-import { useDidShow, showToast, showModal, showLoading, hideLoading, saveImageToPhotosAlbum, cloud } from '@tarojs/taro';
+import { useDidShow, showToast, showModal, showLoading, hideLoading, saveImageToPhotosAlbum, cloud, useShareAppMessage } from '@tarojs/taro';
 import { View, ScrollView, Picker } from '@tarojs/components';
 import { Button, SafeArea, Empty, Popup, Image } from "@taroify/core";
 import { Plus } from "@taroify/icons";
 import { useRequest } from "ahooks";
 import { roleCode, common } from "@/apis";
+import { PackageAPage } from "@/constants";
 import { RoleCodeItem } from "./components/role-code-item";
 import './index.less';
 
@@ -24,6 +25,15 @@ export const Invitation: FC = () => {
   const roleCodeList = useMemo(() => roleCodeListRes?.data || [], [roleCodeListRes]);
 
   useDidShow(run);
+  useShareAppMessage(({ target }) => {
+    return {
+      // @ts-ignore
+      path: `${PackageAPage.INVITATION}?roleCode=${target?.dataset?.code || ''}`,
+      title: '请柬'
+      // TODO: 缺少图片
+      // imageUrl: ''
+    }
+  });
 
   return (
     <View className='wrapper'>
@@ -33,7 +43,7 @@ export const Invitation: FC = () => {
         refresherEnabled
         refresherBackground='#f5f5f5'
         refresherTriggered={loading}
-        onRefresherRefresh={() => run()}
+        onRefresherRefresh={() => !loading && run()}
       >
         <View className='list-content'>
           {

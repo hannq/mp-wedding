@@ -68,8 +68,9 @@ export const RoleCodeItem: FC<Props> = (props) => {
             <Button
               variant='text'
               color='primary'
+              openType='share'
               icon={<Share />}
-              onClick={() => {}}
+              data-code={props.code}
             />
             <Button
               variant='text'

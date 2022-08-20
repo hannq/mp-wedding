@@ -22,7 +22,7 @@ export const Invitation: FC = () => {
         身份：{roleCodeInfo ? roleCodeInfo.role.name : '来宾'}
       </View>}
 
-      <Button
+      {!loading && <Button
         onClick={async () => {
           try {
             const { userInfo } = await getUserProfile({ lang: 'zh_CN', desc: '用于识别来宾身份' });
@@ -43,7 +43,7 @@ export const Invitation: FC = () => {
             showToast({ title: '操作失败', icon: 'error' });
           }
         }}
-      >接受邀请</Button>
+      >接受邀请</Button>}
     </View>
   )
 }
