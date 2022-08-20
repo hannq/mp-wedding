@@ -27,6 +27,10 @@ export interface Role {
 
 /** 用户信息 */
 export interface User extends Pick<UserInfo, 'avatarUrl' | 'nickName' | 'gender'> {
-  /** Role */
+  /** 唯一 id */
+  id: string;
+  /** 角色 */
   role?: Role;
+  /** 创建时间 */
+  createTime: Date;
 }

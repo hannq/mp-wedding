@@ -65,7 +65,10 @@ export async function main(event: Record<string, unknown>) {
         .update({ data: userInfo });
     } else {
       // 角色不存在，直接新增
-      await transaction.collection('user').add({ data: userInfo });
+      await transaction.collection('user').add({ data: {
+        ...userInfo,
+        createTime: db.serverDate(),
+      } });
     }
 
     // @ts-ignore

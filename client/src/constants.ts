@@ -26,16 +26,24 @@ export const enum StorageKey {
 
 /** 角色类型 */
 export const enum RoleType {
+  /** 管理员 */
+  ADMIN = 'admin',
   /** 新郎 */
-  BRIDEGROOM = 'BRIDEGROOM',
+  BRIDEGROOM = 'bridegroom',
   /** 新娘 */
-  BRIDE = 'BRIDE',
+  BRIDE = 'bride',
   /** 伴郎 */
-  GROOMSMAN = 'GROOMSMAN',
+  GROOMSMAN = 'groomsman',
   /** 伴娘 */
-  BRIDESMAID = 'BRIDESMAID',
+  BRIDESMAID = 'bridesmaid',
   /** 主办方 */
-  SPONSOR = 'SPONSOR',
+  SPONSOR = 'sponsor',
   /** 来宾 */
-  GUEST = 'GUEST',
+  GUEST = 'guest',
+}
+
+/** 用户列表排序方式 */
+export const enum UserListSortType {
+  ROLE_TYPE = 'ROLE_TYPE',
+  CREATE_TIME = 'CREATE_TIME'
 }
