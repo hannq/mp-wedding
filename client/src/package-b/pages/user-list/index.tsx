@@ -70,6 +70,7 @@ export const UserList: FC = () => {
         <DropdownMenu.Item
           value={param.roleType || 'all'}
           onChange={(value: RoleType | 'all') => {
+            setNoMoreData(false);
             run({ ...param, current: 0, roleType: !value || value === 'all' ? void(0) : value })
           }}
         >
@@ -84,6 +85,7 @@ export const UserList: FC = () => {
         <DropdownMenu.Item
           value={param.sortType || 'default'}
           onChange={(value: UserListSortType | 'default') => {
+            setNoMoreData(false);
             run({ ...param, current: 0, sortType: !value || value === 'default' ? void(0) : value })
           }}
         >
