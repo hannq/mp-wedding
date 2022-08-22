@@ -3,9 +3,11 @@ import { View, } from '@tarojs/components';
 import { navigateTo, switchTab } from '@tarojs/taro';
 import { Button } from '@taroify/core';
 import { Page, PackageAPage, PackageBPage } from '@/constants';
+import { useShare } from '@/hooks';
 import './index.less';
 
 export const Index: FC = () => {
+  useShare();
   return (
     <View className='wrapper'>
       <Button

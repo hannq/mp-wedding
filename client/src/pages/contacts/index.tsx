@@ -2,9 +2,11 @@ import { type FC } from 'react';
 import { makePhoneCall } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { Button } from '@taroify/core';
+import { useShare } from '@/hooks';
 import './index.less';
 
 export const Index: FC = () => {
+  useShare();
   return (
     <View className='wrapper'>
       <Button

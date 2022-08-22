@@ -2,11 +2,11 @@ import { type FC } from 'react';
 import { openLocation } from '@tarojs/taro';
 import { View, } from '@tarojs/components';
 import { Button } from '@taroify/core';
+import { useShare } from '@/hooks';
 import './index.less';
 
 export const Index: FC = () => {
-  // 116.400175,39.905543
-
+  useShare();
   return (
     <View className='wrapper'>
       <Button

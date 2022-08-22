@@ -5,7 +5,7 @@ import { Button, SafeArea, Empty, Popup, Image } from "@taroify/core";
 import { Plus } from "@taroify/icons";
 import { useRequest } from "ahooks";
 import { roleCode, common } from "@/apis";
-import { PackageAPage } from "@/constants";
+import { useShare } from "@/hooks/useShare";
 import { RoleCodeItem } from "./components/role-code-item";
 import './index.less';
 
@@ -25,15 +25,7 @@ export const Invitation: FC = () => {
   const roleCodeList = useMemo(() => roleCodeListRes?.data || [], [roleCodeListRes]);
 
   useDidShow(run);
-  useShareAppMessage(({ target }) => {
-    return {
-      // @ts-ignore
-      path: `${PackageAPage.INVITATION}?roleCode=${target?.dataset?.code || ''}`,
-      title: '请柬'
-      // TODO: 缺少图片
-      // imageUrl: ''
-    }
-  });
+  useShare();
 
   return (
     <View className='wrapper'>

@@ -3,11 +3,12 @@ import { getUserProfile, showToast } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { Button } from "@taroify/core";
 import { user } from "@/apis";
-import { useCloudInit } from "@/hooks";
+import { useCloudInit, useShare } from "@/hooks";
 import { useHideHomeBtn, useGetRoleCodeInfo } from "./hooks";
 import './index.less';
 
 export const Invitation: FC = () => {
+  useShare();
   useCloudInit();
   useHideHomeBtn();
   const { loading, data: roleCodeInfo } = useGetRoleCodeInfo();
