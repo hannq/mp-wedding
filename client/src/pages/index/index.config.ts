@@ -1,3 +1,4 @@
 export default {
-  navigationBarTitleText: '婚礼小程序'
+  navigationBarTitleText: '婚礼小程序',
+  enableShareAppMessage: true
 }
