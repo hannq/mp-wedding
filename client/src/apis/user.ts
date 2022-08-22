@@ -3,7 +3,7 @@ import type { User } from '@/types';
 import type { RoleType, UserListSortType } from '@/constants';
 import type { ApiRes } from '../apis/types';
 
-interface SaveUserParam extends Omit<User, 'role'> {
+interface SaveUserParam extends Partial<Omit<User, 'role'>> {
   /** 角色邀请码 */
   roleCode?: string;
 }

@@ -8,7 +8,7 @@ export const Index: FC = () => {
     <View className='wrapper'>
       <Empty>
         <Empty.Image src='network' />
-        <Empty.Description>敬请期待～</Empty.Description>
+        <Empty.Description>敬请期待～～～</Empty.Description>
       </Empty>
     </View>
   )

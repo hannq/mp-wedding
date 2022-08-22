@@ -2,6 +2,12 @@
 export const enum Page {
   /** 首页 */
   INDEX = '/pages/index/index',
+  /** 地图导航 */
+  MAP_NAVIGATION = '/pages/map-navigation/index',
+  /** 联系人 */
+  CONTACTS = '/pages/contacts/index',
+  /** 我的 */
+  MINE = '/pages/mine/index',
 }
 
 /** 分包A 页面路径 */

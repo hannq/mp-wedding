@@ -2,8 +2,37 @@ import { Page, PackageAPage, PackageBPage } from './constants'
 
 export default {
   pages: [
+    "/pages/dev-index/index",
     Page.INDEX,
+    Page.MAP_NAVIGATION,
+    Page.CONTACTS,
+    Page.MINE,
   ].map(page => page.replace(/^\//, '')),
+  tabBar: {
+    color: '#999',
+    selectedColor: '#d4237a',
+    list: [{
+      pagePath: Page.INDEX,
+      iconPath: './assets/images/home.png',
+      selectedIconPath: './assets/images/home-active.png',
+      text: '首页'
+    }, {
+      pagePath: Page.MAP_NAVIGATION,
+      text: '导航',
+      iconPath: './assets/images/navigation.png',
+      selectedIconPath: './assets/images/navigation-active.png',
+    }, {
+      pagePath: Page.CONTACTS,
+      text: '联系人',
+      iconPath: './assets/images/concats.png',
+      selectedIconPath: './assets/images/concats-active.png',
+    }, {
+      pagePath: Page.MINE,
+      text: '我的',
+      iconPath: './assets/images/mine.png',
+      selectedIconPath: './assets/images/mine-active.png',
+    }].map(item => ({ ...item, pagePath: item.pagePath.replace(/^\//, '') }))
+  },
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#f5f5f5',
@@ -27,5 +56,14 @@ export default {
       ].map(page => page.replace(/^\/package-b\//, '')),
     }
   ],
-  cloud: true
+  cloud: true,
+  requiredPrivateInfos: [
+    'getLocation',
+    'choosePoi'
+  ],
+  // permission: {
+  //   "scope.userLocation": {
+  //     "desc": "你的位置信息将用于导航到指定的目的地"
+  //   }
+  // }
 }

@@ -39,6 +39,20 @@
             "enabled": true,
             "pages": []
           }
+        },
+        {
+          "name": "首页",
+          "pathName": "pages/index/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "地图导航",
+          "pathName": "pages/map-navigation/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
