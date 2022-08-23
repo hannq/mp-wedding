@@ -44,6 +44,7 @@ specifiers:
   eslint-plugin-react: ^7.8.2
   eslint-plugin-react-hooks: ^4.2.0
   lodash: 4.17.21
+  lodash.groupby: ^4.6.0
   mitt: ^3.0.0
   react: ^18.0.0
   react-dom: ^18.0.0
@@ -75,6 +76,7 @@ dependencies:
   classnames: 2.3.1
   dayjs: 1.11.5
   lodash: 4.17.21
+  lodash.groupby: 4.6.0
   mitt: 3.0.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -11014,6 +11016,10 @@ packages:
 
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
+
+  /lodash.groupby/4.6.0:
+    resolution: {integrity: sha512-5dcWxm23+VAoz+awKmBaiBvzox8+RqMgFhi7UvX9DHZr2HdxHXM/Wrf8cfKpsW37RNrvtPn6hSwNqurSILbmJw==}
+    dev: false
 
   /lodash.memoize/4.1.2:
     resolution: {integrity: sha512-t7j+NzmgnQzTAYXcsHYLgimltOV1MXHtlOWf6GjL9Kj8GK5FInw5JotxvbOs+IvV1/Dzo04/fCGfLVs7aXb4Ag==}

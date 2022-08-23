@@ -53,6 +53,30 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": " 导航管理",
+          "pathName": "package-b/pages/navigation-management/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null,
+          "partialCompile": {
+            "enabled": true,
+            "pages": [
+              "package-b/pages/navigation-form/index"
+            ]
+          }
+        },
+        {
+          "name": "导航表单",
+          "pathName": "package-b/pages/navigation-form/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null,
+          "partialCompile": {
+            "enabled": true,
+            "pages": []
+          }
         }
       ]
     }

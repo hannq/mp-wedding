@@ -1,36 +1,100 @@
-import { type FC } from 'react';
-import { openLocation } from '@tarojs/taro';
-import { View, } from '@tarojs/components';
-import { Button } from '@taroify/core';
-import { useShare } from '@/hooks';
+import { useMemo, type FC } from 'react';
+import { useDidShow, openLocation } from '@tarojs/taro';
+import { View, ScrollView, Text } from '@tarojs/components';
+import { Collapse, Tag, Rate, Empty } from "@taroify/core";
+import { Location } from "@taroify/icons";
+import { useRequest } from "ahooks";
+import groupby from "lodash.groupby";
+import { navigation } from "@/apis";
+import type { Navigation } from "@/types";
+import { useShare } from "@/hooks/useShare";
 import './index.less';
 
-export const Index: FC = () => {
+export const Invitation: FC = () => {
+  const { loading, run, data: navigationListRes } = useRequest(navigation.getList, { manual: true });
+  const navigationGroupList = useMemo(
+    () => Object.entries(groupby(navigationListRes?.data || [], 'transport')) as readonly [string,  Navigation[]][],
+    [navigationListRes]
+  );
+
+  useDidShow(run);
   useShare();
+
   return (
     <View className='wrapper'>
-      <Button
-        onClick={async () => {
-          await openLocation({
-            longitude: 118.797398,
-            latitude: 32.044228,
-            name: '总统府',
-            address: '长江路292号'
-          })
-        }}
-      >导航：总统府</Button>
-      <Button
-        onClick={async () => {
-          await openLocation({
-            longitude: 118.840467,
-            latitude: 32.051931,
-            name: '明孝陵景区',
-            address: '石象路7号'
-          })
-        }}
-      >导航：明孝陵景区</Button>
+      <ScrollView
+        className='list-wrapper'
+        scrollY
+        refresherEnabled
+        refresherBackground='#f5f5f5'
+        refresherTriggered={loading}
+        onRefresherRefresh={() => !loading && run()}
+      >
+        <View className='list-content'>
+          {
+            !!navigationGroupList.length
+              ?
+              navigationGroupList.map(([transport, navigationList], idx) => (
+                <View key={idx}>
+                  <View className='transport-cell'>{transport}</View>
+                  <Collapse defaultValue={[]}>
+                    {
+                      navigationList.map(item => (
+                        <Collapse.Item
+                          key={item.id}
+                          clickable={false}
+                          title={(
+                            <View
+                              hoverClass='navigate-hover'
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openLocation({
+                                  longitude: item.destinationLocation.coordinates[0],
+                                  latitude: item.destinationLocation.coordinates[1],
+                                  name: item.destinationName,
+                                  address: item.destinationAddress
+                                })
+                              }}
+                            >
+                              <Location />
+                              <Tag variant='outlined' color={item.isLocal ? 'info' : 'warning'}>{item.isLocal ? '南堡内' : '外地'}</Tag>
+                              <Text className='destination-name'>{item.destinationName}</Text>
+                            </View>
+                          )}
+                          brief={item.destinationAddress}
+                          expandIcon={null}
+                          // icon={<Tag className='transport' color='primary'>{item.transport}</Tag>}
+                          extra={
+                            <Rate
+                              className='rate-color'
+                              value={item.rate}
+                              readonly
+                              size={12}
+                            />
+                          }
+                        >
+                          {item.desc || ''}
+                        </Collapse.Item>
+                      ))
+                    }
+                  </Collapse>
+                </View>
+              ))
+              :
+              (
+                !loading ? <Empty>
+                  <Empty.Image
+                    className='empty-img'
+                    src='https://img.yzcdn.cn/vant/custom-empty-image.png'
+                  />
+                  <Empty.Description>暂无数据</Empty.Description>
+                </Empty> : null
+              )
+          }
+        </View>
+      </ScrollView>
     </View>
   )
 }
 
-export default Index;
+export default Invitation;

@@ -20,6 +20,10 @@ export const enum PackageAPage {
 export const enum PackageBPage {
   /** 角色邀请码管理 */
   ROLE_CODE_MANAGEMENT = '/package-b/pages/role-code-management/index',
+  /** 导航管理 */
+  NAVIGATION_MANAGEMENT = '/package-b/pages/navigation-management/index',
+  /** 导航表单 */
+  NAVIGATION_FORM = '/package-b/pages/navigation-form/index',
   /** 用户列表 */
   USER_LIST = '/package-b/pages/user-list/index',
 }

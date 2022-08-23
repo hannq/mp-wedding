@@ -106,5 +106,7 @@
     { "path": "./functions/getRoleCodeList" },
     { "path": "./functions/delRoleCode" },
     { "path": "./functions/saveRoleCode" },
+    { "path": "./functions/saveNavigation" },
+    { "path": "./functions/delNavigation" },
   ]
 }

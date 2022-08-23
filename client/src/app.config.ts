@@ -52,18 +52,14 @@ export default {
       root: "package-b",
       pages: [
         PackageBPage.ROLE_CODE_MANAGEMENT,
+        PackageBPage.NAVIGATION_MANAGEMENT,
+        PackageBPage.NAVIGATION_FORM,
         PackageBPage.USER_LIST,
       ].map(page => page.replace(/^\/package-b\//, '')),
     }
   ],
   cloud: true,
   requiredPrivateInfos: [
-    'getLocation',
-    'choosePoi'
+    'chooseLocation'
   ],
-  // permission: {
-  //   "scope.userLocation": {
-  //     "desc": "你的位置信息将用于导航到指定的目的地"
-  //   }
-  // }
 }

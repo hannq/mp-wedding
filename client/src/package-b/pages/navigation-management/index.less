@@ -1,0 +1,26 @@
+page {
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .list-wrapper {
+    flex: 1;
+    min-height: 0;
+    .list-content {
+      overflow: hidden;
+      .empty-img {
+        width: 180px;
+        height: 180px;
+      }
+    }
+  }
+  .action-btn-wrapper {
+    flex: 0;
+    padding: 24px;
+  }
+
+}

@@ -4,10 +4,34 @@ page {
 }
 
 .wrapper {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  .map {
+  height: 100%;
+  .list-wrapper {
     flex: 1;
+    min-height: 0;
+    .list-content {
+      overflow: hidden;
+      .transport-cell {
+        padding: 32px;
+        font-size: 28px;
+        line-height: 28px;
+        color: #8c9aa1;
+      }
+      .navigate-hover {
+        background-color: #c8c9cc;
+      }
+      .destination-name {
+        padding-left: 6px;
+      }
+      .rate-color {
+        --rate-icon-empty-color: #eee;
+        --rate-icon-full-color: #ffd21e;
+      }
+      .empty-img {
+        width: 180px;
+        height: 180px;
+      }
+    }
   }
 }

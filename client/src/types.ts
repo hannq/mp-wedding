@@ -1,4 +1,4 @@
-import { type UserInfo } from '@tarojs/taro';
+import type { UserInfo, DB } from '@tarojs/taro';
 import type { RoleType } from './constants';
 
 /** 角色码 */
@@ -33,4 +33,23 @@ export interface User extends Pick<UserInfo, 'avatarUrl' | 'nickName' | 'gender'
   role?: Role;
   /** 创建时间 */
   createTime: Date;
+}
+
+export interface Navigation {
+  /** 唯一 id */
+  id: string;
+  /** 是否本地 */
+  isLocal: boolean;
+  /** 目的地名称 */
+  destinationName: string;
+  /** 目的地详细地址 */
+  destinationAddress: string;
+  /** 目的地经经纬度 */
+  destinationLocation: DB.IGeo.JSONPoint;
+  /** 交通方式 */
+  transport: string;
+  /** 推荐等级 */
+  rate: number;
+  /** 描述信息 */
+  desc: string;
 }
