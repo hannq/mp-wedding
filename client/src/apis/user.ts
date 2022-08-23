@@ -30,20 +30,19 @@ export async function save(data: SaveUserParam): Promise<ApiRes<void>> {
 }
 
 /**
- * 根据 openId 获取 用户信息
- * @param openId
+ * 获取当前用户信息
  */
-export async function get(openId: string = ''): Promise<ApiRes<User>> {
+export async function getAuth(): Promise<ApiRes<User>> {
   try {
     const { result } = await cloud.callFunction({
-      name: "getUser",
-      data: { openId }
+      name: 'getUserList',
+      data: { id: '$current' }
     });
     return result as ApiRes<User>;
   } catch (err) {
     return {
       errCode: 1,
-      errMsg: (err instanceof Error ? err.message : err) || '保存用户信息失败！',
+      errMsg: (err instanceof Error ? err.message : err) || '获取用户信息失败！',
       data: null
     }
   }
@@ -55,7 +54,7 @@ export interface GetUserListParam {
   /** 每页长度 */
   pageSize?: number;
   /** 唯一id $current 指当前用户 */
-  id?: string | '$current';
+  id?: '$current' | string;
   /** 角色类型 */
   roleType?: RoleType | '';
   /** 排序方式 */
@@ -77,7 +76,7 @@ interface UserListRes {
  * 获取 用户列表
  * @param data
  */
- export async function getList(data: GetUserListParam): Promise<UserListRes> {
+ export async function getList(data: GetUserListParam = {}): Promise<UserListRes> {
   try {
     const { result } = await cloud.callFunction({
       name: "getUserList",

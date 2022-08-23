@@ -1,4 +1,5 @@
 export default {
-  navigationBarTitleText: '用户列表',
+  navigationBarTitleText: '角色码管理',
   disableScroll: true,
+  enableShareAppMessage: true
 }

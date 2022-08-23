@@ -1,11 +1,12 @@
 import { type FC } from 'react';
 import { View } from '@tarojs/components';
 import { Empty } from '@taroify/core';
-import { useShare } from '@/hooks';
+import { useShare, useAuth } from '@/hooks';
 import './index.less';
 
 export const Index: FC = () => {
   useShare();
+  useAuth();
   return (
     <View className='wrapper'>
       <Empty>

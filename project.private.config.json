@@ -10,7 +10,7 @@
         {
           "name": "请柬",
           "pathName": "package-a/pages/invitation/index",
-          "query": "scene=roleCode%3D3a8cda",
+          "query": "",
           "launchMode": "default",
           "scene": null,
           "partialCompile": {

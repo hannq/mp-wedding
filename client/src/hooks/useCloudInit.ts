@@ -3,20 +3,20 @@ import { useMount } from 'ahooks';
 import { cloud } from '@tarojs/taro';
 import { createControlReversalPromise } from '@/utils';
 
-const initReady = createControlReversalPromise();
+export const initCloudReady = createControlReversalPromise();
 
 /**
  * 初始化云开发
  */
 export function useCloudInit() {
   useMount(() => {
-    if (!initReady.isFullfilled) {
+    if (!initCloudReady.isFullfilled) {
       cloud.init();
-      initReady?.resolve?.();
+      initCloudReady?.resolve?.();
     }
   });
 
-  return useRef(initReady)
+  return useRef(initCloudReady)
 }
 
 export default useCloudInit;

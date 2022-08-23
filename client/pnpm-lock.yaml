@@ -44,6 +44,7 @@ specifiers:
   eslint-plugin-react: ^7.8.2
   eslint-plugin-react-hooks: ^4.2.0
   lodash: 4.17.21
+  mitt: ^3.0.0
   react: ^18.0.0
   react-dom: ^18.0.0
   react-refresh: ^0.11.0
@@ -74,6 +75,7 @@ dependencies:
   classnames: 2.3.1
   dayjs: 1.11.5
   lodash: 4.17.21
+  mitt: 3.0.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
 
@@ -11576,6 +11578,10 @@ packages:
       miniprogram-compiler: 0.2.1
       postcss: 7.0.39
     dev: true
+
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
 
   /mixin-deep/1.3.2:
     resolution: {integrity: sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==}
