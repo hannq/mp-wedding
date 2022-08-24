@@ -8,6 +8,9 @@ const fse = require('fs-extra');
 const filesize = require('filesize');
 const { getSubPackageList } = require('./utils');
 
+const RELEASE_ENV = 'marry-prod-0gyfw3yc84f765a6';
+const DEV_ENV = 'merry-4g3cmdd8cc1a9dba';
+
 ;(async function() {
   const size = filesize.partial({ base: 2, standard: 'jedec' });
   const funcInfos = await getSubPackageList(path.join(__dirname, '../functions'));
@@ -28,13 +31,23 @@ const { getSubPackageList } = require('./utils');
           await fse.remove(path.join(info.dirname, filename))
         })
     );
+
     const result = await ci.cloud.uploadFunction({
       project,
-      env: 'merry-4g3cmdd8cc1a9dba',
+      env: DEV_ENV,
+      name: info.name,
+      path: info.dirname,
+      remoteNpmInstall: true, // 是否云端安装依赖
+    });
+
+    await ci.cloud.uploadFunction({
+      project,
+      env: RELEASE_ENV,
       name: info.name,
       path: info.dirname,
       remoteNpmInstall: true, // 是否云端安装依赖
     })
+
     console.log(
       chalk.cyan(`[${++currentCount}/${totalCount}]`),
       `${chalk.green(`${result.filesCount}`)} files ${chalk.green(size(result.packSize))}`,

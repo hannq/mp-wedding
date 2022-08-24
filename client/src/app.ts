@@ -1,14 +1,9 @@
 import { Component, PropsWithChildren } from 'react'
-import Taro from '@tarojs/taro'
 import './app.less'
 
 class App extends Component<PropsWithChildren> {
 
-  componentDidMount () {
-    if (process.env.TARO_ENV === 'weapp') {
-      Taro.cloud.init()
-    }
-  }
+  componentDidMount () {}
 
   componentDidShow () {}
 
