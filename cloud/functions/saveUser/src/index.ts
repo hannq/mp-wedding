@@ -21,6 +21,7 @@ export async function main(event: Record<string, unknown>) {
       nickName,
       gender,
       roleCode,
+      pushMsgCount
     } = event;
 
     const { OPENID: openId } = cloud.getWXContext();
@@ -29,7 +30,8 @@ export async function main(event: Record<string, unknown>) {
       nickName,
       gender,
       roleCode,
-      openId
+      openId,
+      pushMsgCount
     }
 
     // @ts-ignore

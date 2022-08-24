@@ -26,6 +26,8 @@ export const enum PackageBPage {
   NAVIGATION_FORM = '/package-b/pages/navigation-form/index',
   /** 用户列表 */
   USER_LIST = '/package-b/pages/user-list/index',
+  /** 消息推送 */
+  MSG_PUSH = '/package-b/pages/msg-push/index',
 }
 
 /** Storage 存储数据的 key */

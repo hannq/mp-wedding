@@ -108,5 +108,6 @@
     { "path": "./functions/saveRoleCode" },
     { "path": "./functions/saveNavigation" },
     { "path": "./functions/delNavigation" },
+    { "path": "./functions/pushMsg" },
   ]
 }

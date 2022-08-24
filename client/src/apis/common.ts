@@ -1,5 +1,5 @@
 import { cloud } from '@tarojs/taro';
-import type { Role } from '@/types';
+import type { Role, Message } from '@/types';
 import type { ApiRes } from '../apis/types';
 
 /**
@@ -14,6 +14,30 @@ export async function getRoleList(): Promise<ApiRes<Role[]>> {
       errMsg: '',
       data: data
     } as ApiRes<Role[]>;
+  } catch (err) {
+    return {
+      errCode: 1,
+      errMsg: (err instanceof Error ? err.message : err) || '获取邀请码列表失败！',
+      data: null
+    }
+  }
+}
+
+/**
+ * 推送消息
+ * @param data
+ */
+export async function pushMsg(data: Message): Promise<ApiRes<void>> {
+  try {
+    await cloud.callFunction({
+      name: "pushMsg",
+      data
+    });
+    return {
+      errCode: 0,
+      errMsg: '',
+      data: null
+    } as ApiRes<void>;
   } catch (err) {
     return {
       errCode: 1,

@@ -55,6 +55,7 @@ export default {
         PackageBPage.NAVIGATION_MANAGEMENT,
         PackageBPage.NAVIGATION_FORM,
         PackageBPage.USER_LIST,
+        PackageBPage.MSG_PUSH,
       ].map(page => page.replace(/^\/package-b\//, '')),
     }
   ],

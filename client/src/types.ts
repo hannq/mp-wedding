@@ -33,6 +33,8 @@ export interface User extends Pick<UserInfo, 'avatarUrl' | 'nickName' | 'gender'
   role?: Role;
   /** 创建时间 */
   createTime: Date;
+  /** 消息推送次数 */
+  pushMsgCount: number;
 }
 
 export interface Navigation {
@@ -52,4 +54,16 @@ export interface Navigation {
   rate: number;
   /** 描述信息 */
   desc: string;
+}
+
+/** 消息推送 */
+export interface Message {
+  /** 提示 */
+  tips: string;
+  /** 名称 */
+  name: string;
+  /** 开始时间 */
+  startTime: string;
+  /** 地址 */
+  address: string;
 }

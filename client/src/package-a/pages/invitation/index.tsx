@@ -1,5 +1,5 @@
 import { useMemo, type FC } from 'react';
-import { getUserProfile, showToast, reLaunch, showLoading, hideLoading } from '@tarojs/taro';
+import { getUserProfile, showToast, reLaunch, showLoading, hideLoading, requestSubscribeMessage } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { Button } from "@taroify/core";
 import { user } from "@/apis";
@@ -7,6 +7,9 @@ import { useCloudInit, useShare } from "@/hooks";
 import { Page } from "@/constants";
 import { useHideHomeBtn, useInvitationInfo } from "./hooks";
 import './index.less';
+
+/** 小程序模版ID */
+const TEMPLATE_ID = '40DN4h2ks6v2i4oZb9mp_euR33IO-49xRauKkYBTIWM';
 
 export const Invitation: FC = () => {
   useShare();
@@ -37,18 +40,31 @@ export const Invitation: FC = () => {
       {!loading && (
         isReadOnly
         ?
-        <Button onClick={() => reLaunch({ url: Page.INDEX })}>回到首页</Button>
+        <Button
+          onClick={async () => {
+            const subscribeMessageRes = await requestSubscribeMessage({ tmplIds: [TEMPLATE_ID] });
+            if (subscribeMessageRes[TEMPLATE_ID] === "accept") {
+              showLoading({ title: '加载中 ...', mask: true });
+              await user.save({ pushMsgCount: (auth?.pushMsgCount || 0) + 1 });
+              await hideLoading();
+            }
+            await reLaunch({ url: Page.INDEX })}
+          }
+        >回到首页</Button>
         :
         <Button
           onClick={async () => {
             try {
               const { userInfo } = await getUserProfile({ lang: 'zh_CN', desc: '用于识别来宾身份' });
+              const subscribeMessageRes = await requestSubscribeMessage({ tmplIds: [TEMPLATE_ID] });
+              const pushMsgCount = subscribeMessageRes[TEMPLATE_ID] === "accept" ? (auth?.pushMsgCount || 0) + 1 : (auth?.pushMsgCount || 0)
               showLoading({ title: '加载中 ...', mask: true });
               const { errCode, errMsg } = await user.save({
                 avatarUrl: userInfo.avatarUrl,
                 nickName: userInfo.nickName,
                 gender: userInfo.gender,
-                roleCode: roleCodeInfo?.code
+                roleCode: roleCodeInfo?.code,
+                pushMsgCount
               });
               await hideLoading();
               if (errCode) {

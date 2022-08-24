@@ -40,6 +40,12 @@ export const Index: FC = () => {
         className='link-btn'
         onClick={() => navigateTo({ url: PackageBPage.ROLE_CODE_MANAGEMENT })}
       >角色码管理</Button>
+      <Button
+        block
+        color='primary'
+        className='link-btn'
+        onClick={() => navigateTo({ url: PackageBPage.MSG_PUSH })}
+      >消息推送</Button>
     </View>
   )
 }
