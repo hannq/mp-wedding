@@ -18,10 +18,8 @@ const TEMPLATE_ID = '40DN4h2ks6v2i4oZb9mp_euR33IO-49xRauKkYBTIWM';
  * @returns
  */
 export async function main(event: Record<string, string>, context: any) {
+  const isProd = context?.namespace?.includes('-prod');
   try {
-
-    console.log('context --->', context)
-
     const {
       tips,
       name,
@@ -40,7 +38,7 @@ export async function main(event: Record<string, string>, context: any) {
         lang: 'zh_CN',
         templateId: TEMPLATE_ID,
         // 跳转小程序类型：developer为开发版；trial为体验版；formal为正式版；默认为正式版
-        miniprogramState: 'trial',
+        miniprogramState: isProd ? 'formal' : 'trial',
         data: {
           thing1: {
             value: tips

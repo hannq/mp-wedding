@@ -15,7 +15,8 @@ const $ = db.command.aggregate;
  * @param event
  * @returns
  */
-export async function main(event: Record<'roleType' | 'id', string> & { inUse: false }) {
+export async function main(event: Record<'roleType' | 'id', string> & { inUse: false }, context: any) {
+  const isProd = context?.namespace?.includes('-prod');
   try {
     const { inUse, roleType, id } = event;
 
@@ -70,9 +71,9 @@ export async function main(event: Record<'roleType' | 'id', string> & { inUse: f
         page: 'package-a/pages/invitation/index',
         scene: `roleCode=${code}`,
         // 检查 page 是否存在，为 true 时 page 必须是已经发布的小程序存在的页面（否则报错）；为 false 时允许小程序未发布或者 page 不存在， 但 page 有数量上限（60000个）请勿滥用
-        checkPath: false,
+        checkPath: isProd,
         // 生产环境记得改成 release
-        envVersion: 'trial'
+        envVersion: isProd ? 'release' : 'trial'
       });
 
       const { fileID } = await cloud.uploadFile({
