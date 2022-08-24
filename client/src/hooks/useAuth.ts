@@ -94,7 +94,6 @@ export function useAuth() {
       removeAuthChangeListener(authInfoChangeEventHandle);
     }
   }, []);
-
   return { auth, loading };
 }
 

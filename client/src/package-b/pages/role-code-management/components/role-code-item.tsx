@@ -25,7 +25,7 @@ export const RoleCodeItem: FC<Props> = (props) => {
   const disabled = !(props.role.canInvited ?? true);
   return (
     <View className='role-code-item-wrapper'>
-      <SwipeCell disabled={disabled} className='swipe-cell'>
+      <SwipeCell disabled={false && disabled} className='swipe-cell'>
         <SwipeCell.Actions side='left'>
           <Picker
             className='edit-picker'
@@ -61,7 +61,7 @@ export const RoleCodeItem: FC<Props> = (props) => {
             <Image className='icon' src='https://img01.yzcdn.cn/vant/ipad.jpeg' />
             <View>
               <View>{props?.role?.name}</View>
-              {props.inUse && <View>使用者：{props.user?.nickName}</View>}
+              {props.inUse && !!props.user && <View>使用者：{props.user?.nickName}</View>}
             </View>
           </View>
           <View className='right-content'>
@@ -72,12 +72,12 @@ export const RoleCodeItem: FC<Props> = (props) => {
               icon={<Share />}
               data-code={props.code}
             />
-            {!disabled && <Button
+            <Button
               variant='text'
               color='primary'
               icon={<Qr />}
               onClick={onShowQrCode}
-            />}
+            />
           </View>
         </View>
         <SwipeCell.Actions side='right'>
