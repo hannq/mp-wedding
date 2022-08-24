@@ -37,6 +37,12 @@ export interface User extends Pick<UserInfo, 'avatarUrl' | 'nickName' | 'gender'
   createTime: Date;
   /** 消息推送次数 */
   pushMsgCount: number;
+  /** 是否是联系人 */
+  isContacts: boolean;
+  /** 真实姓名 */
+  realName?: string;
+  /** 电话号码 */
+  phoneNum?: string;
 }
 
 export interface Navigation {

@@ -23,12 +23,13 @@ const sortKeyMap: Record<string, string> = {
 export async function main(event: Record<string, string>) {
   try {
     const _id = event.id === '$current' ? void(0) : event.id;
+    const isContacts = typeof event.isContacts !== 'boolean' ? void(0) : event.isContacts;
     const openId = event.id === '$current' ? cloud.getWXContext().OPENID : void(0);
     const pageSize = +event.pageSize || 10;
     const current = +event.current || 0;
     const limit = pageSize;
     const skip = current * limit;
-    const filter = { openId, _id };
+    const filter = { openId, _id, isContacts };
     Object.keys(filter)
       .forEach(key => {
         // @ts-ignore

@@ -91,6 +91,17 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "联系人",
+          "pathName": "pages/contacts/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null,
+          "partialCompile": {
+            "enabled": true,
+            "pages": []
+          }
         }
       ]
     }

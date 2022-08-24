@@ -1,7 +1,55 @@
 page {
+  height: 100%;
   background-color: #f5f5f5;
 }
 
 .wrapper {
-  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .list-wrapper {
+    flex: 1;
+    min-height: 0;
+    .list-content {
+      overflow: hidden;
+      .empty-img {
+        width: 180px;
+        height: 180px;
+      }
+      .list-item {
+        &.list-item-hover {
+          background-color: #c8c9cc;
+        }
+        margin: 24px 24px 0;
+        background-color: #fff;
+        display: flex;
+        padding: 24px;
+        border-radius: 12px;
+        align-items: center;
+        .right-wrapper {
+          flex: 1;
+          padding-left: 12px;
+          .nick-name {
+            font-size: 24px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            .role-tag {
+              margin-left: 10px;
+            }
+          }
+          .phone-num {
+            font-size: 24px;
+            color: #999;
+          }
+        }
+      }
+    }
+  }
+  .action-btn-wrapper {
+    flex: 0;
+    padding: 24px;
+  }
+
 }

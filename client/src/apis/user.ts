@@ -1,6 +1,6 @@
 import { cloud } from '@tarojs/taro';
 import type { User } from '@/types';
-import type { RoleType, UserListSortType } from '@/constants';
+import { RoleType, UserListSortType } from '@/constants';
 import type { ApiRes } from '../apis/types';
 
 interface SaveUserParam extends Partial<Omit<User, 'role' | 'createTime'>> {
@@ -59,6 +59,8 @@ export interface GetUserListParam {
   roleType?: RoleType | '';
   /** 排序方式 */
   sortType?: UserListSortType;
+  /** 是否联系人 */
+  isContacts?: boolean;
 }
 
 interface UserListRes {
@@ -81,6 +83,30 @@ interface UserListRes {
     const { result } = await cloud.callFunction({
       name: "getUserList",
       data
+    })!;
+    const { errCode, errMsg, data: listRes } = result as ApiRes<UserListRes>;
+    if (errCode || !listRes) throw new Error(errMsg || '获取列表失败！')
+    return listRes!;
+  } catch (err) {
+    throw err instanceof Error ? err : new Error(err || '获取列表失败！');
+  }
+}
+
+
+
+/**
+ * 获取 联系人列表
+ * @param data
+ */
+ export async function getContactsList(): Promise<UserListRes> {
+  try {
+    const { result } = await cloud.callFunction({
+      name: "getUserList",
+      data: {
+        isContacts: true,
+        sortType: UserListSortType.ROLE_TYPE,
+        pageSize: 9999
+      }
     })!;
     const { errCode, errMsg, data: listRes } = result as ApiRes<UserListRes>;
     if (errCode || !listRes) throw new Error(errMsg || '获取列表失败！')

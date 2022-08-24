@@ -3,14 +3,13 @@ import { Page, PackageAPage, PackageBPage } from './constants'
 export default {
   pages: [
     Page.INDEX,
-    "/pages/dev-index/index",
     Page.MAP_NAVIGATION,
     Page.CONTACTS,
     Page.MINE,
   ].map(page => page.replace(/^\//, '')),
   tabBar: {
     color: '#999',
-    selectedColor: '#d4237a',
+    selectedColor: '#f18f45',
     list: [{
       pagePath: Page.INDEX,
       iconPath: './assets/images/home.png',
