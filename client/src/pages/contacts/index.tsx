@@ -52,7 +52,7 @@ export const Invitation: FC = () => {
                 <Avatar src={userInfo.avatarUrl} />
                 <View className='right-wrapper'>
                   <View className='nick-name'>
-                    <Text>{userInfo.nickName}</Text>
+                    <Text>{userInfo.realName}</Text>
                     <Tag
                       className='role-tag'
                       variant={userInfo?.role?.type === RoleType.ADMIN ? 'contained' : 'outlined'}

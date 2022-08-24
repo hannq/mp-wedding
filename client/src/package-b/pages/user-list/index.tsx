@@ -1,7 +1,7 @@
 import { type FC, useState, useMemo, useRef } from 'react';
 import type { FormInstance } from '@taroify/core/form/form.shared';
 import { useDidShow, showLoading, hideLoading, showToast } from '@tarojs/taro';
-import { View, ScrollView, Text, Image } from '@tarojs/components';
+import { View, ScrollView, Text, Image, } from '@tarojs/components';
 import { Empty, Avatar, Tag, Loading, SafeArea, DropdownMenu, Button, Popup, Form, Field, Input } from "@taroify/core";
 import { Phone, PhoneOutlined, PhoneCircleOutlined, FriendsOutlined } from "@taroify/icons";
 import { useRequest } from "ahooks";
@@ -259,6 +259,7 @@ export const UserList: FC = () => {
             <Button shape='round' block color='primary' formType='submit'>
               提交
             </Button>
+            <SafeArea position='bottom' />
           </View>
         </Form>
       </Popup>
