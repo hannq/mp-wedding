@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { useMount } from 'ahooks';
-import { cloud } from '@tarojs/taro';
-import { createControlReversalPromise } from '@/utils';
+import { createControlReversalPromise, cloudInit } from '@/utils';
 
 export const initCloudReady = createControlReversalPromise();
 
@@ -11,7 +10,7 @@ export const initCloudReady = createControlReversalPromise();
 export function useCloudInit() {
   useMount(() => {
     if (!initCloudReady.isFullfilled) {
-      cloud.init();
+      cloudInit();
       initCloudReady?.resolve?.();
     }
   });

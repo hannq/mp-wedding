@@ -1,9 +1,12 @@
 import { Component, PropsWithChildren } from 'react'
+import { cloudInit } from './utils'
 import './app.less'
 
 class App extends Component<PropsWithChildren> {
 
-  componentDidMount () {}
+  componentDidMount () {
+    cloudInit();
+  }
 
   componentDidShow () {}
 

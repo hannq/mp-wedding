@@ -17,14 +17,18 @@ const TEMPLATE_ID = '40DN4h2ks6v2i4oZb9mp_euR33IO-49xRauKkYBTIWM';
  * @param event
  * @returns
  */
-export async function main(event: Record<string, string>) {
+export async function main(event: Record<string, string>, context: any) {
   try {
+
+    console.log('context --->', context)
+
     const {
       tips,
       name,
       startTime,
       address,
     } = event;
+
     const { data } = await db.collection('user')
       .where({ pushMsgCount: _.gt(0) })
       .get() as cloud.DB.IQueryResult;
