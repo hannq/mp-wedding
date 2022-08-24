@@ -55,8 +55,10 @@ export const Invitation: FC = () => {
         <Button
           onClick={async () => {
             try {
-              const { userInfo } = await getUserProfile({ lang: 'zh_CN', desc: '用于识别来宾身份' });
-              const subscribeMessageRes = await requestSubscribeMessage({ tmplIds: [TEMPLATE_ID] });
+              const [{ userInfo }, subscribeMessageRes] = await Promise.all([
+                getUserProfile({ lang: 'zh_CN', desc: '用于识别来宾身份' }),
+                requestSubscribeMessage({ tmplIds: [TEMPLATE_ID] })
+              ])
               const pushMsgCount = subscribeMessageRes[TEMPLATE_ID] === "accept" ? (auth?.pushMsgCount || 0) + 1 : (auth?.pushMsgCount || 0)
               showLoading({ title: '加载中 ...', mask: true });
               const { errCode, errMsg } = await user.save({

@@ -2,8 +2,8 @@ import { Page, PackageAPage, PackageBPage } from './constants'
 
 export default {
   pages: [
-    "/pages/dev-index/index",
     Page.INDEX,
+    "/pages/dev-index/index",
     Page.MAP_NAVIGATION,
     Page.CONTACTS,
     Page.MINE,
