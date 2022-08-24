@@ -8,7 +8,9 @@ import type { ApiRes } from '../apis/types';
 export async function getRoleList(): Promise<ApiRes<Role[]>> {
   try {
     const db = cloud.database();
-    const { data } = await db.collection('role').where({ canInvited: true }).get()
+    const { data } = await db.collection('role')
+      .where({ canInvited: true })
+      .get()
     return {
       errCode: 0,
       errMsg: '',

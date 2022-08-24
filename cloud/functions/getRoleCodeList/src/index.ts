@@ -45,6 +45,10 @@ export async function main(event: Record<string, unknown>) {
         user: $.arrayElemAt(['$ul', 0]),
         id: '$_id'
       })
+      .sort({
+        'role.canInvited': 1,
+        roleType: -1
+      })
       .project({
         rl: 0,
         ul: 0,

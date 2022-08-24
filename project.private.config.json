@@ -77,6 +77,13 @@
             "enabled": true,
             "pages": []
           }
+        },
+        {
+          "name": "开发入口",
+          "pathName": "pages/dev-index/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

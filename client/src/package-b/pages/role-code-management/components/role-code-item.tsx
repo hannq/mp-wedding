@@ -22,10 +22,10 @@ interface Props extends RoleCode {
 
 export const RoleCodeItem: FC<Props> = (props) => {
   const { roleList, inUse, onRefresh, onShowQrCode } = props;
-
+  const disabled = !(props.role.canInvited ?? true);
   return (
     <View className='role-code-item-wrapper'>
-      <SwipeCell className='swipe-cell'>
+      <SwipeCell disabled={disabled} className='swipe-cell'>
         <SwipeCell.Actions side='left'>
           <Picker
             className='edit-picker'
@@ -72,12 +72,12 @@ export const RoleCodeItem: FC<Props> = (props) => {
               icon={<Share />}
               data-code={props.code}
             />
-            <Button
+            {!disabled && <Button
               variant='text'
               color='primary'
               icon={<Qr />}
               onClick={onShowQrCode}
-            />
+            />}
           </View>
         </View>
         <SwipeCell.Actions side='right'>

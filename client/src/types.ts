@@ -23,6 +23,8 @@ export interface Role {
   name: string;
   /** 角色类型 */
   type: RoleType;
+  /** 是否可以被邀请 */
+  canInvited: boolean;
 }
 
 /** 用户信息 */

@@ -4,7 +4,7 @@ import { View, ScrollView, Picker } from '@tarojs/components';
 import { Button, SafeArea, Empty, Popup, Image } from "@taroify/core";
 import { Plus } from "@taroify/icons";
 import { useRequest } from "ahooks";
-import { roleCode, common } from "@/apis";
+import { roleCode, common, } from "@/apis";
 import { useShare } from "@/hooks/useShare";
 import { RoleCodeItem } from "./components/role-code-item";
 import './index.less';
