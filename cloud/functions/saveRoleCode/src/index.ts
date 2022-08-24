@@ -77,7 +77,7 @@ export async function main(event: Record<'roleType' | 'id', string> & { inUse: f
       });
 
       const { fileID } = await cloud.uploadFile({
-        cloudPath: `${roleType}_${_id}.jpg`,
+        cloudPath: `role-code_${_id}.jpg`,
         fileContent: buffer,
       });
 
