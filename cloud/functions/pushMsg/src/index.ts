@@ -18,7 +18,7 @@ const TEMPLATE_ID = '40DN4h2ks6v2i4oZb9mp_euR33IO-49xRauKkYBTIWM';
  * @returns
  */
 export async function main(event: Record<string, string>, context: any) {
-  const isProd = context?.namespace?.includes('-prod');
+  const isProd = !!context?.namespace?.includes('-prod');
   try {
     const {
       tips,
