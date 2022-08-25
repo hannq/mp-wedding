@@ -9,7 +9,7 @@ export async function getRoleList(): Promise<ApiRes<Role[]>> {
   try {
     const db = cloud.database();
     const { data } = await db.collection('role')
-      .where({ canInvited: true })
+      // .where({ canInvited: true })
       .get()
     return {
       errCode: 0,

@@ -66,10 +66,12 @@ export async function main(event: Record<'roleType' | 'id', string> & { inUse: f
             inUse: false,
           }
         }) as cloud.DB.IAddResult;
-      const code = String(_id).slice(-6);
+
+      // 如果是普通宾客，手动置为空，宾客不需要绑定
+      const code = roleType === 'guest' ? '' : String(_id).slice(-6);
       const { buffer } = await cloud.openapi.wxacode.getUnlimited({
         page: 'package-a/pages/invitation/index',
-        scene: `roleCode=${code}`,
+        scene: code && `roleCode=${code}`,
         // 检查 page 是否存在，为 true 时 page 必须是已经发布的小程序存在的页面（否则报错）；为 false 时允许小程序未发布或者 page 不存在， 但 page 有数量上限（60000个）请勿滥用
         checkPath: isProd,
         // 生产环境记得改成 release

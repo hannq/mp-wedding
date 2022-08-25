@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { user, common } from "@/apis";
 import type { GetUserListParam } from "@/apis/user";
 import { RoleType, UserListSortType } from "@/constants";
+import { useAuth } from "@/hooks";
 import type { User } from "@/types";
 import genderUnknownIcon from '@/package-b/assets/images/gender-unknown.png'
 import genderMaleIcon from '@/package-b/assets/images/gender-male.png'
@@ -40,8 +41,9 @@ interface UserInfoEditPopup extends User {
 
 export const UserList: FC = () => {
   const [param, setParam] = useState<GetUserListParam>({ pageSize: 10, current: 0 });
+  const { isAdmin } = useAuth();
   const { data: roleListRes } = useRequest(common.getRoleList);
-  const roleList = useMemo(() => roleListRes?.data || [], [roleListRes]);
+  const roleList = useMemo(() => roleListRes?.data?.filter(role => isAdmin || role.canInvited) || [], [roleListRes]);
   const [userList, setUserList] = useState<User[]>([]);
   const [freshing, setFreshing] = useState(false);
   const [noMoreData, setNoMoreData] = useState(false);

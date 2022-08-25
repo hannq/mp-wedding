@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { reLaunch, cloud, type DB, Current } from '@tarojs/taro';
 import { user } from '@/apis';
 import type { User } from '@/types';
-import { PackageAPage } from '@/constants';
+import { PackageAPage, RoleType } from '@/constants';
 import { eventBus } from '@/utils';
 import useCloudInit, { initCloudReady } from './useCloudInit';
 
@@ -94,7 +94,9 @@ export function useAuth() {
       removeAuthChangeListener(authInfoChangeEventHandle);
     }
   }, []);
-  return { auth, loading };
+
+  const isAdmin = useMemo(() => auth?.role?.type === RoleType.ADMIN, [auth]);
+  return { auth, isAdmin, loading };
 }
 
 export default useAuth;

@@ -6,6 +6,7 @@ import { Plus } from "@taroify/icons";
 import { useRequest } from "ahooks";
 import { roleCode, common, } from "@/apis";
 import { useShare } from "@/hooks/useShare";
+import { useAuth } from "@/hooks/useAuth";
 import { RoleCodeItem } from "./components/role-code-item";
 import './index.less';
 
@@ -19,9 +20,10 @@ interface QRCode {
 export const Invitation: FC = () => {
   const [qrCode, setQRCode] = useState<QRCode | null>(null);
   const [qrCodePopupOpen, setQRCodePopupOpen] = useState(false);
+  const { isAdmin } = useAuth();
   const { data: roleListRes } = useRequest(common.getRoleList);
   const { loading, run, data: roleCodeListRes } = useRequest(roleCode.getList, { manual: true });
-  const roleList = useMemo(() => roleListRes?.data || [], [roleListRes]);
+  const roleList = useMemo(() => roleListRes?.data?.filter(role => isAdmin || role.canInvited) || [], [roleListRes, isAdmin]);
   const roleCodeList = useMemo(() => roleCodeListRes?.data || [], [roleCodeListRes]);
 
   useDidShow(run);

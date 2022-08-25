@@ -1,10 +1,11 @@
-import { type FC } from 'react';
+import { useMemo, type FC } from 'react';
 import { View, Picker } from '@tarojs/components';
 import { showLoading, hideLoading, showToast } from '@tarojs/taro';
 import { SwipeCell, Image, Button } from '@taroify/core';
 import { Share, Qr } from '@taroify/icons';
 import { RoleCode, Role } from '@/types';
 import { roleCode } from '@/apis';
+import { useAuth } from '@/hooks';
 import './index.less';
 
 interface Props extends RoleCode {
@@ -22,10 +23,11 @@ interface Props extends RoleCode {
 
 export const RoleCodeItem: FC<Props> = (props) => {
   const { roleList, inUse, onRefresh, onShowQrCode } = props;
-  const disabled = !(props.role.canInvited ?? true);
+  const { isAdmin } = useAuth();
+  const editable = useMemo(() => isAdmin || (props.role.canInvited ?? true), [props.role.canInvited, isAdmin]) ;
   return (
     <View className='role-code-item-wrapper'>
-      <SwipeCell disabled={false && disabled} className='swipe-cell'>
+      <SwipeCell disabled={!editable} className='swipe-cell'>
         <SwipeCell.Actions side='left'>
           <Picker
             className='edit-picker'
