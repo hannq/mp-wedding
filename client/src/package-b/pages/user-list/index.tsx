@@ -43,7 +43,7 @@ export const UserList: FC = () => {
   const [param, setParam] = useState<GetUserListParam>({ pageSize: 10, current: 0 });
   const { isAdmin } = useAuth();
   const { data: roleListRes } = useRequest(common.getRoleList);
-  const roleList = useMemo(() => roleListRes?.data?.filter(role => isAdmin || role.canInvited) || [], [roleListRes]);
+  const roleList = useMemo(() => roleListRes?.data?.filter(role => isAdmin || role.canInvited) || [], [roleListRes, isAdmin]);
   const [userList, setUserList] = useState<User[]>([]);
   const [freshing, setFreshing] = useState(false);
   const [noMoreData, setNoMoreData] = useState(false);
@@ -248,14 +248,14 @@ export const UserList: FC = () => {
             label={{ align: "left", children: "真实姓名" }}
             rules={[{ required: true, message: "请填写用户真实姓名" }]}
           >
-            <Input placeholder='请填写用户真实姓名' />
+            <Input cursorSpacing={120} placeholder='请填写用户真实姓名' />
           </Field>
           <Field
             name='phoneNum'
             label={{ align: "left", children: "用户电话" }}
             rules={[{ required: true, message: "请填写用户电话号码" }]}
           >
-            <Input placeholder='请填写用户电话号码' />
+            <Input cursorSpacing={120} placeholder='请填写用户电话号码' />
           </Field>
           <View style={{ margin: '16px' }}>
             <Button shape='round' block color='primary' formType='submit'>

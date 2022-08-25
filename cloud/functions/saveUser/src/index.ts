@@ -24,7 +24,8 @@ export async function main(event: Record<string, unknown>) {
       pushMsgCount,
       isContacts,
       realName,
-      phoneNum
+      phoneNum,
+      id,
     } = event;
 
     const { OPENID: openId } = cloud.getWXContext();
@@ -40,12 +41,19 @@ export async function main(event: Record<string, unknown>) {
       phoneNum
     }
 
+    const filter = {
+      _id: id,
+      openId
+    }
+
+    if (id) delete filter.openId;
+
     // @ts-ignore
     const transaction: cloud.DB.Database = await db.startTransaction();
 
     const { data: { 0: user } } = await db
       .collection('user')
-      .where({ openId })
+      .where(filter)
       .get() as any as cloud.DB.IQueryResult;
 
     // 如果用户已有角色，不可覆盖
