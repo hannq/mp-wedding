@@ -1,6 +1,6 @@
 import { type FC, useRef, useMemo } from 'react';
 import type { FormInstance } from '@taroify/core/form/form.shared';
-import { showToast, showLoading, hideLoading, navigateBack, cloud, type DB, } from '@tarojs/taro';
+import { showToast, showLoading, hideLoading, navigateBack } from '@tarojs/taro';
 import { View, Picker, Text } from '@tarojs/components';
 import { Form, Cell, Field, Button, Input, Textarea, } from '@taroify/core';
 import { ArrowRight, } from '@taroify/icons';
@@ -37,18 +37,19 @@ export const Index: FC = () => {
             date
           } = event.detail.value as FormData;
           await showLoading({ title: '提交中 ...', mask: true })
-          await common.pushMsg({
+          const { errCode, errMsg } = await common.pushMsg({
             tips,
             name,
             startTime: `${date} ${time}`,
             address: addressList[addressIdx].destinationName || ''
           });
-          await showToast({ title: '保存成功!', icon: 'none' });
+          if (errCode) throw new Error(errMsg);
+          await showToast({ title: '推送成功!', icon: 'none' });
           navigateBack();
         } catch (err) {
           console.error(err);
           await hideLoading();
-          await showToast({ title: '保存失败!', icon: 'none' });
+          await showToast({ title: '推送失败!', icon: 'none' });
         }
       }}
     >
@@ -58,13 +59,17 @@ export const Index: FC = () => {
           label={{ align: "left", children: "活动名称" }}
           rules={[{ required: true, message: "请填写活动名称" }]}
         >
-          <Input placeholder='请填写活动名称' />
+          <Input placeholder='请填写活动名称' maxlength={20} />
         </Field>
         <Field
           name='tips'
           label={{ align: "left", children: "活动提示" }}
         >
-          <Textarea autoHeight placeholder='请填写活动提示' />
+          <Textarea
+            autoHeight
+            placeholder='请填写活动提示'
+            limit={20}
+          />
         </Field>
         <Form.Item clickable rightIcon={<ArrowRight />} name='time' rules={[{ required: true, message: "请选择活动时间" }]}>
           <Form.Label>活动时间</Form.Label>
