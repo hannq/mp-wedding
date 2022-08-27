@@ -41,6 +41,8 @@ const DEV_ENV = 'merry-4g3cmdd8cc1a9dba';
       remoteNpmInstall: true, // 是否云端安装依赖
     });
 
+    await new Promise(r => setTimeout(r, 1000));
+
     await ci.cloud.uploadFunction({
       project,
       env: RELEASE_ENV,
@@ -49,11 +51,14 @@ const DEV_ENV = 'merry-4g3cmdd8cc1a9dba';
       remoteNpmInstall: true, // 是否云端安装依赖
     })
 
+    await new Promise(r => setTimeout(r, 1000));
+
     console.log(
       chalk.cyan(`[${++currentCount}/${totalCount}]`),
       `${chalk.green(`${result.filesCount}`)} files ${chalk.green(size(result.packSize))}`,
       `Cloud Functions [${chalk.cyan(info.name)}] Upload Successfully !`
     )
+
   }).reduce((chain, task) => chain.then(task), Promise.resolve())
 
   await execa(`git reset --hard`, { shell: true })
