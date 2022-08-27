@@ -43,7 +43,10 @@ export const ScheduleItem: FC<Props> = (props) => {
                   size='small'
                   variant='text'
                   icon={<GuideOutlined />}
-                  onClick={() => onNavigate?.(props)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onNavigate?.(props);
+                  }}
                 >导航</Button>
               </View>
             )}

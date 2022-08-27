@@ -23,7 +23,8 @@ const DEV_ENV = 'merry-4g3cmdd8cc1a9dba';
     privateKeyPath: path.join(__dirname, '../../private.key'),
     ignores: ['node_modules/**/*'],
   });
-  await Promise.all(funcInfos.map(async info => {
+
+  await funcInfos.map(info => async () => {
     // ignores 并不生效，手动临时删除
     await Promise.all(
       ['src', 'tsconfig.json', 'tsconfig.tsbuildinfo', 'pnpm-lock.yaml']
@@ -53,7 +54,7 @@ const DEV_ENV = 'merry-4g3cmdd8cc1a9dba';
       `${chalk.green(`${result.filesCount}`)} files ${chalk.green(size(result.packSize))}`,
       `Cloud Functions [${chalk.cyan(info.name)}] Upload Successfully !`
     )
-  }));
+  }).reduce((chain, task) => chain.then(task), Promise.resolve())
 
   await execa(`git reset --hard`, { shell: true })
   console.log(chalk.green('🎉 Cloud Functions Upload Successfully !'));
