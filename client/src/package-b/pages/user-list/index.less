@@ -33,36 +33,46 @@ page {
         margin: 24px 24px 0;
         background-color: #fff;
         display: flex;
-        padding: 24px;
         border-radius: 12px;
         align-items: center;
-        .right-wrapper {
-          flex: 1;
-          padding-left: 12px;
-          .nick-name {
-            font-size: 24px;
-            color: #333;
+        overflow: hidden;
+        padding-right: 24px;
+        .left-wrapper {
+          display: flex;
+          align-self: stretch;
+          .role-tag {
+            border-radius: 0;
+            width: 40px;
+            text-align: center;
             display: flex;
-            align-items: center;
-            font-weight: bold;
-            .gender-icon {
-              width: 24px;
-              height: 24px;
-              margin-right: 8px;
-            }
-            .create-time {
-              font-size: 22px;
-              color: #999;
-              padding-left: 12px;
-            }
+            justify-content: center;
+            writing-mode: vertical-lr;
+            letter-spacing: 6px;
           }
-          .real-name, .phone-num {
+        }
+        .right-wrapper {
+          padding: 24px 24px 24px 10px;
+          display: flex;
+          flex: 1;
+        }
+        .info-wrapper {
+          flex: 1;
+          padding-left: 10px;
+          .nick-name, .real-name, .phone-num, .create-time {
             display: flex;
+            margin-right: 8px;
+            margin-top: 6px;
             .text {
               line-height: 22px;
               font-size: 22px;
               color: #999;
               margin-left: 8px;
+            }
+          }
+          .nick-name {
+            .text {
+              color: #333;
+              font-weight: bold;
             }
           }
         }

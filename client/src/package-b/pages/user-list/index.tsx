@@ -1,9 +1,9 @@
 import { type FC, useState, useMemo, useRef } from 'react';
 import type { FormInstance } from '@taroify/core/form/form.shared';
 import { useDidShow, showLoading, hideLoading, showToast } from '@tarojs/taro';
-import { View, ScrollView, Text, Image, } from '@tarojs/components';
-import { Empty, Avatar, Tag, Loading, SafeArea, DropdownMenu, Button, Popup, Form, Field, Input } from "@taroify/core";
-import { Phone, PhoneOutlined, PhoneCircleOutlined, FriendsOutlined } from "@taroify/icons";
+import { View, ScrollView, Text, } from '@tarojs/components';
+import { Empty, Avatar, Tag, Loading, SafeArea, DropdownMenu, Button, Popup, Form, Field, Input, Badge } from "@taroify/core";
+import { Phone, PhoneOutlined, PhoneCircleOutlined, FriendsOutlined, UserCircleOutlined, CalendarOutlined } from "@taroify/icons";
 import { useRequest } from "ahooks";
 import dayjs from "dayjs";
 import { user, common } from "@/apis";
@@ -11,18 +11,9 @@ import type { GetUserListParam } from "@/apis/user";
 import { RoleType, UserListSortType } from "@/constants";
 import { useAuth } from "@/hooks";
 import type { User } from "@/types";
-import genderUnknownIcon from '@/package-b/assets/images/gender-unknown.png'
-import genderMaleIcon from '@/package-b/assets/images/gender-male.png'
-import genderFemaleIcon from '@/package-b/assets/images/gender-female.png'
 import './index.less';
 
 type TagColor = "default" | "primary" | "info" | "success" | "warning" | "danger";
-
-const genderIcon = {
-  0: genderUnknownIcon,
-  1: genderMaleIcon,
-  2: genderFemaleIcon,
-}
 
 const roleTagColor: Record<RoleType, TagColor> = {
   [RoleType.ADMIN]: 'primary',
@@ -41,9 +32,8 @@ interface UserInfoEditPopup extends User {
 
 export const UserList: FC = () => {
   const [param, setParam] = useState<GetUserListParam>({ pageSize: 10, current: 0 });
-  const { isAdmin } = useAuth();
   const { data: roleListRes } = useRequest(common.getRoleList);
-  const roleList = useMemo(() => roleListRes?.data?.filter(role => isAdmin || role.canInvited) || [], [roleListRes, isAdmin]);
+  const roleList = useMemo(() => roleListRes?.data || [], [roleListRes]);
   const [userList, setUserList] = useState<User[]>([]);
   const [freshing, setFreshing] = useState(false);
   const [noMoreData, setNoMoreData] = useState(false);
@@ -82,7 +72,7 @@ export const UserList: FC = () => {
           value={param.roleType || 'all'}
           onChange={(value: RoleType | 'all') => {
             setNoMoreData(false);
-            run({ ...param, current: 0, roleType: !value || value === 'all' ? void(0) : value })
+            run({ ...param, current: 0, roleType: !value || value === 'all' ? void (0) : value })
           }}
         >
           <DropdownMenu.Option value='all'>全部角色</DropdownMenu.Option>
@@ -97,7 +87,7 @@ export const UserList: FC = () => {
           value={param.sortType || 'default'}
           onChange={(value: UserListSortType | 'default') => {
             setNoMoreData(false);
-            run({ ...param, current: 0, sortType: !value || value === 'default' ? void(0) : value })
+            run({ ...param, current: 0, sortType: !value || value === 'default' ? void (0) : value })
           }}
         >
           <DropdownMenu.Option value='default'>默认排序</DropdownMenu.Option>
@@ -128,82 +118,95 @@ export const UserList: FC = () => {
         <View className='list-content'>
           {
             !!userList.length
-            ?
-            userList.map(userInfo => (
-              <View className='list-item' key={userInfo.id}>
-                <Avatar src={userInfo.avatarUrl} />
-                <View className='right-wrapper'>
-                  <View className='nick-name'>
-                    <Image className='gender-icon' mode='aspectFit' src={genderIcon[userInfo.gender as any] || genderIcon[0]} />
-                    <Text>{userInfo.nickName}</Text>
-                    <Text className='create-time'>{dayjs(userInfo.createTime).format(`YYYY-MM-DD HH:mm:ss`)}</Text>
-                  </View>
-                  {userInfo.realName && <View className='real-name'>
-                    <FriendsOutlined color='#999' size={12} />
-                    <Text className='text'>{userInfo.realName}</Text>
-                  </View>}
-                  {userInfo.phoneNum && <View className='phone-num'>
-                    <PhoneCircleOutlined color='#999' size={12} />
-                    <Text className='text'>{userInfo.phoneNum}</Text>
-                  </View>}
-                  <Tag
-                    variant={userInfo?.role?.type === RoleType.ADMIN ? 'contained' : 'outlined'}
-                    color={roleTagColor[userInfo?.role?.type || RoleType.GUEST]}
-                  >{userInfo?.role?.name || '宾客'}</Tag>
-                </View>
-                <Button
-                  variant='text'
-                  icon={userInfo?.isContacts ? <Phone size={24} color='primary' /> : <PhoneOutlined size={24} />}
-                  onClick={async () => {
-                    await showLoading({ title: '提交中 ...', mask: true });
-                    if (!userInfo?.isContacts) {
-                      if (!userInfo?.realName || !userInfo.phoneNum) {
-                        setUserInfoEditPopup({
-                          ...userInfo,
-                          show: true
-                        })
-                      } else {
-                        await user.save({
-                          id: userInfo.id,
-                          isContacts: true
-                        })
-                        setNoMoreData(false);
-                        run({ ...param, current: 0, });
-                      }
-                    } else {
-                      await user.save({
-                        id: userInfo.id,
-                        isContacts: false
-                      })
-                      setNoMoreData(false);
-                      run({ ...param, current: 0, });
-                    }
-                    await hideLoading();
-                  }}
-                />
-              </View>
-            ))
-            :
-            (
-              !loading ? <Empty>
-                <Empty.Image
-                  className='empty-img'
-                  src='https://img.yzcdn.cn/vant/custom-empty-image.png'
-                />
-                <Empty.Description>暂无数据</Empty.Description>
-              </Empty> : null
-            )
-          }
-          {
-          !noMoreData ?
-            loadingMore &&
-            (
-              <View className='loading-wrapper'>
-                <Loading>加载中 ...</Loading>
-              </View>
-            )
-            :
-            <View className='no-more-data-tips'>没有更多数据了～</View>
+              ?
+              <>
+                {
+                  userList.map(userInfo => (
+                    <View className='list-item' key={userInfo.id}>
+                      <View className='left-wrapper'>
+                        <Tag
+                          className='role-tag'
+                          size='small'
+                          variant={true || userInfo?.role?.type === RoleType.ADMIN ? 'contained' : 'outlined'}
+                          color={roleTagColor[userInfo?.role?.type || RoleType.GUEST]}
+                        >{userInfo?.role?.name || '宾客'}</Tag>
+                      </View>
+                      <View className='right-wrapper'>
+                        <Avatar size='large' src={userInfo.avatarUrl} />
+                        <View className='info-wrapper'>
+                          <View className='nick-name'>
+                            <UserCircleOutlined color='#333' size={12} />
+                            <Text className='text'>{userInfo.nickName}</Text>
+                          </View>
+                          {userInfo.realName && <View className='real-name'>
+                            <FriendsOutlined color='#999' size={12} />
+                            <Text className='text'>{userInfo.realName}</Text>
+                          </View>}
+                          {userInfo.phoneNum && <View className='phone-num'>
+                            <PhoneCircleOutlined color='#999' size={12} />
+                            <Text className='text'>{userInfo.phoneNum}</Text>
+                          </View>}
+                          <View className='create-time'>
+                            <CalendarOutlined color='#999' size={12} />
+                            <Text className='text'>{dayjs(userInfo.createTime).format(`YYYY-MM-DD HH:mm:ss`)}</Text>
+                          </View>
+                        </View>
+                      </View>
+                      <Button
+                        variant='text'
+                        icon={userInfo?.isContacts ? <Phone size={24} color='primary' /> : <PhoneOutlined size={24} />}
+                        onClick={async () => {
+                          await showLoading({ title: '提交中 ...', mask: true });
+                          if (!userInfo?.isContacts) {
+                            if (!userInfo?.realName || !userInfo.phoneNum) {
+                              setUserInfoEditPopup({
+                                ...userInfo,
+                                show: true
+                              })
+                            } else {
+                              await user.save({
+                                id: userInfo.id,
+                                isContacts: true
+                              })
+                              setNoMoreData(false);
+                              run({ ...param, current: 0, });
+                            }
+                          } else {
+                            await user.save({
+                              id: userInfo.id,
+                              isContacts: false
+                            })
+                            setNoMoreData(false);
+                            run({ ...param, current: 0, });
+                          }
+                          await hideLoading();
+                        }}
+                      />
+                    </View>
+                  ))
+                }
+                {
+                  !noMoreData ?
+                    loadingMore &&
+                    (
+                      <View className='loading-wrapper'>
+                        <Loading>加载中 ...</Loading>
+                      </View>
+                    )
+                    :
+                    <View className='no-more-data-tips'>没有更多数据了～</View>
+                }
+              </>
+              :
+              (
+                !loading ? <Empty>
+                  <Empty.Image
+                    className='empty-img'
+                    src='https://img.yzcdn.cn/vant/custom-empty-image.png'
+                  />
+                  <Empty.Description>暂无数据</Empty.Description>
+                </Empty> : null
+              )
           }
           <SafeArea position='bottom' />
         </View>

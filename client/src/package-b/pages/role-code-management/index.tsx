@@ -22,8 +22,8 @@ export const Invitation: FC = () => {
   const [qrCodePopupOpen, setQRCodePopupOpen] = useState(false);
   const { isAdmin } = useAuth();
   const { data: roleListRes } = useRequest(common.getRoleList);
-  const { loading, run, data: roleCodeListRes } = useRequest(roleCode.getList, { manual: true });
   const roleList = useMemo(() => roleListRes?.data?.filter(role => isAdmin || role.canInvited) || [], [roleListRes, isAdmin]);
+  const { loading, run, data: roleCodeListRes } = useRequest(roleCode.getList, { manual: true });
   const roleCodeList = useMemo(() => roleCodeListRes?.data || [], [roleCodeListRes]);
 
   useDidShow(run);

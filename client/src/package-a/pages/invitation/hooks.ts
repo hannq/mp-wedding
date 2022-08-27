@@ -15,7 +15,7 @@ export function useHideHomeBtn() {
  * 获取请柬信息
  */
 export function useInvitationInfo() {
-  const { loading: authLoading, auth } = useAuth();
+  const { loading: authLoading, auth, refresh } = useAuth();
   const { params: { roleCode: roleCodeFromParams = '' } } = useRouter();
   const { roleCode: roleCodeFromScene } = useScene();
   const code = useMemo(() => roleCodeFromParams || roleCodeFromScene, [roleCodeFromParams, roleCodeFromScene]);
@@ -29,5 +29,12 @@ export function useInvitationInfo() {
     // eslint-disable-next-line
   }, [code]);
 
-  return useMemo(() => ({ loading: [loading, authLoading].includes(true), roleCodeInfo: data?.data?.[0] || null, auth }), [loading, authLoading, data, auth])
+  return useMemo(
+    () => ({
+      loading: [loading, authLoading].includes(true),
+      roleCodeInfo: data?.data?.[0] || null, auth,
+      refresh
+    }),
+    [loading, authLoading, data, auth, refresh]
+  )
 }

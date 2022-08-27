@@ -47,7 +47,7 @@ export const Invitation: FC = () => {
                 hoverClass='list-item-hover'
                 className='list-item'
                 key={userInfo.id}
-                onClick={() => makePhoneCall({ phoneNumber: userInfo.phoneNum! })}
+                onClick={() => makePhoneCall({ phoneNumber: userInfo.phoneNum! }).catch(() => {})}
               >
                 <Avatar src={userInfo.avatarUrl} />
                 <View className='right-wrapper'>

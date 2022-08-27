@@ -59,7 +59,7 @@ export const Index: FC = () => {
           label={{ align: "left", children: "活动名称" }}
           rules={[{ required: true, message: "请填写活动名称" }]}
         >
-          <Input cursorSpacing={100} placeholder='请填写活动名称' maxlength={20} />
+          <Input cursorSpacing={120} placeholder='请填写活动名称' maxlength={20} />
         </Field>
         <Field
           name='tips'
@@ -69,7 +69,7 @@ export const Index: FC = () => {
             autoHeight
             placeholder='请填写活动提示'
             limit={20}
-            cursorSpacing={100}
+            cursorSpacing={120}
           />
         </Field>
         <Form.Item clickable rightIcon={<ArrowRight />} name='time' rules={[{ required: true, message: "请选择活动时间" }]}>

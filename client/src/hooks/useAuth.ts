@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import { reLaunch, cloud, type DB, Current } from '@tarojs/taro';
-import { user } from '@/apis';
 import type { User } from '@/types';
-import { PackageAPage, RoleType } from '@/constants';
+import { user } from '@/apis';
 import { eventBus } from '@/utils';
+import { PackageAPage, RoleType } from '@/constants';
 import useCloudInit, { initCloudReady } from './useCloudInit';
 
 const AUTH_CHANGE_EVENT = 'AUTH_CHANGE_EVENT';
@@ -55,6 +55,8 @@ async function getAuthInfo() {
   return currentUser;
 }
 
+const refresh = () => eventBus.emit(AUTH_CHANGE_EVENT);
+
 /**
  * 获取当前用户信息
  */
@@ -62,7 +64,6 @@ export function useAuth() {
   useCloudInit();
   const [loading, setLoading] = useState(() => !getSavedAuthInfo());
   const [auth, setAuth] = useState<User | null>(authInfo);
-
   useEffect(() => {
     async function authInfoChangeEventHandle() {
       const newAuthInfo = await getAuthInfo();
@@ -96,7 +97,7 @@ export function useAuth() {
   }, []);
 
   const isAdmin = useMemo(() => auth?.role?.type === RoleType.ADMIN, [auth]);
-  return { auth, isAdmin, loading };
+  return { auth, isAdmin, loading, refresh };
 }
 
 export default useAuth;

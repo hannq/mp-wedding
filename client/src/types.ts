@@ -75,3 +75,23 @@ export interface Message {
   /** 地址 */
   address: string;
 }
+
+/** 日程 */
+export interface Schedule {
+  /** 唯一 id */
+  id: string;
+  /** 日程名称 */
+  name: string;
+  /** 绑定角色列表 */
+  roles: Role[];
+  /** 开始时间 */
+  startTime: Date;
+  /** 日程地点 */
+  addressLocation?: DB.IGeo.JSONPoint;
+  /** 地点名称 */
+  addressName?: string;
+  /** 详细地址 */
+  addressDetail?: string;
+  /** 详细描述 */
+  desc?: string;
+}

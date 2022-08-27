@@ -26,6 +26,10 @@ export const enum PackageBPage {
   NAVIGATION_FORM = '/package-b/pages/navigation-form/index',
   /** 用户列表 */
   USER_LIST = '/package-b/pages/user-list/index',
+  /** 日程管理 */
+  SCHEDULE_MANAGEMENT = '/package-b/pages/schedule-management/index',
+  /** 日程表单 */
+  SCHEDULE_FORM = '/package-b/pages/schedule-form/index',
   /** 消息推送 */
   MSG_PUSH = '/package-b/pages/msg-push/index',
 }

@@ -110,21 +110,21 @@ export const Index: FC = () => {
           label={{ align: "left", children: "地点名" }}
           rules={[{ required: true, message: "请填写目的地地点名" }]}
         >
-          <Input cursorSpacing={100} placeholder='请填写目的地地点名' />
+          <Input cursorSpacing={120} placeholder='请填写目的地地点名' />
         </Field>
         <Field
           name='destinationAddress'
           label={{ align: "left", children: "详细地址" }}
           rules={[{ required: true, message: "请输入目的地详细地址" }]}
         >
-          <Textarea autoHeight cursorSpacing={100} placeholder='请输入目的地详细地址' />
+          <Textarea autoHeight cursorSpacing={120} placeholder='请输入目的地详细地址' />
         </Field>
         <Field
           name='transport'
           label={{ align: "left", children: "交通方式" }}
           rules={[{ required: true, message: "请填写交通方式" }]}
         >
-          <Input cursorSpacing={100} placeholder='请填写交通方式，如：火车、自驾' />
+          <Input cursorSpacing={120} placeholder='请填写交通方式，如：火车、自驾' />
         </Field>
         <Form.Item name='isLocal'>
           <Form.Label>本地</Form.Label>
@@ -142,7 +142,7 @@ export const Index: FC = () => {
           name='desc'
           label={{ align: "left", children: "描述" }}
         >
-          <Textarea autoHeight cursorSpacing={100} placeholder='请输入描述' />
+          <Textarea autoHeight cursorSpacing={120} placeholder='请输入描述' />
         </Field>
       </Cell.Group>
       <View style={{ margin: '16px' }}>

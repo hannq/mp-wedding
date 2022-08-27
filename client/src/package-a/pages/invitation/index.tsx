@@ -15,7 +15,7 @@ export const Invitation: FC = () => {
   useShare();
   useCloudInit();
   useHideHomeBtn();
-  const { loading, roleCodeInfo, auth } = useInvitationInfo();
+  const { loading, roleCodeInfo, auth, refresh } = useInvitationInfo();
   const isReadOnly = useMemo(() => auth && (auth.role || !roleCodeInfo), [auth, roleCodeInfo])
   return (
     <View className='index'>
@@ -68,6 +68,7 @@ export const Invitation: FC = () => {
                 roleCode: roleCodeInfo?.code,
                 pushMsgCount
               });
+              await refresh();
               await hideLoading();
               if (errCode) {
                 console.error(errMsg)

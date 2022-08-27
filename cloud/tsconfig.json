@@ -108,6 +108,9 @@
     { "path": "./functions/saveRoleCode" },
     { "path": "./functions/saveNavigation" },
     { "path": "./functions/delNavigation" },
+    { "path": "./functions/saveSchedule" },
+    { "path": "./functions/delSchedule" },
+    { "path": "./functions/getScheduleList" },
     { "path": "./functions/pushMsg" },
   ]
 }

@@ -102,6 +102,19 @@
             "enabled": true,
             "pages": []
           }
+        },
+        {
+          "name": "日程管理",
+          "pathName": "package-b/pages/schedule-management/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null,
+          "partialCompile": {
+            "enabled": true,
+            "pages": [
+              "package-b/pages/schedule-form/index"
+            ]
+          }
         }
       ]
     }
