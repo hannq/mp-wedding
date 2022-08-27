@@ -46,6 +46,7 @@ export const Index: FC = () => {
         className='list-wrapper'
         scrollY
         refresherEnabled
+        scrollWithAnimation
         refresherBackground='#f5f5f5'
         refresherTriggered={loading}
         onRefresherRefresh={() => !loading && run()}
