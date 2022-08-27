@@ -39,6 +39,12 @@ export const Index: FC = () => {
         />
         <Cell
           clickable
+          title='日程管理'
+          rightIcon={<Arrow />}
+          onClick={() => navigateTo({ url: PackageBPage.SCHEDULE_MANAGEMENT })}
+        />
+        <Cell
+          clickable
           title='导航管理'
           rightIcon={<Arrow />}
           onClick={() => navigateTo({ url: PackageBPage.NAVIGATION_MANAGEMENT })}

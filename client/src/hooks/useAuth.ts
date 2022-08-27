@@ -22,9 +22,10 @@ async function saveAuthInfo(newAuthInfo: User | null) {
       .collection('user')
       .where({ _id: authInfo.id })
       .watch({
-        onChange(snapshot: any) {
+        async onChange(snapshot: any) {
           if (snapshot.type !== 'init') {
-            eventBus.emit(AUTH_CHANGE_EVENT);
+            await saveAuthInfo(await getAuthInfo());
+            eventBus.emit(AUTH_CHANGE_EVENT, authInfo);
           }
         },
         onError(err) {
@@ -34,11 +35,11 @@ async function saveAuthInfo(newAuthInfo: User | null) {
   }
 }
 
-function addAuthChangeListener(handle: () => void) {
+function addAuthChangeListener(handle: (newAuthInfo: User | null) => void) {
   eventBus.on(AUTH_CHANGE_EVENT, handle);
 }
 
-async function removeAuthChangeListener(handle: () => void) {
+async function removeAuthChangeListener(handle: (newAuthInfo: User | null) => void) {
   eventBus.off(AUTH_CHANGE_EVENT, handle);
   if (!eventBus.all.get(AUTH_CHANGE_EVENT)?.length) {
     await watcher?.close();
@@ -55,7 +56,10 @@ async function getAuthInfo() {
   return currentUser;
 }
 
-const refresh = () => eventBus.emit(AUTH_CHANGE_EVENT);
+const refresh = async () => {
+  await saveAuthInfo(await getAuthInfo());
+  eventBus.emit(AUTH_CHANGE_EVENT, authInfo);
+};
 
 /**
  * 获取当前用户信息
@@ -65,11 +69,6 @@ export function useAuth() {
   const [loading, setLoading] = useState(() => !getSavedAuthInfo());
   const [auth, setAuth] = useState<User | null>(authInfo);
   useEffect(() => {
-    async function authInfoChangeEventHandle() {
-      const newAuthInfo = await getAuthInfo();
-      await saveAuthInfo(newAuthInfo);
-      setAuth(newAuthInfo);
-    };
 
     ;(async function () {
       const savedAuthInfo = getSavedAuthInfo();
@@ -88,11 +87,11 @@ export function useAuth() {
         }
       }
       setLoading(false);
-      addAuthChangeListener(authInfoChangeEventHandle);
+      addAuthChangeListener(setAuth);
     })();
 
     return () => {
-      removeAuthChangeListener(authInfoChangeEventHandle);
+      removeAuthChangeListener(setAuth);
     }
   }, []);
 

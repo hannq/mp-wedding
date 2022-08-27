@@ -17,8 +17,6 @@ export const Invitation: FC = () => {
   useDidShow(run);
   useShare();
 
-  console.log(navigationList);
-
   return (
     <View className='wrapper'>
       <ScrollView
