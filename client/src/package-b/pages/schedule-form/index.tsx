@@ -12,10 +12,14 @@ import { MultiRolePicker } from './components/multi-role-picker';
 import './index.less';
 
 interface FormData extends Omit<Schedule, 'startTime' | 'id' | 'role'> {
-  /** 时间 */
-  time: string;
-  /** 日期 */
-  date: string;
+  /** 开始时间 */
+  beginTime: string;
+  /** 开始日期 */
+  beginDate: string;
+  /** 结束时间 */
+  endTime: string;
+  /** 结束日期 */
+  endDate: string;
   /** 绑定角色 */
   role: string[];
 }
@@ -26,7 +30,7 @@ export const Index: FC = () => {
   const { data: roleListRes } = useRequest(common.getRoleList);
   const roleList = useMemo(() => roleListRes?.data || [], [roleListRes]);
   useEffect(() => {
-    ;(async function () {
+    ; (async function () {
       if (id) {
         await showLoading({ title: '加载中 ...', mask: true })
         const { errCode, errMsg, data } = await schedule.get(id);
@@ -37,17 +41,21 @@ export const Index: FC = () => {
             name,
             roles,
             startTime,
+            finishTime,
             addressLocation,
             addressName,
             addressDetail,
             desc
           } = data!;
-          const [date, time] = dayjs(startTime).format(`YYYY-MM-DD HH:mm`).split(' ')
+          const [beginDate, beginTime] = startTime ? dayjs(startTime).format(`YYYY-MM-DD HH:mm`).split(' ') : ['', ''];
+          const [endDate, endTime] = finishTime ? dayjs(finishTime).format(`YYYY-MM-DD HH:mm`).split(' ') : ['', ''];
           formRef.current?.setValues({
             name,
             roles: roles.map(role => role.type),
-            time,
-            date,
+            beginDate,
+            beginTime,
+            endDate,
+            endTime,
             addressLocation,
             addressName,
             addressDetail,
@@ -67,8 +75,10 @@ export const Index: FC = () => {
           const {
             name,
             roles,
-            time,
-            date,
+            beginTime,
+            beginDate,
+            endTime,
+            endDate,
             addressLocation,
             addressName,
             addressDetail,
@@ -79,7 +89,8 @@ export const Index: FC = () => {
             id,
             name,
             roles,
-            startTime: `${date} ${time}`,
+            startTime: `${beginDate} ${beginTime}`,
+            finishTime: `${endDate} ${endTime}`,
             addressLocation,
             addressName,
             addressDetail,
@@ -110,16 +121,16 @@ export const Index: FC = () => {
         >
           <Form.Label>绑定角色</Form.Label>
           <Form.Control>
-          {controller => (
-            <MultiRolePicker
-              list={roleList}
-              value={controller.value || []}
-              onChange={val => controller.onChange?.(val)}
-            />
-          )}
+            {controller => (
+              <MultiRolePicker
+                list={roleList}
+                value={controller.value || []}
+                onChange={val => controller.onChange?.(val)}
+              />
+            )}
           </Form.Control>
         </Form.Item>
-        <Form.Item clickable rightIcon={<ArrowRight />} name='time' rules={[{ required: true, message: "请选择活动时间" }]}>
+        <Form.Item clickable rightIcon={<ArrowRight />} name='beginTime' rules={[{ required: true, message: "请选择开始时间" }]}>
           <Form.Label>开始时间</Form.Label>
           <Form.Control>
             {controller => (
@@ -130,11 +141,11 @@ export const Index: FC = () => {
                 onChange={e => {
                   controller.onChange?.(e.detail.value || '')
                 }}
-              >{controller.value || <Text className='placeholder'>请选择活动时间</Text>}</Picker>
+              >{controller.value || <Text className='placeholder'>请选择开始时间</Text>}</Picker>
             )}
           </Form.Control>
         </Form.Item>
-        <Form.Item clickable rightIcon={<ArrowRight />} name='date' rules={[{ required: true, message: "请选择活动日期" }]}>
+        <Form.Item clickable rightIcon={<ArrowRight />} name='beginDate' rules={[{ required: true, message: "请选择开始日期" }]}>
           <Form.Label>开始日期</Form.Label>
           <Form.Control>
             {controller => (
@@ -145,7 +156,37 @@ export const Index: FC = () => {
                 onChange={e => {
                   controller.onChange?.(e.detail.value || '')
                 }}
-              >{controller.value || <Text className='placeholder'>请选择活动日期</Text>}</Picker>
+              >{controller.value || <Text className='placeholder'>请选择开始日期</Text>}</Picker>
+            )}
+          </Form.Control>
+        </Form.Item>
+        <Form.Item clickable rightIcon={<ArrowRight />} name='endTime' rules={[{ required: true, message: "请选择结束时间" }]}>
+          <Form.Label>结束时间</Form.Label>
+          <Form.Control>
+            {controller => (
+              <Picker
+                className='picker'
+                mode='time'
+                value={controller.value}
+                onChange={e => {
+                  controller.onChange?.(e.detail.value || '')
+                }}
+              >{controller.value || <Text className='placeholder'>请选择结束时间</Text>}</Picker>
+            )}
+          </Form.Control>
+        </Form.Item>
+        <Form.Item clickable rightIcon={<ArrowRight />} name='endDate' rules={[{ required: true, message: "请选择结束日期" }]}>
+          <Form.Label>结束日期</Form.Label>
+          <Form.Control>
+            {controller => (
+              <Picker
+                className='picker'
+                mode='date'
+                value={controller.value}
+                onChange={e => {
+                  controller.onChange?.(e.detail.value || '')
+                }}
+              >{controller.value || <Text className='placeholder'>请选择结束日期</Text>}</Picker>
             )}
           </Form.Control>
         </Form.Item>

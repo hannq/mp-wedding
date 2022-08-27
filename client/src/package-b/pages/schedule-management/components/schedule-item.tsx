@@ -17,9 +17,9 @@ interface Props extends Schedule {
 }
 
 export const ScheduleItem: FC<Props> = (props) => {
-  const { name, desc, addressName, roles, startTime, onEdit, onNavigate } = props;
+  const { name, desc, addressName, roles, startTime, finishTime, onEdit, onNavigate } = props;
   const roleShowText = useMemo(() => roles.map(role => role.name).join('、'), [roles]);
-  const formatStartTime = useMemo(() => dayjs(startTime).format(`YYYY-MM-DD HH:mm`), [startTime]);
+  const formatTime = useMemo(() => `${dayjs(startTime).format(`YYYY-MM-DD HH:mm`)} ~ ${dayjs(finishTime).format(`YYYY-MM-DD HH:mm`)}`, [startTime, finishTime]);
   return (
     <View className='role-code-item-wrapper'>
       <SwipeCell className='swipe-cell'>
@@ -57,14 +57,14 @@ export const ScheduleItem: FC<Props> = (props) => {
                   <UserOutlined />
                   <Text className='text'>{roleShowText}</Text>
                 </View>
-                <View className='brief-item'>
-                  <CalendarOutlined />
-                  <Text className='text'>{formatStartTime}</Text>
-                </View>
                 {!!addressName && <View className='brief-item'>
                   <LocationOutlined />
                   <Text className='text'>{addressName}</Text>
                 </View>}
+                <View className='brief-item'>
+                  <CalendarOutlined />
+                  <Text className='text'>{formatTime}</Text>
+                </View>
               </View>
             )}
           >

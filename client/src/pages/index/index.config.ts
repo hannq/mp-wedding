@@ -1,4 +1,7 @@
 export default {
-  navigationBarTitleText: '婚礼小程序',
-  enableShareAppMessage: true
+  navigationBarTitleText: '日程安排',
+  navigationBarBackgroundColor: '#fff',
+  disableScroll: true,
+  enableShareAppMessage: true,
+  enableShareTimeline: true
 }

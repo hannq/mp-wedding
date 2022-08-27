@@ -86,6 +86,8 @@ export interface Schedule {
   roles: Role[];
   /** 开始时间 */
   startTime: Date;
+  /** 结束时间 */
+  finishTime: Date;
   /** 日程地点 */
   addressLocation?: DB.IGeo.JSONPoint;
   /** 地点名称 */

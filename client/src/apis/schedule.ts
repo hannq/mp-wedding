@@ -3,11 +3,13 @@ import dayjs from 'dayjs';
 import type { Schedule } from '@/types';
 import type { ApiRes } from './types';
 
-interface SaveScheduleParam extends Omit<Schedule, 'id' | 'startTime'> {
+interface SaveScheduleParam extends Omit<Schedule, 'id' | 'startTime' | 'finishTime'> {
   /** 唯一 ID */
   id?: string;
   /** 开始时间 */
   startTime: string;
+  /** 结束时间 */
+  finishTime: string;
 }
 
 /**
