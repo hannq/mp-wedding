@@ -77,6 +77,7 @@ export const Index: FC = () => {
           <Form.Control>
             {controller => (
               <Picker
+                className='form-field'
                 mode='time'
                 value={controller.value}
                 onChange={e => {
@@ -92,6 +93,7 @@ export const Index: FC = () => {
             {controller => (
               <Picker
                 mode='date'
+                className='form-field'
                 value={controller.value}
                 onChange={e => {
                   controller.onChange?.(e.detail.value || '')
@@ -105,6 +107,7 @@ export const Index: FC = () => {
           <Form.Control>
             {controller => (
               <Picker
+                className='form-field'
                 range={addressList}
                 rangeKey='destinationName'
                 value={controller.value}

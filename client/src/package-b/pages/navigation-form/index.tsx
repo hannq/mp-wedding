@@ -135,7 +135,7 @@ export const Index: FC = () => {
         <Form.Item name='rate'>
           <Form.Label>评分</Form.Label>
           <Form.Control>
-            <Rate />
+            <Rate className='form-field' />
           </Form.Control>
         </Form.Item>
         <Field
