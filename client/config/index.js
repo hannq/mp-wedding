@@ -1,4 +1,7 @@
+// @ts-check
+
 const path = require('path');
+const { cloud } = require('../../package.json');
 
 const config = {
   projectName: 'mp-wedding',
@@ -11,6 +14,10 @@ const config = {
   },
   alias: {
     '@': path.join(__dirname, '../src')
+  },
+  env: {
+    CLOUD_ENV_DEV: JSON.stringify(cloud.env.dev),
+    CLOUD_ENV_PROD: JSON.stringify(cloud.env.prod),
   },
   sourceRoot: 'src',
   outputRoot: 'dist',

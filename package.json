@@ -13,5 +13,11 @@
   "devDependencies": {
     "chalk": "^4.1.2",
     "execa": "^5.1.1"
+  },
+  "cloud": {
+    "env": {
+      "dev": "merry-4g3cmdd8cc1a9dba",
+      "prod": "marry-prod-0gyfw3yc84f765a6"
+    }
   }
 }

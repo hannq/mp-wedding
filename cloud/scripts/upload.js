@@ -7,9 +7,7 @@ const ci = require('miniprogram-ci');
 const fse = require('fs-extra');
 const filesize = require('filesize');
 const { getSubPackageList } = require('./utils');
-
-const RELEASE_ENV = 'marry-prod-0gyfw3yc84f765a6';
-const DEV_ENV = 'merry-4g3cmdd8cc1a9dba';
+const { cloud } = require('../../package.json');
 
 ;(async function() {
   const size = filesize.partial({ base: 2, standard: 'jedec' });
@@ -33,25 +31,13 @@ const DEV_ENV = 'merry-4g3cmdd8cc1a9dba';
         })
     );
 
-    const result = await ci.cloud.uploadFunction({
+    const [result] = await Promise.all(Object.values(cloud.env).map(async env => ci.cloud.uploadFunction({
       project,
-      env: DEV_ENV,
+      env,
       name: info.name,
       path: info.dirname,
       remoteNpmInstall: true, // 是否云端安装依赖
-    });
-
-    await new Promise(r => setTimeout(r, 1000));
-
-    await ci.cloud.uploadFunction({
-      project,
-      env: RELEASE_ENV,
-      name: info.name,
-      path: info.dirname,
-      remoteNpmInstall: true, // 是否云端安装依赖
-    })
-
-    await new Promise(r => setTimeout(r, 1000));
+    })))
 
     console.log(
       chalk.cyan(`[${++currentCount}/${totalCount}]`),
