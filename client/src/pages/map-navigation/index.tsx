@@ -1,8 +1,8 @@
 import { useMemo, type FC } from 'react';
 import { useDidShow, openLocation } from '@tarojs/taro';
 import { View, ScrollView, Text } from '@tarojs/components';
-import { Collapse, Tag, Rate, Empty } from "@taroify/core";
-import { Location } from "@taroify/icons";
+import { Button, Collapse, Tag, Rate, Empty } from "@taroify/core";
+import { Location, GuideOutlined } from "@taroify/icons";
 import { useRequest } from "ahooks";
 import groupby from "lodash.groupby";
 import { navigation } from "@/apis";
@@ -41,37 +41,44 @@ export const Invitation: FC = () => {
                     {
                       navigationList.map(item => (
                         <Collapse.Item
+                          clickable
                           key={item.id}
-                          clickable={false}
+                          className='navigation-item'
                           title={(
-                            <View
-                              hoverClass='navigate-hover'
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openLocation({
-                                  longitude: item.destinationLocation.coordinates[0],
-                                  latitude: item.destinationLocation.coordinates[1],
-                                  name: item.destinationName,
-                                  address: item.destinationAddress
-                                })
-                              }}
-                            >
-                              <Location />
-                              <Tag variant='outlined' color={item.isLocal ? 'info' : 'warning'}>{item.isLocal ? '南堡内' : '外地'}</Tag>
-                              <Text className='destination-name'>{item.destinationName}</Text>
+                            <View className='title'>
+                              <View className='destination-info'>
+                                <Location />
+                                <Tag variant='outlined' color={item.isLocal ? 'info' : 'warning'}>{item.isLocal ? '南堡内' : '外地'}</Tag>
+                                <Text className='destination-name'>{item.destinationName}</Text>
+                              </View>
+                              <Button
+                                size='small'
+                                variant='text'
+                                icon={<GuideOutlined />}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  openLocation({
+                                    longitude: item.destinationLocation.coordinates[0],
+                                    latitude: item.destinationLocation.coordinates[1],
+                                    name: item.destinationName,
+                                    address: item.destinationAddress
+                                  })
+                                }}
+                              >导航</Button>
                             </View>
                           )}
-                          brief={item.destinationAddress}
+                          brief={(
+                            <View className='destination-address-wrapper'>
+                              <View className='destination-address'>{item.destinationAddress}</View>
+                              <Rate
+                                className='rate-color'
+                                value={item.rate}
+                                readonly
+                                size={12}
+                              />
+                            </View>
+                          )}
                           expandIcon={null}
-                          // icon={<Tag className='transport' color='primary'>{item.transport}</Tag>}
-                          extra={
-                            <Rate
-                              className='rate-color'
-                              value={item.rate}
-                              readonly
-                              size={12}
-                            />
-                          }
                         >
                           {item.desc || ''}
                         </Collapse.Item>

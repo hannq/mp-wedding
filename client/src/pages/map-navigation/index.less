@@ -18,15 +18,34 @@ page {
         line-height: 28px;
         color: #8c9aa1;
       }
-      .navigate-hover {
-        background-color: #c8c9cc;
-      }
-      .destination-name {
-        padding-left: 6px;
-      }
-      .rate-color {
-        --rate-icon-empty-color: #eee;
-        --rate-icon-full-color: #ffd21e;
+      .navigation-item {
+        .taroify-cell__value {
+          display: none;
+        }
+        .title {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .destination-info {
+            flex: 1;
+            .destination-name {
+              padding-left: 6px;
+            }
+          }
+
+        }
+        .destination-address-wrapper {
+          display: flex;
+          .destination-address {
+            flex: 1;
+            padding-right: 20px;
+          }
+          .rate-color {
+            margin-top: 6px;
+            --rate-icon-empty-color: #eee;
+            --rate-icon-full-color: #ffd21e;
+          }
+        }
       }
       .empty-img {
         width: 180px;
