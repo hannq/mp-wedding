@@ -1,6 +1,7 @@
 import { cloud, getAccountInfoSync } from '@tarojs/taro';
 
-const { CLOUD_ENV_DEV, CLOUD_ENV_PROD } = process.env
+declare const CLOUD_ENV_DEV: string;
+declare const CLOUD_ENV_PROD: string;
 
 export function cloudInit () {
   const { miniProgram: { envVersion } } = getAccountInfoSync();
