@@ -21,20 +21,29 @@ const statusDotMap: Record<ScheduleStatus, TimelineDotProps> = {
 
 export const Index: FC = () => {
   useShare();
-  useAuth();
+  const { loading: authLoading, auth } = useAuth();
   const [roleIdx, setRoleIdx] = useState(0);
   const { loading, run, data: scheduleListRes } = useRequest(schedule.getList, { manual: true });
   const { scrollIntoViewId, setScrollIntoViewId } = useScrollIntoView();
   const { data: roleListRes } = useRequest(common.getRoleList);
-  const roleList = useMemo(() => roleListRes?.data?.filter(role => ![RoleType.ADMIN].includes(role.type)) || [], [roleListRes]);
+  const roleList = useMemo(() => {
+    const roleRawList = roleListRes?.data?.filter(role => ![RoleType.ADMIN].includes(role.type) && !authLoading) || [];
+    const currentAuthRoleIdx = roleRawList.findIndex(role => role.type === (auth?.role?.type || RoleType.GUEST));
+    if (!!~currentAuthRoleIdx) {
+      const [currentAuthRole] = roleRawList.splice(currentAuthRoleIdx, 1);
+      roleRawList.unshift({ ...currentAuthRole, name: '我的' });
+    };
+    return roleRawList;
+  }, [roleListRes, auth, authLoading]);
   const scheduleList = useMemo(
-    () => (scheduleListRes?.data || []).filter(item => item.roles.find(role => role.type === roleList[roleIdx].type)),
+    () => (scheduleListRes?.data || []).filter(item => item.roles.find(role => role.type === roleList?.[roleIdx]?.type)),
     [scheduleListRes, roleIdx, roleList]
   );
   useDidShow(run);
   useEffect(() => {
     const target = scheduleList.find(item => getScheduleStatus(item.startTime, item.finishTime) === ScheduleStatus.HAPPENING) || scheduleList?.[0]
     target && setScrollIntoViewId(`id-${target.id}`);
+    // eslint-disable-next-line
   }, [scheduleList]);
 
   return (
