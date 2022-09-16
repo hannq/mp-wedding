@@ -1,0 +1,3 @@
+const enum Scene1 {
+
+}

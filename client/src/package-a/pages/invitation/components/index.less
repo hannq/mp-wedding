@@ -1,0 +1,127 @@
+.scene1-wrapper {
+  height: 100%;
+  overflow: hidden;
+  .scene1-presetting {
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+    padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+    .presetting-text-wrapper {
+      padding-bottom: 160px;
+      .presetting-text {
+        margin-top: 10px;
+        text-align: center;
+        color: #fff;
+        font-weight: bolder;
+      }
+    }
+  }
+  .scene1-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+  }
+  .text-ask-help {
+    width: 360px;
+    height: 178px;
+    position: absolute;
+    top: 240px;
+    left: 240px;
+    z-index: 100;
+    margin-top: constant(safe-area-inset-top); /* 兼容 iOS < 11.2 */
+    margin-top: env(safe-area-inset-top); /* 兼容 iOS >= 11.2 */
+    transform: scale(0);
+    opacity: 0;
+  }
+  .ask-help-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 200;
+    opacity: 0;
+    .scene1-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 0;
+    }
+    .agree-help-modal-wrapper {
+      margin-top: constant(safe-area-inset-top); /* 兼容 iOS < 11.2 */
+      margin-top: env(safe-area-inset-top); /* 兼容 iOS >= 11.2 */
+      position: relative;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      .agree-help-modal-title {
+        width: 640px;
+        height: 226px;
+        margin-top: 300px;
+      }
+      .agree-help-modal-btns-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 130px;
+        .btn-agree {
+          margin-left: 160px;
+          width: 210px;
+          height: 100px;
+        }
+        .btn-disagree {
+          width: 210px;
+          height: 102px;
+        }
+      }
+    }
+    .disagree-tips {
+      position: relative;
+      z-index: 100;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .disagree-tips-text {
+        font-size: 48px;
+        color: #333;
+        font-weight: bolder;
+      }
+    }
+  }
+  .text-agree-help {
+    margin-top: constant(safe-area-inset-top); /* 兼容 iOS < 11.2 */
+    margin-top: env(safe-area-inset-top); /* 兼容 iOS >= 11.2 */
+    width: 452px;
+    height: 206px;
+    position: absolute;
+    top: 360px;
+    left: 260px;
+    z-index: 101;
+    opacity: 0;
+    transform: scale(0);
+  }
+  .scene1-finish-bg1 {
+    transform: scale(2);
+  }
+  .scene1-finish-bg2 {
+    opacity: 0;
+  }
+}
+
+
+.accept-invitation-wrapper {
+  margin-top: 100px;
+}
