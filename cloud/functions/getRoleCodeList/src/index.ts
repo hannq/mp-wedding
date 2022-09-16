@@ -57,6 +57,7 @@ export async function main(event: Record<string, unknown>) {
         'user._id': 0,
         'role._id': 0,
       })
+      .limit(99999)
       .end()!;
 
     return {

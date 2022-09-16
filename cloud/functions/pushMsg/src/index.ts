@@ -29,6 +29,7 @@ export async function main(event: Record<string, string>, context: any) {
 
     const { data } = await db.collection('user')
       .where({ pushMsgCount: _.gt(0) })
+      .limit(99999)
       .get() as cloud.DB.IQueryResult;
 
     await Promise.all(data.map(async user => {

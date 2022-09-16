@@ -56,6 +56,8 @@ export const enum RoleType {
   SPONSOR = 'sponsor',
   /** 来宾 */
   GUEST = 'guest',
+  /** 贵宾 */
+  VIP = 'vip',
 }
 
 /** 用户列表排序方式 */

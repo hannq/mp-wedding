@@ -89,6 +89,7 @@ export async function getList(): Promise<ApiRes<Navigation[]>> {
         id: '$_id'
       })
       .project({ _id: 0 })
+      .limit(99999)
       .end() as any;
     return {
       errCode: 0,

@@ -42,6 +42,7 @@ export async function main(event: Record<'id', string>) {
         _id: 0,
         roleInfos: 0
       })
+      .limit(99999)
       .sort({
         startTime: -1
       })
