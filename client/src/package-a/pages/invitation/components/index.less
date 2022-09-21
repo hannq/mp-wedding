@@ -32,13 +32,16 @@
     width: 360px;
     height: 178px;
     position: absolute;
-    top: 240px;
+    top: 330px;
     left: 240px;
     z-index: 100;
     margin-top: constant(safe-area-inset-top); /* 兼容 iOS < 11.2 */
     margin-top: env(safe-area-inset-top); /* 兼容 iOS >= 11.2 */
     transform: scale(0);
     opacity: 0;
+    &.large {
+      top: 480px;
+    }
   }
   .ask-help-mask {
     position: absolute;
@@ -59,8 +62,7 @@
       z-index: 0;
     }
     .agree-help-modal-wrapper {
-      margin-top: constant(safe-area-inset-top); /* 兼容 iOS < 11.2 */
-      margin-top: env(safe-area-inset-top); /* 兼容 iOS >= 11.2 */
+      height: 100%;
       position: relative;
       z-index: 100;
       display: flex;
@@ -70,7 +72,6 @@
       .agree-help-modal-title {
         width: 640px;
         height: 226px;
-        margin-top: 300px;
       }
       .agree-help-modal-btns-wrapper {
         display: flex;
@@ -107,11 +108,14 @@
     width: 452px;
     height: 206px;
     position: absolute;
-    top: 360px;
+    top: 450px;
     left: 260px;
     z-index: 101;
     opacity: 0;
     transform: scale(0);
+    &.large {
+      top: 600px;
+    }
   }
   .scene1-finish-bg1 {
     transform: scale(2);
@@ -121,6 +125,92 @@
   }
 }
 
+
+.scene3-wrapper {
+  height: 100%;
+  overflow: hidden;
+  .scene3-presetting {
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+    padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+    .presetting-text-wrapper {
+      padding-bottom: 160px;
+      .presetting-text {
+        margin-top: 10px;
+        text-align: center;
+        color: #fff;
+        font-weight: bolder;
+      }
+    }
+  }
+  .scene3-bg-top {
+    position: absolute;
+    width: 100%;
+    height: 62%;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    z-index: 11;
+  }
+  .scene3-bg-bottom {
+    position: absolute;
+    width: 100%;
+    height: 62%;
+    left: 100%;
+    bottom: 62%;
+    z-index: 10;
+  }
+  .scene3-modal {
+    position: absolute;
+    width: 100%;
+    height: 40%;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    .scene3-modal-title {
+      width: 426px;
+      height: 202px;
+    }
+    .scene3-modal-btn-wrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 40px;
+      .scene3-modal-btn-left {
+        width: 146px;
+        height: 90px;
+      }
+      .scene3-modal-btn-right {
+        margin-left: 112px;
+        width: 156px;
+        height: 90px;
+      }
+    }
+    &.scene3-modal-wrong-selection {
+      display: flex;
+      justify-content: center;
+      color: #333;
+      font-weight: bolder;
+      font-size: 48px
+    }
+  }
+  .scene3-end {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    opacity: 0;
+  }
+}
 
 .accept-invitation-wrapper {
   margin-top: 100px;

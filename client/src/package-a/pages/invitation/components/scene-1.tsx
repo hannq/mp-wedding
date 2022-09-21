@@ -1,7 +1,10 @@
 import { type FC, useState, useEffect, useRef, useCallback } from 'react';
 import { View, Image, Text } from '@tarojs/components';
 import { Current } from '@tarojs/taro';
+import classnames from 'classnames';
 import type { SceneCommonProps } from '../types';
+import { getSuitableImg, getSuitableWindowSizeType } from '../utils';
+import { SizeType } from '../constants';
 import './index.less';
 
 const Scene1: FC<SceneCommonProps> = (props) => {
@@ -12,7 +15,9 @@ const Scene1: FC<SceneCommonProps> = (props) => {
   }, []);
 
   const setProcessCount = useCallback((param: number | ((prevState: number) => number)) => {
-    if (imgReadyCountRef.current === 9) {
+    console.log(imgReadyCountRef.current)
+
+    if (imgReadyCountRef.current === 10) {
       setIdx(param);
     }
   }, []);
@@ -82,7 +87,7 @@ const Scene1: FC<SceneCommonProps> = (props) => {
                 400,
                 () => {}
               );
-            }, 300);
+            });
           }
         )
         break;
@@ -97,7 +102,6 @@ const Scene1: FC<SceneCommonProps> = (props) => {
           () => {}
         )
         break;
-
       case 7:
         Current.page?.animate?.(
           '#scene1-finish-bg1',
@@ -108,8 +112,21 @@ const Scene1: FC<SceneCommonProps> = (props) => {
           400,
           () => {}
         )
+        setTimeout(() => {
+          Current.page?.animate?.(
+            '#scene1-finish-bg2',
+            [
+              { opacity: 0 },
+              { opacity: 1 },
+            ],
+            400,
+            () => {}
+          )
+        }, 100);
+        break;
+      case 8:
         Current.page?.animate?.(
-          '#scene1-finish-bg2',
+          '#scene1-finish-bg3',
           [
             { opacity: 0 },
             { opacity: 1 },
@@ -143,12 +160,15 @@ const Scene1: FC<SceneCommonProps> = (props) => {
           onLoad={addImgReadyCount}
           className='scene1-bg' id='scene1-bg'
           mode='scaleToFill'
-          src='https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_%E5%BC%80%E5%A7%8B.jpg?sign=41585b5cb1cbb0b1974e88aa7ec93975&t=1663315886'
+          src={getSuitableImg({
+            [SizeType.MEDIUM]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_start_medium.png?sign=9cf72db5597377622685936ae9162aa9&t=1663751019',
+            [SizeType.LARGE]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_start_large.png?sign=426dad35768e7759c69800eb1e9aa0a1&t=1663751029',
+          })}
         />
         <Image
           onLoad={addImgReadyCount}
           style={{ display: idx >= 1 ? void (0) : 'none' }}
-          className='text-ask-help'
+          className={classnames('text-ask-help', { 'large': getSuitableWindowSizeType() === SizeType.LARGE })}
           id='text-ask-help'
           mode='scaleToFill'
           src='https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_text_%E6%B1%82%E5%B8%AE%E5%BF%99.png?sign=4d9acd98baee484b0561a50ec7dae7e6&t=1663316242'
@@ -204,7 +224,7 @@ const Scene1: FC<SceneCommonProps> = (props) => {
         <Image
           onLoad={addImgReadyCount}
           style={{ display: idx === 5 ? void (0) : 'none' }}
-          className='text-agree-help'
+          className={classnames('text-agree-help', { 'large': getSuitableWindowSizeType() === SizeType.LARGE })}
           id='text-agree-help'
           mode='scaleToFill'
           src='https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_text_%E5%90%8C%E6%84%8F%E5%B8%AE%E5%BF%99.png?sign=b2b3a739af7987e5a9b48e4ece80a442&t=1663316828'
@@ -224,11 +244,23 @@ const Scene1: FC<SceneCommonProps> = (props) => {
         />
         <Image
           onLoad={addImgReadyCount}
-          style={{ display: idx >= 7 ? void (0) : 'none' }}
+          style={{ display: idx === 7 ? void (0) : 'none' }}
           className='scene1-bg scene1-finish-bg2'
           id='scene1-finish-bg2'
           mode='scaleToFill'
           src='https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_%E7%BB%93%E6%9D%9F2.jpg?sign=dc89231dc0ead317789c2853fa32acf5&t=1663319683'
+          onClick={() => setProcessCount(prev => prev + 1)}
+        />
+        <Image
+          onLoad={addImgReadyCount}
+          style={{ display: idx === 8 ? void (0) : 'none' }}
+          className='scene1-bg scene1-finish-bg2'
+          id='scene1-finish-bg3'
+          mode='scaleToFill'
+          src={getSuitableImg({
+            [SizeType.MEDIUM]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_end_3_medium.png?sign=d23675686b10f3190a55add6dcc9c693&t=1663750928',
+            [SizeType.LARGE]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_end_3_large.png?sign=bb79c61fc5d5de6ca47bd3f3d46e3fe4&t=1663750964',
+          })}
           onClick={props.onComplete}
         />
       </View>

@@ -1,5 +1,5 @@
 export default {
-  navigationBarTitleText: '请柬',
+  navigationBarTitleText: '帮博群找老婆',
   enableShareAppMessage: true,
   enableShareTimeline: true,
   navigationStyle: 'custom',

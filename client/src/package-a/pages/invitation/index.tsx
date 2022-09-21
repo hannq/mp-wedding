@@ -2,11 +2,13 @@ import { type FC, useState, useMemo } from 'react';
 import { useCloudInit, useShare } from "@/hooks";
 import { useHideHomeBtn } from "./hooks";
 import Scene1 from "./components/scene-1";
+import Scene3 from "./components/scene-3";
 import AcceptInvitation from "./components/accept-invitation";
 import './index.less';
 
 const sceneStack = [
   Scene1,
+  Scene3,
   AcceptInvitation,
 ]
 
