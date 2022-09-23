@@ -220,9 +220,6 @@
       z-index: 2;
     }
   }
-  .scene2-bg3 {
-
-  }
 }
 
 .scene3-wrapper {
@@ -308,6 +305,105 @@
     top: 0;
     z-index: 100;
     opacity: 0;
+  }
+}
+
+.scene4-wrapper {
+  height: 100%;
+  overflow: hidden;
+  .scene4-presetting {
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+    padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+    .presetting-text-wrapper {
+      padding-bottom: 160px;
+      .presetting-text {
+        margin-top: 10px;
+        text-align: center;
+        color: #fff;
+        font-weight: bolder;
+      }
+    }
+  }
+  .scene4-bg1-wrapper, .scene4-bg2, .scene4-bg3 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    .scene4-bg1-img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 0;
+    }
+    .scene4-btn-wrapper {
+      position: relative;
+      z-index: 10;
+      margin-top: 260px;
+      &.large {
+        // TODO
+        margin-top: 420px;
+      }
+      .scene4-btn-row-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 60px;
+        z-index: 10;
+        .scene4-btn1, .scene4-btn2, .scene4-btn3, .scene4-btn4 {
+          flex: 0 0 auto;
+          position: relative;
+        }
+        .scene4-btn1, .scene4-btn2 {
+          top: -100px;
+        }
+        .scene4-btn3, .scene4-btn4 {
+          top: 100px;
+        }
+        .scene4-btn1, .scene4-btn3 {
+          left: -800px;
+        }
+        .scene4-btn2, .scene4-btn4 {
+          margin-left: 140px;
+          left: 800px;
+        }
+        .scene4-btn1 {
+          width: 182px;
+          height: 64px;
+        }
+        .scene4-btn2 {
+          width: 180px;
+          height: 70px;
+        }
+        .scene4-btn3 {
+          width: 172px;
+          height: 64px;
+        }
+        .scene4-btn4 {
+          width: 168px;
+          height: 68px;
+        }
+      }
+      .scene4-wrong-selecton {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 72px;
+        text-align: center;
+        color: #333;
+        font-weight: bolder;
+        z-index: 10;
+        opacity: 0;
+      }
+    }
   }
 }
 
