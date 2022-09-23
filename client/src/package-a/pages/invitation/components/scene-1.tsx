@@ -15,8 +15,6 @@ const Scene1: FC<SceneCommonProps> = (props) => {
   }, []);
 
   const setProcessCount = useCallback((param: number | ((prevState: number) => number)) => {
-    console.log(imgReadyCountRef.current)
-
     if (imgReadyCountRef.current === 10) {
       setIdx(param);
     }

@@ -125,6 +125,105 @@
   }
 }
 
+.scene2-wrapper {
+  height: 100%;
+  overflow: hidden;
+  .scene2-presetting {
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+    padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+    .presetting-text-wrapper {
+      padding-bottom: 160px;
+      .presetting-text {
+        margin-top: 10px;
+        text-align: center;
+        color: #fff;
+        font-weight: bolder;
+      }
+    }
+  }
+  .scene2-bg1-wrapper, .scene2-bg2-wrapper, .scene2-bg3 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    .scene2-bg1-img, .scene2-bg2-img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 0;
+    }
+  }
+  .scene2-bg1-wrapper {
+    z-index: 11;
+    .scene2-bg1-text-wrapper {
+      position: relative;
+      z-index: 10;
+      top: 60%;
+      display: flex;
+      justify-content: center;
+      .scene2-bg1-text-content {
+        width: 15em;
+        .scene2-bg1-text {
+          line-height: 1.8;
+          color: #fff;
+          &.scene2-bg1-text-step2 {
+            margin-top: 64px;
+            opacity: 0;
+          }
+        }
+      }
+    }
+  }
+  .scene2-bg2-wrapper {
+    z-index: 12;
+    .scene2-b-text1, .scene2-b-text2 {
+      position: absolute;
+      left: 42%;
+      top: 10%;
+      width: 364px;
+      height: 236px;
+      transform: scale(0);
+    }
+    .scene2-b-text1 {
+      z-index: 1;
+    }
+    .scene2-b-text2 {
+      z-index: 2;
+    }
+
+    .scene2-m-text1, .scene2-m-text2 {
+      position: absolute;
+      right: 0;
+    }
+
+    .scene2-m-text1 {
+      width: 191px;
+      height: 357px;
+      top: 33%;
+      transform: scale(0);
+      z-index: 1;
+    }
+    .scene2-m-text2 {
+      width: 244px;
+      height: 238px;
+      top: 41%;
+      transform: scale(0);
+      z-index: 2;
+    }
+  }
+  .scene2-bg3 {
+
+  }
+}
 
 .scene3-wrapper {
   height: 100%;
