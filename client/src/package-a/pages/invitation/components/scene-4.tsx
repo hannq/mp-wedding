@@ -233,8 +233,8 @@ const Scene4: FC<SceneCommonProps> = (props) => {
         className='scene4-bg2'
         mode='scaleToFill'
         src={getSuitableImg({
-          [SizeType.MEDIUM]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_4_bg_2_medium.png?sign=c75e4d5f89b7d4aaf9f228076fc95d66&t=1663936493',
-          [SizeType.LARGE]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_4_bg_2_large.png?sign=676420bf2ff1ea1ea9b5b7a6b3344dfe&t=1663936442',
+          [SizeType.MEDIUM]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_4_bg_2_medium.png?sign=fd3a7fd13da284305f7c14ef8914fb0f&t=1663937745',
+          [SizeType.LARGE]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_4_bg_2_large.png?sign=5f49336bac81396bf9784f84c2cc2b5d&t=1663938133',
         })}
         onClick={() => setProcessCount(prev => prev + 1)}
       />
