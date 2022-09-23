@@ -5,6 +5,7 @@ import Scene1 from "./components/scene-1";
 import Scene2 from "./components/scene-2";
 import Scene3 from "./components/scene-3";
 import Scene4 from "./components/scene-4";
+import Scene5 from "./components/scene-5";
 import AcceptInvitation from "./components/accept-invitation";
 import './index.less';
 
@@ -13,6 +14,7 @@ const sceneStack = [
   Scene2,
   Scene3,
   Scene4,
+  Scene5,
   AcceptInvitation,
 ]
 
@@ -20,7 +22,7 @@ export const Invitation: FC = () => {
   useShare();
   useCloudInit();
   useHideHomeBtn();
-  const [idx, setIdx] = useState(3);
+  const [idx, setIdx] = useState(0);
 
   const CurrentScene = useMemo(() => sceneStack[idx], [idx]);
 
