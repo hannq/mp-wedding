@@ -8,3 +8,6 @@ export const enum SizeType {
 
 export const LARGE_IMG_WINDOW_SIZE_RATIO = 0.46;
 export const MEDIUM_IMG_WINDOW_SIZE_RATIO = 0.64;
+
+/** 动画间安全间隔时间 */
+export const SAFE_ANIMATION_GAP_TIME = 300;

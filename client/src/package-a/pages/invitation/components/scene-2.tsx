@@ -3,139 +3,191 @@ import { View, Image } from '@tarojs/components';
 import { Current } from '@tarojs/taro';
 import type { SceneCommonProps } from '../types';
 import { getSuitableImg } from '../utils';
-import { SizeType } from '../constants';
+import { SizeType, SAFE_ANIMATION_GAP_TIME } from '../constants';
 import './index.less';
+
+const defaultTask = Promise.resolve();
 
 const Scene2: FC<SceneCommonProps> = (props) => {
   const [idx, setIdx] = useState(-1);
   const imgReadyCountRef = useRef(0);
+  const loadingRef = useRef(true);
+  const prevTaskRef = useRef(defaultTask);
   const addImgReadyCount = useCallback(() => {
     imgReadyCountRef.current++;
   }, []);
 
   const setProcessCount = useCallback((param: number | ((prevState: number) => number)) => {
-    if (imgReadyCountRef.current === 7) {
+    if (!loadingRef.current && imgReadyCountRef.current === 7) {
       setIdx(param);
     }
   }, []);
 
   useEffect(() => {
-    switch (idx) {
-      case 0:
-        Current.page?.animate?.(
-          '#scene2-bg1',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 1:
-        Current.page?.animate?.(
-          '#scene2-bg1-text-step2',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 2:
-        Current.page?.animate?.(
-          '#scene2-bg2',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 3:
-        Current.page?.animate?.(
-          '#scene2-b-text1',
-          [
-            { scale: [0, 0], transformOrigin: 'left bottom' },
-            { scale: [1, 1], transformOrigin: 'left bottom' },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 4:
-        Current.page?.animate?.(
-          '#scene2-m-text1',
-          [
-            { scale: [0, 0], transformOrigin: 'right bottom' },
-            { scale: [1, 1], transformOrigin: 'right bottom' },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 5:
-        Current.page?.animate?.(
-          '#scene2-b-text1',
-          [
-            { scale: [1, 1], left: '42%', top: '10%' },
-            { scale: [0.7, 0.7], left: '100%', top: '-10%' },
-          ],
-          400,
-          () => {}
-        );
-        Current.page?.animate?.(
-          '#scene2-b-text2',
-          [
-            { scale: [0, 0], transformOrigin: 'left bottom' },
-            { scale: [1, 1], transformOrigin: 'left bottom' },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 6:
-        Current.page?.animate?.(
-          '#scene2-m-text1',
-          [
-            { scale: [1, 1], translateX: 0, translateY: 0 },
-            { scale: [0.7, 0.7], translateX: '150%', translateY: '-100%' },
-          ],
-          400,
-          () => {}
-        );
-        Current.page?.animate?.(
-          '#scene2-m-text2',
-          [
-            { scale: [0, 0], transformOrigin: 'left bottom' },
-            { scale: [1, 1], transformOrigin: 'left bottom' },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 7:
-        Current.page?.animate?.(
-          '#scene2-bg3',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-        default:
-        break;
-    }
+    prevTaskRef.current = prevTaskRef.current.then(async () => {
+      loadingRef.current = true;
+
+      switch (idx) {
+        case -1:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene2-presetting',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 0:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene2-bg1',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 1:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene2-bg1-text-step2',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 2:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene2-bg2',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 3:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene2-b-text1',
+              [
+                { scale: [0, 0], transformOrigin: 'left bottom' },
+                { scale: [1, 1], transformOrigin: 'left bottom' },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 4:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene2-m-text1',
+              [
+                { scale: [0, 0], transformOrigin: 'right bottom' },
+                { scale: [1, 1], transformOrigin: 'right bottom' },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 5:
+          await Promise.all([
+            new Promise<void>(r => {
+              Current.page?.animate?.(
+                '#scene2-b-text1',
+                [
+                  { scale: [1, 1], left: '42%', top: '10%' },
+                  { scale: [0.7, 0.7], left: '100%', top: '-10%' },
+                ],
+                400,
+                r
+              );
+            }),
+            new Promise<void>(r => {
+              Current.page?.animate?.(
+                '#scene2-b-text2',
+                [
+                  { scale: [0, 0], transformOrigin: 'left bottom' },
+                  { scale: [1, 1], transformOrigin: 'left bottom' },
+                ],
+                400,
+                r
+              )
+            })
+          ]);
+          break;
+        case 6:
+          await Promise.all([
+            new Promise<void>(r => {
+              Current.page?.animate?.(
+                '#scene2-m-text1',
+                [
+                  { scale: [1, 1], translateX: 0, translateY: 0 },
+                  { scale: [0.7, 0.7], translateX: '150%', translateY: '-100%' },
+                ],
+                400,
+                r
+              );
+            }),
+            new Promise<void>(r => {
+              Current.page?.animate?.(
+                '#scene2-m-text2',
+                [
+                  { scale: [0, 0], transformOrigin: 'left bottom' },
+                  { scale: [1, 1], transformOrigin: 'left bottom' },
+                ],
+                400,
+                r
+              )
+            })
+          ]);
+          break;
+        case 7:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene2-bg3',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+          default:
+          break;
+      }
+
+      await new Promise(r => setTimeout(r, SAFE_ANIMATION_GAP_TIME));
+      loadingRef.current = false;
+    })
   }, [idx, setProcessCount]);
 
   return (
     <View className='scene2-wrapper'>
       {idx === -1 && (
-        <View className='scene2-presetting' onClick={() => setProcessCount(prev => prev + 1)}>
+        <View
+          id='scene2-presetting'
+          className='scene2-presetting'
+          onClick={() => setProcessCount(prev => prev + 1)}
+        >
           <View className='presetting-text-wrapper'>
             <View className='presetting-text'>第二幕</View>
             <View className='presetting-text'>2016 年</View>
@@ -188,14 +240,14 @@ const Scene2: FC<SceneCommonProps> = (props) => {
           id='scene2-b-text1'
           className='scene2-b-text1'
           mode='scaleToFill'
-          src='https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_2_b_text_1.png?sign=72327eb8a816301ffe49c8884586ee2e&t=1663923564'
+          src='https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_2_b_text_1.png?sign=1fb46bda2498cce6e7521dbd7f0a6887&t=1663984115'
         />
         <Image
           onLoad={addImgReadyCount}
           id='scene2-b-text2'
           className='scene2-b-text2'
           mode='scaleToFill'
-          src='https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_2_b_text_2.png?sign=56468cea8677de185c60f64974ce6a2e&t=1663923601'
+          src='https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_2_b_text_2.png?sign=e19bef8b104ccee39e3b577f6bf9bd57&t=1663984066'
         />
         <Image
           onLoad={addImgReadyCount}
@@ -222,7 +274,7 @@ const Scene2: FC<SceneCommonProps> = (props) => {
           [SizeType.MEDIUM]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_2_bg_3_medium.png?sign=a484aad5d29bb9259cb0fef0f21e4e64&t=1663927108',
           [SizeType.LARGE]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_2_bg_3_large.png?sign=91f8ef78abcb4732d4015bb3df995679&t=1663927095',
         })}
-        onClick={props.onComplete}
+        onClick={() => !loadingRef.current && props.onComplete?.()}
       />
     </View>
   )

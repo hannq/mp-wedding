@@ -4,144 +4,191 @@ import { Current } from '@tarojs/taro';
 import classnames from 'classnames';
 import type { SceneCommonProps } from '../types';
 import { getSuitableImg, getSuitableWindowSizeType } from '../utils';
-import { SizeType } from '../constants';
+import { SAFE_ANIMATION_GAP_TIME, SizeType } from '../constants';
 import './index.less';
+
+const defaultTask = Promise.resolve();
 
 const Scene1: FC<SceneCommonProps> = (props) => {
   const [idx, setIdx] = useState(-1);
+  const prevTaskRef = useRef(defaultTask);
+  const loadingRef = useRef(true);
   const imgReadyCountRef = useRef(0);
   const addImgReadyCount = useCallback(() => {
     imgReadyCountRef.current++;
   }, []);
 
   const setProcessCount = useCallback((param: number | ((prevState: number) => number)) => {
-    if (imgReadyCountRef.current === 10) {
+    if (!loadingRef.current && imgReadyCountRef.current === 10) {
       setIdx(param);
     }
   }, []);
 
   useEffect(() => {
-    switch (idx) {
-      case 0:
-        Current.page?.animate?.(
-          '#scene1-bg',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 1:
-        Current.page?.animate?.(
-          '#text-ask-help',
-          [
-            { opacity: 0, scale: [0, 0], transformOrigin: 'bottom left' },
-            { opacity: 1, scale: [1, 1], transformOrigin: 'bottom left' },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 2:
-        Current.page?.animate?.(
-          '#ask-help-mask',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 4:
-        Current.page?.animate?.(
-          '#ask-help-mask',
-          [
-            { opacity: 1 },
-            { opacity: 0 },
-          ],
-          400,
-          () => {
-            setProcessCount(idx + 1);
+    prevTaskRef.current = prevTaskRef.current.then(async () => {
+      loadingRef.current = true;
+
+      switch (idx) {
+        case -1:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene1-presetting',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 0:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene1-bg',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 1:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#text-ask-help',
+              [
+                { opacity: 0, scale: [0, 0], transformOrigin: 'bottom left' },
+                { opacity: 1, scale: [1, 1], transformOrigin: 'bottom left' },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 2:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#ask-help-mask',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 4:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#ask-help-mask',
+              [
+                { opacity: 1 },
+                { opacity: 0 },
+              ],
+              400,
+              () => {
+                setIdx(idx + 1);
+                setTimeout(() => {
+                  Promise.all([
+                    new Promise<void>(r => {
+                      Current.page?.animate?.(
+                        '#text-ask-help',
+                        [
+                          { transformOrigin: 'top left', scale: [1, 1], translateY: 0 },
+                          { transformOrigin: 'top left', scale: [0.7, 0.7], translateY: -26 },
+                        ],
+                        400,
+                        r
+                      );
+                    }),
+                    new Promise<void>(r => {
+                      Current.page?.animate?.(
+                        '#text-agree-help',
+                        [
+                          { opacity: 0, scale: [0, 0], transformOrigin: 'bottom center' },
+                          { opacity: 1, scale: [1, 1], transformOrigin: 'bottom center' },
+                        ],
+                        400,
+                        r
+                      );
+                    })
+                  ]).then(() => resolve())
+                });
+              }
+            )
+          })
+          break;
+        case 6:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene1-finish-bg1',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 7:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene1-finish-bg1',
+              [
+                { opacity: 1, scale: [2, 2], transformOrigin: 'center 100px', },
+                { opacity: 0, scale: [1, 1], transformOrigin: 'center 100px', },
+              ],
+              400,
+              () => {}
+            )
             setTimeout(() => {
               Current.page?.animate?.(
-                '#text-ask-help',
+                '#scene1-finish-bg2',
                 [
-                  { transformOrigin: 'top left', scale: [1, 1], translateY: 0 },
-                  { transformOrigin: 'top left', scale: [0.7, 0.7], translateY: -26 },
+                  { opacity: 0 },
+                  { opacity: 1 },
                 ],
                 400,
-                () => {}
-              );
+                resolve
+              )
+            }, 100);
+          })
+          break;
+        case 8:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene1-finish-bg3',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        default:
+          break;
+      }
 
-              Current.page?.animate?.(
-                '#text-agree-help',
-                [
-                  { opacity: 0, scale: [0, 0], transformOrigin: 'bottom center' },
-                  { opacity: 1, scale: [1, 1], transformOrigin: 'bottom center' },
-                ],
-                400,
-                () => {}
-              );
-            });
-          }
-        )
-        break;
-      case 6:
-        Current.page?.animate?.(
-          '#scene1-finish-bg1',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 7:
-        Current.page?.animate?.(
-          '#scene1-finish-bg1',
-          [
-            { opacity: 1, scale: [2, 2], transformOrigin: 'center 100px', },
-            { opacity: 0, scale: [1, 1], transformOrigin: 'center 100px', },
-          ],
-          400,
-          () => {}
-        )
-        setTimeout(() => {
-          Current.page?.animate?.(
-            '#scene1-finish-bg2',
-            [
-              { opacity: 0 },
-              { opacity: 1 },
-            ],
-            400,
-            () => {}
-          )
-        }, 100);
-        break;
-      case 8:
-        Current.page?.animate?.(
-          '#scene1-finish-bg3',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      default:
-        break;
-    }
+      await new Promise(r => setTimeout(r, SAFE_ANIMATION_GAP_TIME));
+      loadingRef.current = false;
+    })
   }, [idx, setProcessCount]);
 
   return (
     <View className='scene1-wrapper'>
       {idx === -1 && (
-        <View className='scene1-presetting' onClick={() => setProcessCount(prev => prev + 1)}>
+        <View
+          id='scene1-presetting'
+          className='scene1-presetting'
+          onClick={() => setProcessCount(prev => prev + 1)}
+        >
           <View className='presetting-text-wrapper'>
             <View className='presetting-text'>唐山</View>
             <View className='presetting-text'>华北理工大学  第二教学楼  以升实验中心</View>
@@ -259,7 +306,7 @@ const Scene1: FC<SceneCommonProps> = (props) => {
             [SizeType.MEDIUM]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_end_3_medium.png?sign=d23675686b10f3190a55add6dcc9c693&t=1663750928',
             [SizeType.LARGE]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_1_end_3_large.png?sign=bb79c61fc5d5de6ca47bd3f3d46e3fe4&t=1663750964',
           })}
-          onClick={props.onComplete}
+          onClick={() => !loadingRef.current && props.onComplete?.()}
         />
       </View>
     </View>

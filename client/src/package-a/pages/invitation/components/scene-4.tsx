@@ -4,151 +4,196 @@ import { Current } from '@tarojs/taro';
 import classnames from 'classnames';
 import type { SceneCommonProps } from '../types';
 import { getSuitableImg, getSuitableWindowSizeType } from '../utils';
-import { SizeType } from '../constants';
+import { SizeType, SAFE_ANIMATION_GAP_TIME } from '../constants';
 import './index.less';
+
+const defaultTask = Promise.resolve();
 
 const Scene4: FC<SceneCommonProps> = (props) => {
   const [idx, setIdx] = useState(-1);
   const imgReadyCountRef = useRef(0);
+  const loadingRef = useRef(true);
+  const prevTaskRef = useRef(defaultTask);
   const addImgReadyCount = useCallback(() => {
     imgReadyCountRef.current++;
   }, []);
 
   const setProcessCount = useCallback((param: number | ((prevState: number) => number)) => {
-    if (imgReadyCountRef.current === 7) {
+    if (!loadingRef.current && imgReadyCountRef.current === 7) {
       setIdx(param);
     }
   }, []);
 
   useEffect(() => {
-    switch (idx) {
-      case 0:
-        Current.page?.animate?.(
-          '#scene4-bg1',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 1:
-        Current.page?.animate?.(
-          '#scene4-btn1',
-          [
-            { left: -400, top: -50, ease: 'ease-in' },
-            { left: 0, top: 0,  ease: 'ease-in' },
-          ],
-          400,
-          () => {}
-        );
-        Current.page?.animate?.(
-          '#scene4-btn2',
-          [
-            { left: 400, top: -50, ease: 'ease-in' },
-            { left: 0, top: 0,  ease: 'ease-in' },
-          ],
-          400,
-          () => {}
-        );
-        Current.page?.animate?.(
-          '#scene4-btn3',
-          [
-            { left: -400, top: 50, ease: 'ease-in' },
-            { left: 0, top: 0,  ease: 'ease-in' },
-          ],
-          400,
-          () => {}
-        );
-        Current.page?.animate?.(
-          '#scene4-btn4',
-          [
-            { left: 400, top: 50, ease: 'ease-in' },
-            { left: 0, top: 0,  ease: 'ease-in' },
-          ],
-          400,
-          () => {}
-        );
-        break;
-      case 2:
-        Current.page?.animate?.(
-          '#scene4-btn1',
-          [
-            { left: 0, top: 0,  ease: 'ease-in' },
-            { left: -400, top: -50, ease: 'ease-in' },
-          ],
-          400,
-          () => {}
-        );
-        Current.page?.animate?.(
-          '#scene4-btn2',
-          [
-            { left: 0, top: 0,  ease: 'ease-in' },
-            { left: 400, top: -50, ease: 'ease-in' },
-          ],
-          400,
-          () => {}
-        );
-        Current.page?.animate?.(
-          '#scene4-btn3',
-          [
-            { left: 0, top: 0,  ease: 'ease-in' },
-            { left: -400, top: 50, ease: 'ease-in' },
-          ],
-          400,
-          () => {}
-        );
-        Current.page?.animate?.(
-          '#scene4-btn4',
-          [
-            { left: 0, top: 0,  ease: 'ease-in' },
-            { left: 400, top: 50, ease: 'ease-in' },
-          ],
-          400,
-          () => {}
-        );
-        Current.page?.animate?.(
-          '#scene4-wrong-selecton',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        );
-        break;
-      case 3:
-        Current.page?.animate?.(
-          '#scene4-bg2',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      case 4:
-        Current.page?.animate?.(
-          '#scene4-bg3',
-          [
-            { opacity: 0 },
-            { opacity: 1 },
-          ],
-          400,
-          () => {}
-        )
-        break;
-      default:
-        break;
-    }
+    prevTaskRef.current = prevTaskRef.current.then(async () => {
+      loadingRef.current = true;
+
+      switch (idx) {
+        case -1:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene4-presetting',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 0:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene4-bg1',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        case 1:
+          await Promise.all([
+            new Promise<void>(r => {
+              Current.page?.animate?.(
+                '#scene4-btn1',
+                [
+                  { left: -400, top: -50, ease: 'ease-in' },
+                  { left: 0, top: 0, ease: 'ease-in' },
+                ],
+                400,
+                r
+              );
+            }),
+            new Promise<void>(r => {
+              Current.page?.animate?.(
+                '#scene4-btn2',
+                [
+                  { left: 400, top: -50, ease: 'ease-in' },
+                  { left: 0, top: 0, ease: 'ease-in' },
+                ],
+                400,
+                r
+              );
+            }),
+            new Promise<void>(r => {
+              Current.page?.animate?.(
+                '#scene4-btn3',
+                [
+                  { left: -400, top: 50, ease: 'ease-in' },
+                  { left: 0, top: 0, ease: 'ease-in' },
+                ],
+                400,
+                r
+              );
+            }),
+            new Promise<void>(r => {
+              Current.page?.animate?.(
+                '#scene4-btn4',
+                [
+                  { left: 400, top: 50, ease: 'ease-in' },
+                  { left: 0, top: 0, ease: 'ease-in' },
+                ],
+                400,
+                r
+              );
+            }),
+          ])
+          break;
+        case 2:
+          Current.page?.animate?.(
+            '#scene4-btn1',
+            [
+              { left: 0, top: 0, ease: 'ease-in' },
+              { left: -400, top: -50, ease: 'ease-in' },
+            ],
+            400,
+            () => { }
+          );
+          Current.page?.animate?.(
+            '#scene4-btn2',
+            [
+              { left: 0, top: 0, ease: 'ease-in' },
+              { left: 400, top: -50, ease: 'ease-in' },
+            ],
+            400,
+            () => { }
+          );
+          Current.page?.animate?.(
+            '#scene4-btn3',
+            [
+              { left: 0, top: 0, ease: 'ease-in' },
+              { left: -400, top: 50, ease: 'ease-in' },
+            ],
+            400,
+            () => { }
+          );
+          Current.page?.animate?.(
+            '#scene4-btn4',
+            [
+              { left: 0, top: 0, ease: 'ease-in' },
+              { left: 400, top: 50, ease: 'ease-in' },
+            ],
+            400,
+            () => { }
+          );
+          Current.page?.animate?.(
+            '#scene4-wrong-selecton',
+            [
+              { opacity: 0 },
+              { opacity: 1 },
+            ],
+            400,
+            () => { }
+          );
+          break;
+        case 3:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene4-bg2',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+
+          break;
+        case 4:
+          await new Promise<void>(resolve => {
+            Current.page?.animate?.(
+              '#scene4-bg3',
+              [
+                { opacity: 0 },
+                { opacity: 1 },
+              ],
+              400,
+              resolve
+            )
+          })
+          break;
+        default:
+          break;
+      }
+
+      await new Promise(r => setTimeout(r, SAFE_ANIMATION_GAP_TIME));
+      loadingRef.current = false;
+    })
   }, [idx, setProcessCount]);
 
   return (
     <View className='scene4-wrapper'>
       {idx === -1 && (
-        <View className='scene4-presetting' onClick={() => setProcessCount(prev => prev + 1)}>
+        <View
+          id='scene4-presetting'
+          className='scene4-presetting'
+          onClick={() => setProcessCount(prev => prev + 1)}
+        >
           <View className='presetting-text-wrapper'>
             <View className='presetting-text'>第四幕</View>
             <View className='presetting-text'>2019 年</View>
@@ -170,7 +215,7 @@ const Scene4: FC<SceneCommonProps> = (props) => {
             [SizeType.LARGE]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_4_bg_1_large.png?sign=5102899677e791ae94444c8a3c1dc179&t=1663936118',
           })}
         />
-        <View className={classnames('scene4-btn-wrapper', { 'large': getSuitableWindowSizeType() === SizeType.LARGE } )}>
+        <View className={classnames('scene4-btn-wrapper', { 'large': getSuitableWindowSizeType() === SizeType.LARGE })}>
           <View className='scene4-btn-row-wrapper'>
             <Image
               onLoad={addImgReadyCount}
@@ -248,7 +293,7 @@ const Scene4: FC<SceneCommonProps> = (props) => {
           [SizeType.MEDIUM]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_4_bg_3_medium.png?sign=8d910cba4ccb40d884d895265b9d036b&t=1663936542',
           [SizeType.LARGE]: 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/invitation/scene_4_bg_3_large.png?sign=a3e022871b34aeaa011bb4eb1bb763f1&t=1663936521',
         })}
-        onClick={props.onComplete}
+        onClick={() => !loadingRef.current && props.onComplete?.()}
       />
     </View>
   )
