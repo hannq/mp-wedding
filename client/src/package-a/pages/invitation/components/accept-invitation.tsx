@@ -1,7 +1,7 @@
 import { useMemo, type FC } from 'react';
 import { getUserProfile, showToast, reLaunch, showLoading, hideLoading, requestSubscribeMessage } from '@tarojs/taro';
 import { View } from '@tarojs/components';
-import { Button } from "@taroify/core";
+import { Image } from "@taroify/core";
 import { user } from "@/apis";
 import { Page } from "@/constants";
 import { useInvitationInfo } from "../hooks";
@@ -11,76 +11,95 @@ import './index.less';
 /** 小程序模版ID */
 const TEMPLATE_ID = '40DN4h2ks6v2i4oZb9mp_euR33IO-49xRauKkYBTIWM';
 
-export const AcceptInvitation: FC<SceneCommonProps> = () => {
+export const AcceptInvitation: FC<SceneCommonProps> = (props) => {
+  const { alreadyCompleteGame = false } = props;
   const { loading, roleCodeInfo, auth, refresh } = useInvitationInfo();
   const isReadOnly = useMemo(() => auth && (auth.role || !roleCodeInfo), [auth, roleCodeInfo])
   return (
     <View className='accept-invitation-wrapper'>
-      {
-        loading
-        ?
-        <View>信息查询中 ...</View>
-        :
-        (
-          isReadOnly
-          ?
-          <View>
-            欢迎回来，[{auth?.role?.name || '来宾'}] {auth!.nickName}
-          </View>
-          :
-          <View>
-            邀请你成为：{roleCodeInfo ? roleCodeInfo.role.name : '来宾'}
-          </View>
-        )
-      }
-
-      {!loading && (
-        isReadOnly
-        ?
-        <Button
-          onClick={async () => {
-            const subscribeMessageRes = await requestSubscribeMessage({ tmplIds: [TEMPLATE_ID] });
-            if (subscribeMessageRes[TEMPLATE_ID] === "accept") {
-              showLoading({ title: '加载中 ...', mask: true });
-              await user.save({ pushMsgCount: (auth?.pushMsgCount || 0) + 1 });
-              await hideLoading();
-            }
-            await reLaunch({ url: Page.INDEX })}
-          }
-        >回到首页</Button>
-        :
-        <Button
-          onClick={async () => {
-            try {
-              const [{ userInfo }, subscribeMessageRes] = await Promise.all([
-                getUserProfile({ lang: 'zh_CN', desc: '用于识别来宾身份' }),
-                requestSubscribeMessage({ tmplIds: [TEMPLATE_ID] })
-              ])
-              const pushMsgCount = subscribeMessageRes[TEMPLATE_ID] === "accept" ? (auth?.pushMsgCount || 0) + 1 : (auth?.pushMsgCount || 0)
-              showLoading({ title: '加载中 ...', mask: true });
-              const { errCode, errMsg } = await user.save({
-                avatarUrl: userInfo.avatarUrl,
-                nickName: userInfo.nickName,
-                gender: userInfo.gender,
-                roleCode: roleCodeInfo?.code,
-                pushMsgCount
-              });
-              await refresh();
-              await hideLoading();
-              if (errCode) {
-                console.error(errMsg)
-                showToast({ title: '绑定失败', icon: 'error' });
-              } else {
-                reLaunch({ url: Page.INDEX });
-              }
-            } catch (err) {
-              console.error(err);
-              await hideLoading();
-              showToast({ title: '操作失败', icon: 'error' });
-            }
-          }}
-        >接受邀请</Button>
-      )}
+      <View className='content-wrapper'>
+        <Image
+          className='title-tips'
+          mode='aspectFit'
+          src={require('@/package-a/assets/images/title-tips.png')}
+        />
+        {
+          loading
+            ?
+            <View className='msg-tips'>信息查询中 ...</View>
+            :
+            (
+              isReadOnly
+                ?
+                <View className='msg-tips'>
+                  博群和曼曼的婚礼，欢迎[{auth?.role?.name || '来宾'}]{auth!.nickName}的到来
+                </View>
+                :
+                alreadyCompleteGame && <View className='msg-tips'>
+                  博群和曼曼的婚礼，邀请您成为[{roleCodeInfo ? roleCodeInfo.role.name : '来宾'}]参加婚礼
+                </View>
+            )
+        }
+        <View className='action-btn-wrapper'>
+          {!loading && (
+            isReadOnly
+              ?
+              <Image
+                className='action-btn'
+                src={require('@/package-a/assets/images/enter-btn.png')}
+                onClick={async () => {
+                  const subscribeMessageRes = await requestSubscribeMessage({ tmplIds: [TEMPLATE_ID] });
+                  if (subscribeMessageRes[TEMPLATE_ID] === "accept") {
+                    showLoading({ title: '加载中 ...', mask: true });
+                    await user.save({ pushMsgCount: (auth?.pushMsgCount || 0) + 1 });
+                    await hideLoading();
+                  }
+                  await reLaunch({ url: Page.INDEX })
+                }
+                }
+              />
+              :
+              alreadyCompleteGame && <Image
+                className='action-btn'
+                src={require('@/package-a/assets/images/accept-btn.png')}
+                onClick={async () => {
+                  try {
+                    const [{ userInfo }, subscribeMessageRes] = await Promise.all([
+                      getUserProfile({ lang: 'zh_CN', desc: '用于识别来宾身份' }),
+                      requestSubscribeMessage({ tmplIds: [TEMPLATE_ID] })
+                    ])
+                    const pushMsgCount = subscribeMessageRes[TEMPLATE_ID] === "accept" ? (auth?.pushMsgCount || 0) + 1 : (auth?.pushMsgCount || 0)
+                    showLoading({ title: '加载中 ...', mask: true });
+                    const { errCode, errMsg } = await user.save({
+                      avatarUrl: userInfo.avatarUrl,
+                      nickName: userInfo.nickName,
+                      gender: userInfo.gender,
+                      roleCode: roleCodeInfo?.code,
+                      pushMsgCount
+                    });
+                    await refresh();
+                    await hideLoading();
+                    if (errCode) {
+                      console.error(errMsg)
+                      showToast({ title: '绑定失败', icon: 'error' });
+                    } else {
+                      reLaunch({ url: Page.INDEX });
+                    }
+                  } catch (err) {
+                    console.error(err);
+                    await hideLoading();
+                    showToast({ title: '操作失败', icon: 'error' });
+                  }
+                }}
+              />
+          )}
+          <Image
+            className='action-btn play-btn'
+            src={require('@/package-a/assets/images/play-btn.png')}
+            onClick={props.onComplete}
+          />
+        </View>
+      </View>
     </View>
   )
 }

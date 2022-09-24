@@ -10,12 +10,12 @@ import AcceptInvitation from "./components/accept-invitation";
 import './index.less';
 
 const sceneStack = [
+  AcceptInvitation,
   Scene1,
   Scene2,
   Scene3,
   Scene4,
   Scene5,
-  AcceptInvitation,
 ]
 
 export const Invitation: FC = () => {
@@ -23,14 +23,21 @@ export const Invitation: FC = () => {
   useCloudInit();
   useHideHomeBtn();
   const [idx, setIdx] = useState(0);
+  const [alreadyCompleteGame, setAlreadyCompleteGame] = useState(false);
 
   const CurrentScene = useMemo(() => sceneStack[idx], [idx]);
 
   return (
     <>
       <CurrentScene
+        alreadyCompleteGame={alreadyCompleteGame}
         onComplete={() => {
-          idx !== (sceneStack.length - 1) && setIdx(idx + 1)
+          if (idx !== (sceneStack.length - 1)) {
+            setIdx(idx + 1);
+          } else {
+            setIdx(0);
+            setAlreadyCompleteGame(true);
+          }
         }}
       />
     </>
