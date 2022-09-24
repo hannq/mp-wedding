@@ -9,19 +9,23 @@ import './index.less';
 const defaultTask = Promise.resolve();
 
 const Scene1: FC<SceneCommonProps> = (props) => {
+  const [presettingLoading, setPresettingLoading] = useState(true);
   const [idx, setIdx] = useState(-1);
   const imgReadyCountRef = useRef(0);
   const loadingRef = useRef(true);
   const prevTaskRef = useRef(defaultTask);
   const addImgReadyCount = useCallback(() => {
     imgReadyCountRef.current++;
+    if (imgReadyCountRef.current === 7) {
+      setPresettingLoading(false);
+    }
   }, []);
 
   const setProcessCount = useCallback((param: number | ((prevState: number) => number)) => {
-    if (!loadingRef.current && imgReadyCountRef.current === 7) {
+    if (!presettingLoading && !loadingRef.current) {
       setIdx(param);
     }
-  }, []);
+  }, [presettingLoading]);
 
   useEffect(() => {
     prevTaskRef.current = prevTaskRef.current.then(async () => {
@@ -198,7 +202,7 @@ const Scene1: FC<SceneCommonProps> = (props) => {
       await new Promise(r => setTimeout(r, SAFE_ANIMATION_GAP_TIME));
       loadingRef.current = false;
     })
-  }, [idx, setProcessCount]);
+  }, [idx]);
 
   return (
     <View className='scene3-wrapper'>
@@ -208,9 +212,19 @@ const Scene1: FC<SceneCommonProps> = (props) => {
           className='scene3-presetting'
           onClick={() => setProcessCount(prev => prev + 1)}
         >
+          <View />
           <View className='presetting-text-wrapper'>
-            <View className='presetting-text'>第三幕</View>
-            <View className='presetting-text'>2017 年</View>
+            {!presettingLoading ?
+              <>
+                <View className='presetting-text'>第三幕</View>
+                <View className='presetting-text'>2017 年</View>
+              </>
+              :
+              <View className='presetting-text'>加载中 ...</View>
+            }
+          </View>
+          <View className='presetting-text-wrapper'>
+            {!presettingLoading && <View className='presetting-text'>点击屏幕任意区域以继续 ...</View>}
           </View>
         </View>
       )}

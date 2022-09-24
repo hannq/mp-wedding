@@ -11,23 +11,26 @@ const defaultTask = Promise.resolve();
 
 const Scene1: FC<SceneCommonProps> = (props) => {
   const [idx, setIdx] = useState(-1);
+  const [presettingLoading, setPresettingLoading] = useState(true);
   const prevTaskRef = useRef(defaultTask);
   const loadingRef = useRef(true);
   const imgReadyCountRef = useRef(0);
   const addImgReadyCount = useCallback(() => {
     imgReadyCountRef.current++;
+    if (imgReadyCountRef.current === 10) {
+      setPresettingLoading(false)
+    }
   }, []);
 
   const setProcessCount = useCallback((param: number | ((prevState: number) => number)) => {
-    if (!loadingRef.current && imgReadyCountRef.current === 10) {
+    if (!presettingLoading && !loadingRef.current) {
       setIdx(param);
     }
-  }, []);
+  }, [presettingLoading]);
 
   useEffect(() => {
     prevTaskRef.current = prevTaskRef.current.then(async () => {
       loadingRef.current = true;
-
       switch (idx) {
         case -1:
           await new Promise<void>(resolve => {
@@ -179,7 +182,7 @@ const Scene1: FC<SceneCommonProps> = (props) => {
       await new Promise(r => setTimeout(r, SAFE_ANIMATION_GAP_TIME));
       loadingRef.current = false;
     })
-  }, [idx, setProcessCount]);
+  }, [idx]);
 
   return (
     <View className='scene1-wrapper'>
@@ -189,10 +192,21 @@ const Scene1: FC<SceneCommonProps> = (props) => {
           className='scene1-presetting'
           onClick={() => setProcessCount(prev => prev + 1)}
         >
+          <View />
           <View className='presetting-text-wrapper'>
-            <View className='presetting-text'>唐山</View>
-            <View className='presetting-text'>华北理工大学  第二教学楼  以升实验中心</View>
-            <View className='presetting-text'>2015 年</View>
+            {
+              !presettingLoading ?
+              <>
+                <View className='presetting-text'>唐山</View>
+                <View className='presetting-text'>华北理工大学  第二教学楼  以升实验中心</View>
+                <View className='presetting-text'>2015 年</View>
+              </>
+              :
+              <View className='presetting-text'>加载中 ...</View>
+            }
+          </View>
+          <View className='presetting-text-wrapper'>
+            {!presettingLoading && <View className='presetting-text'>点击屏幕任意区域以继续 ...</View>}
           </View>
         </View>
       )}

@@ -9,19 +9,23 @@ import './index.less';
 const defaultTask = Promise.resolve();
 
 const Scene5: FC<SceneCommonProps> = (props) => {
+  const [presettingLoading, setPresettingLoading] = useState(true);
   const [idx, setIdx] = useState(-1);
   const imgReadyCountRef = useRef(0);
   const loadingRef = useRef(true);
   const prevTaskRef = useRef(defaultTask);
   const addImgReadyCount = useCallback(() => {
     imgReadyCountRef.current++;
+    if (imgReadyCountRef.current === 1) {
+      setPresettingLoading(false)
+    }
   }, []);
 
   const setProcessCount = useCallback((param: number | ((prevState: number) => number)) => {
-    if (!loadingRef.current && imgReadyCountRef.current === 1) {
+    if (!presettingLoading && !loadingRef.current) {
       setIdx(param);
     }
-  }, []);
+  }, [presettingLoading]);
 
   useEffect(() => {
     prevTaskRef.current = prevTaskRef.current.then(async () => {
@@ -61,7 +65,7 @@ const Scene5: FC<SceneCommonProps> = (props) => {
       await new Promise(r => setTimeout(r, SAFE_ANIMATION_GAP_TIME));
       loadingRef.current = false;
     })
-  }, [idx, setProcessCount]);
+  }, [idx]);
 
   return (
     <View className='scene5-wrapper'>
@@ -71,9 +75,20 @@ const Scene5: FC<SceneCommonProps> = (props) => {
           className='scene5-presetting'
           onClick={() => setProcessCount(prev => prev + 1)}
         >
+          <View />
           <View className='presetting-text-wrapper'>
-            <View className='presetting-text'>第五幕</View>
-            <View className='presetting-text'>2022 年 8 月 24 日</View>
+            {
+              !presettingLoading ?
+              <>
+                <View className='presetting-text'>第五幕</View>
+                <View className='presetting-text'>2022 年 8 月 24 日</View>
+              </>
+              :
+              <View className='presetting-text'>加载中 ...</View>
+            }
+          </View>
+          <View className='presetting-text-wrapper'>
+            {!presettingLoading && <View className='presetting-text'>点击屏幕任意区域以继续 ...</View>}
           </View>
         </View>
       )}
