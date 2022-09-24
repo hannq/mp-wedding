@@ -24,44 +24,46 @@ export const Index: FC = () => {
           <View className='role'>{auth?.role?.name || '宾客'}</View>
         </View>
       </View>
-      {showManageEntry && <View className='link-wrapper'>
+      <View className='link-wrapper'>
         <Cell
           clickable
           title='请柬'
           rightIcon={<Arrow />}
           onClick={() => navigateTo({ url: PackageAPage.INVITATION })}
         />
-        <Cell
-          clickable
-          title='用户列表'
-          rightIcon={<Arrow />}
-          onClick={() => navigateTo({ url: PackageBPage.USER_LIST })}
-        />
-        <Cell
-          clickable
-          title='日程管理'
-          rightIcon={<Arrow />}
-          onClick={() => navigateTo({ url: PackageBPage.SCHEDULE_MANAGEMENT })}
-        />
-        <Cell
-          clickable
-          title='导航管理'
-          rightIcon={<Arrow />}
-          onClick={() => navigateTo({ url: PackageBPage.NAVIGATION_MANAGEMENT })}
-        />
-        <Cell
-          clickable
-          title='角色码管理'
-          rightIcon={<Arrow />}
-          onClick={() => navigateTo({ url: PackageBPage.ROLE_CODE_MANAGEMENT })}
-        />
-        <Cell
-          clickable
-          title='消息推送'
-          rightIcon={<Arrow />}
-          onClick={() => navigateTo({ url: PackageBPage.MSG_PUSH })}
-        />
-      </View>}
+        {showManageEntry && <>
+          <Cell
+            clickable
+            title='用户列表'
+            rightIcon={<Arrow />}
+            onClick={() => navigateTo({ url: PackageBPage.USER_LIST })}
+          />
+          <Cell
+            clickable
+            title='日程管理'
+            rightIcon={<Arrow />}
+            onClick={() => navigateTo({ url: PackageBPage.SCHEDULE_MANAGEMENT })}
+          />
+          <Cell
+            clickable
+            title='导航管理'
+            rightIcon={<Arrow />}
+            onClick={() => navigateTo({ url: PackageBPage.NAVIGATION_MANAGEMENT })}
+          />
+          <Cell
+            clickable
+            title='角色码管理'
+            rightIcon={<Arrow />}
+            onClick={() => navigateTo({ url: PackageBPage.ROLE_CODE_MANAGEMENT })}
+          />
+          <Cell
+            clickable
+            title='消息推送'
+            rightIcon={<Arrow />}
+            onClick={() => navigateTo({ url: PackageBPage.MSG_PUSH })}
+          />
+        </>}
+      </View>
     </View>
   )
 }
