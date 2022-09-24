@@ -81,7 +81,7 @@ const Scene5: FC<SceneCommonProps> = (props) => {
               !presettingLoading ?
               <>
                 <View className='presetting-text'>第五幕</View>
-                <View className='presetting-text'>2022 年 8 月 24 日</View>
+                <View className='presetting-text'>2021 年 5 月 7 日</View>
               </>
               :
               <View className='presetting-text'>加载中 ...</View>

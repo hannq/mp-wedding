@@ -459,14 +459,22 @@
     align-items: center;
     height: 100%;
     .title-tips {
-      padding-top: 140px;
+      padding-top: 200px;
       width: 700px;
       height: 121px;
     }
     .msg-tips {
       padding: 10px 72px;
-      text-align: center;
-      color: #333;
+      .msg-tips-text, .msg-tips-important-info {
+        color: #333;
+        text-align: center;
+        font-size: 32px;
+      }
+      .msg-tips-important-info {
+        margin-top: 10px;
+        font-size: 36px;
+        font-weight: bolder;
+      }
     }
     .action-btn-wrapper {
       display: flex;

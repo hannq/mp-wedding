@@ -32,11 +32,13 @@ export const AcceptInvitation: FC<SceneCommonProps> = (props) => {
               isReadOnly
                 ?
                 <View className='msg-tips'>
-                  博群和曼曼的婚礼，欢迎[{auth?.role?.name || '来宾'}]{auth!.nickName}的到来
+                  <View className='msg-tips-text'>博群和曼曼的婚礼，欢迎您的到来</View>
+                  <View className='msg-tips-important-info'>[{auth?.role?.name || '来宾'}]{auth!.nickName}</View>
                 </View>
                 :
                 alreadyCompleteGame && <View className='msg-tips'>
-                  博群和曼曼的婚礼，邀请您成为[{roleCodeInfo ? roleCodeInfo.role.name : '来宾'}]参加婚礼
+                  <View className='msg-tips-text'>博群和曼曼的婚礼，邀请您成为</View>
+                  <View className='msg-tips-important-info'>{roleCodeInfo ? roleCodeInfo.role.name : '来宾'}</View>
                 </View>
             )
         }
