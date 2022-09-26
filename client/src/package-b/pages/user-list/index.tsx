@@ -2,14 +2,13 @@ import { type FC, useState, useMemo, useRef } from 'react';
 import type { FormInstance } from '@taroify/core/form/form.shared';
 import { useDidShow, showLoading, hideLoading, showToast } from '@tarojs/taro';
 import { View, ScrollView, Text, } from '@tarojs/components';
-import { Empty, Avatar, Tag, Loading, SafeArea, DropdownMenu, Button, Popup, Form, Field, Input, Badge } from "@taroify/core";
+import { Empty, Avatar, Tag, Loading, SafeArea, DropdownMenu, Button, Popup, Form, Field, Input } from "@taroify/core";
 import { Phone, PhoneOutlined, PhoneCircleOutlined, FriendsOutlined, UserCircleOutlined, CalendarOutlined } from "@taroify/icons";
 import { useRequest } from "ahooks";
 import dayjs from "dayjs";
 import { user, common } from "@/apis";
 import type { GetUserListParam } from "@/apis/user";
 import { RoleType, UserListSortType } from "@/constants";
-import { useAuth } from "@/hooks";
 import type { User } from "@/types";
 import './index.less';
 
@@ -23,6 +22,7 @@ const roleTagColor: Record<RoleType, TagColor> = {
   [RoleType.BRIDESMAID]: 'success',
   [RoleType.SPONSOR]: 'warning',
   [RoleType.GUEST]: 'default',
+  [RoleType.VIP]: 'default',
 }
 
 interface UserInfoEditPopup extends User {

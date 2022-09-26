@@ -6,7 +6,7 @@ declare const CLOUD_ENV_PROD: string;
 export function cloudInit () {
   const { miniProgram: { envVersion } } = getAccountInfoSync();
   cloud.init({
-    env: envVersion === 'release' ? CLOUD_ENV_PROD : CLOUD_ENV_DEV
+    env: true || envVersion === 'release' ? CLOUD_ENV_PROD : CLOUD_ENV_DEV
   })
 }
 

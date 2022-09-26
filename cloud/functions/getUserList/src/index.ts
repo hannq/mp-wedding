@@ -81,8 +81,8 @@ export async function main(event: Record<string, string>) {
           .sort({
             [sortKeyMap[event.sortType] || 'nickName']: -1
           })
-          .limit(limit)
           .skip(skip)
+          .limit(limit)
           .end()!,
 
       db.collection('user')
