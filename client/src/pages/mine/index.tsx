@@ -1,17 +1,25 @@
-import { type FC, useMemo } from 'react';
-import { navigateTo } from '@tarojs/taro';
+import { type FC, useMemo, useEffect, useState } from 'react';
+import { navigateTo, requestSubscribeMessage, showLoading, hideLoading, showToast } from '@tarojs/taro';
 import { View } from '@tarojs/components';
-import { Avatar, Cell } from '@taroify/core';
+import { Dialog, Avatar, Cell, Button } from '@taroify/core';
 import { Arrow } from '@taroify/icons';
 import { useShare, useAuth } from '@/hooks';
-import { PackageAPage, PackageBPage, RoleType } from '@/constants';
+import { user } from '@/apis';
+import { PackageAPage, PackageBPage, RoleType, MSG_TEMPLATE_ID } from '@/constants';
 import avatarDefaultImg from '@/assets/images/avatar-default.png';
 import './index.less';
 
 export const Index: FC = () => {
   useShare();
+  const [openModal, setOpenModal] = useState(false);
   const { auth } = useAuth();
   const showManageEntry = useMemo(() => [RoleType.ADMIN, RoleType.BRIDEGROOM, RoleType.BRIDE].includes(auth?.role?.type!), [auth]);
+
+  useEffect(() => {
+    if (auth && !auth?.pushMsgCount && !openModal) {
+      setOpenModal(true);
+    }
+  }, [auth, openModal]);
 
   return (
     <View className='wrapper'>
@@ -64,6 +72,31 @@ export const Index: FC = () => {
           />
         </>}
       </View>
+      <Dialog open={openModal}>
+        <Dialog.Header>接收婚礼消息</Dialog.Header>
+        <Dialog.Content>我们希望能透过小程序给你推送最新的婚礼消息</Dialog.Content>
+        <Dialog.Actions>
+          <Button onClick={() => setOpenModal(false)}>取消</Button>
+          <Button
+            className='ok-btn'
+            onClick={async () => {
+              setOpenModal(false);
+              try {
+                const subscribeMessageRes = await requestSubscribeMessage?.({ tmplIds: [MSG_TEMPLATE_ID] });
+                if (subscribeMessageRes?.[MSG_TEMPLATE_ID] === "accept") {
+                  showLoading({ title: '加载中 ...', mask: true });
+                  await user.save({ pushMsgCount: (auth?.pushMsgCount || 0) + 1 });
+                  await hideLoading();
+                  await showToast({ title: '订阅成功', icon: 'none' });
+                }
+              } catch (err) {
+                console.error(err);
+                await showToast({ title: '订阅失败', icon: 'error' });
+              }
+            }}
+          >确认</Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   )
 }

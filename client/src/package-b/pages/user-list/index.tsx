@@ -32,6 +32,8 @@ interface UserInfoEditPopup extends User {
 
 export const UserList: FC = () => {
   const [param, setParam] = useState<GetUserListParam>({ pageSize: 10, current: 0 });
+  const paramRef = useRef(param);
+  paramRef.current = param;
   const { data: roleListRes } = useRequest(common.getRoleList);
   const roleList = useMemo(() => roleListRes?.data || [], [roleListRes]);
   const [userList, setUserList] = useState<User[]>([]);
@@ -63,7 +65,9 @@ export const UserList: FC = () => {
       }
     },
   });
-  useDidShow(() => run(param));
+  useDidShow(() => {
+    run({ ...paramRef.current, current: 0 });
+  });
 
   return (
     <View className='wrapper'>

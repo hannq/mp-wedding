@@ -1,3 +1,6 @@
+/** 小程序模版ID, 用于消息推送 */
+export const MSG_TEMPLATE_ID = '40DN4h2ks6v2i4oZb9mp_euR33IO-49xRauKkYBTIWM';
+
 /** 主包 页面路径 */
 export const enum Page {
   /** 首页 */
