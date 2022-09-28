@@ -1,5 +1,5 @@
-import { useDidShow, hideHomeButton, useRouter } from '@tarojs/taro';
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useRef, useState } from 'react';
+import { useDidShow, hideHomeButton, useRouter, createInnerAudioContext, type InnerAudioContext } from '@tarojs/taro';
 import { useRequest } from 'ahooks';
 import { useScene, useCloudInit, useAuth } from '@/hooks';
 import { roleCode as roleCodeApi } from '@/apis';
@@ -37,4 +37,48 @@ export function useInvitationInfo() {
     }),
     [loading, authLoading, data, auth, refresh]
   )
+}
+
+export function usePlayBGM() {
+  const contextRef = useRef<InnerAudioContext | null>(null)
+  const [audioPause, setAudioPause] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const audioContext = createInnerAudioContext();
+    contextRef.current = audioContext;
+    audioContext.src = 'https://6d61-marry-prod-0gyfw3yc84f765a6-1313043687.tcb.qcloud.la/assets/media/bgm.mp3?sign=cf0bb6bf0d3d57428df2cf2951227b15&t=1664345039'
+    audioContext.autoplay = true;
+    audioContext.loop = true;
+    const onPlayHandle = () => {
+      setAudioPause(audioContext.paused);
+      setLoading(false);
+    };
+    const onPauseHandle = () => setAudioPause(audioContext.paused);
+    const onCanplayHandle = () => setLoading(false);
+    const onWaitingHandle = () => {
+      if (!audioContext.paused) {
+        setLoading(true)
+      }
+    };
+    audioContext.onPlay(onPlayHandle);
+    audioContext.onCanplay(onCanplayHandle);
+    audioContext.onWaiting(onWaitingHandle);
+    audioContext.onPause(onPauseHandle);
+
+    return () => {
+      audioContext.stop();
+      audioContext.src = '';
+      audioContext.destroy();
+      audioContext.offPlay(onPlayHandle);
+      audioContext.offPause(onPauseHandle);
+      audioContext.offWaiting(onWaitingHandle);
+    }
+  }, []);
+
+  return {
+    pause: audioPause,
+    loading,
+    contextRef
+  };
 }
