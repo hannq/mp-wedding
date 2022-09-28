@@ -7,6 +7,7 @@ import Scene3 from "./components/scene-3";
 import Scene4 from "./components/scene-4";
 import Scene5 from "./components/scene-5";
 import AcceptInvitation from "./components/accept-invitation";
+import BGM from "./components/bgm";
 import './index.less';
 
 const sceneStack = [
@@ -16,7 +17,7 @@ const sceneStack = [
   Scene3,
   Scene4,
   Scene5,
-]
+];
 
 export const Invitation: FC = () => {
   useShare();
@@ -24,7 +25,6 @@ export const Invitation: FC = () => {
   useHideHomeBtn();
   const [idx, setIdx] = useState(0);
   const [alreadyCompleteGame, setAlreadyCompleteGame] = useState(false);
-
   const CurrentScene = useMemo(() => sceneStack[idx], [idx]);
 
   return (
@@ -40,6 +40,7 @@ export const Invitation: FC = () => {
           }
         }}
       />
+      <BGM show={!idx} />
     </>
   )
 }
