@@ -41,7 +41,7 @@ export function useInvitationInfo() {
 
 export function usePlayBGM() {
   const contextRef = useRef<InnerAudioContext | null>(null)
-  const [audioPause, setAudioPause] = useState(true);
+  const [audioPause, setAudioPause] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
