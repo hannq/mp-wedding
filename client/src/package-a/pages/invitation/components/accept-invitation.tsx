@@ -43,24 +43,33 @@ export const AcceptInvitation: FC<SceneCommonProps> = (props) => {
           }
         </View>
         <View className='action-btn-wrapper'>
-          <Checkbox
-            className='checkbox-wrapper'
-            shape='square'
-            checked={!bgmPause}
-            disabled={bgmLoading}
-            onChange={checked => {
-              if (checked) {
-                bgmContextRef?.current?.play();
-              } else {
-                bgmContextRef?.current?.pause();
-              }
-            }}
-          >
+          {
+            !bgmLoading
+            ?
+            <Checkbox
+              className='checkbox-wrapper'
+              shape='square'
+              checked={!bgmPause}
+              disabled={bgmLoading}
+              onChange={checked => {
+                if (checked) {
+                  bgmContextRef?.current?.play();
+                } else {
+                  bgmContextRef?.current?.pause();
+                }
+              }}
+            >
+              <View className='checkbox-content'>
+                <MusicOutlined size={18} />
+                <View className='checkbox-text'>{bgmLoading ? '背景音乐加载中 ...' : '开启背景音乐'}</View>
+              </View>
+            </Checkbox>
+            :
             <View className='checkbox-content'>
               <MusicOutlined size={18} />
-              <View className='checkbox-text'>{bgmLoading ? '背景音乐加载中 ...' : '开启背景音乐'}</View>
+              <View className='checkbox-text'>背景音乐加载中 ...</View>
             </View>
-          </Checkbox>
+          }
           {!loading && (
             isReadOnly
               ?
