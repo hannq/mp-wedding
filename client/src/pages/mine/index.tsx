@@ -13,7 +13,7 @@ export const Index: FC = () => {
   useShare();
   const [openModal, setOpenModal] = useState(false);
   const { auth } = useAuth();
-  const showManageEntry = useMemo(() => [RoleType.ADMIN, RoleType.BRIDEGROOM, RoleType.BRIDE].includes(auth?.role?.type!), [auth]);
+  const showManageEntry = useMemo(() => [RoleType.ADMIN, RoleType.BRIDEGROOM, RoleType.BRIDE, RoleType.SPONSOR].includes(auth?.role?.type!), [auth]);
 
   useEffect(() => {
     if (auth && !auth?.pushMsgCount && !openModal) {
