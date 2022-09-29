@@ -56,14 +56,8 @@ export function usePlayBGM() {
     };
     const onPauseHandle = () => setAudioPause(audioContext.paused);
     const onCanplayHandle = () => setLoading(false);
-    const onWaitingHandle = () => {
-      if (!audioContext.paused) {
-        setLoading(true)
-      }
-    };
     audioContext.onPlay(onPlayHandle);
     audioContext.onCanplay(onCanplayHandle);
-    audioContext.onWaiting(onWaitingHandle);
     audioContext.onPause(onPauseHandle);
 
     return () => {
@@ -72,7 +66,6 @@ export function usePlayBGM() {
       audioContext.destroy();
       audioContext.offPlay(onPlayHandle);
       audioContext.offPause(onPauseHandle);
-      audioContext.offWaiting(onWaitingHandle);
     }
   }, []);
 
