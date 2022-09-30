@@ -75,6 +75,7 @@ export async function main(event: Record<string, unknown>) {
     }
 
     if (user) {
+      delete userInfo.openId;
       // 角色存在，直接更新
       await transaction.collection('user')
         .doc(user._id!)
