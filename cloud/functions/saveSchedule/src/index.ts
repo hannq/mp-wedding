@@ -1,5 +1,8 @@
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import cloud = require('wx-server-sdk');
+
+dayjs.extend(customParseFormat);
 
 // 初始化 cloud
 cloud.init({
@@ -28,12 +31,15 @@ export async function main(event: Record<string, any>) {
       addressDetail,
       desc,
     } = event;
+
+    console.log(startTime, finishTime)
+
     const schedule = {
       id,
       name,
       roles,
-      startTime: dayjs(startTime).toDate(),
-      finishTime: dayjs(finishTime).toDate(),
+      startTime: dayjs(startTime, 'YYYY-MM-DD HH:mm').toDate(),
+      finishTime: dayjs(finishTime, 'YYYY-MM-DD HH:mm').toDate(),
       addressLocation,
       addressName,
       addressDetail,
