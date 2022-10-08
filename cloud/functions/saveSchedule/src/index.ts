@@ -1,8 +1,12 @@
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import cloud = require('wx-server-sdk');
 
 dayjs.extend(customParseFormat);
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
 // 初始化 cloud
 cloud.init({
@@ -12,7 +16,7 @@ cloud.init({
 });
 
 const db = cloud.database();
-
+dayjs.tz.setDefault('Asia/Shanghai')
 /**
  * 保存日程信息
  * @param event
@@ -33,13 +37,18 @@ export async function main(event: Record<string, any>) {
     } = event;
 
     console.log(startTime, finishTime)
+    console.log('startTime -->', startTime, dayjs(dayjs(startTime, 'YYYY-MM-DD HH:mm').toDate()).format('YYYY-MM-DD HH:mm'))
+     ;
 
+
+
+    console.log('guess ==>', dayjs.tz.guess())
     const schedule = {
       id,
       name,
       roles,
-      startTime: dayjs(startTime, 'YYYY-MM-DD HH:mm').toDate(),
-      finishTime: dayjs(finishTime, 'YYYY-MM-DD HH:mm').toDate(),
+      startTime: dayjs.tz(startTime).toDate(),
+      finishTime: dayjs.tz(finishTime).toDate(),
       addressLocation,
       addressName,
       addressDetail,
